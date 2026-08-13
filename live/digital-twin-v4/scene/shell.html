@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Covent Garden air-quality site model</title>
+<style>
+:root{
+  --ink:#f2f5f8; --dim:#bdc8d3; --faint:#8fa0b1;
+  --panel:rgba(13,18,25,.80); --panel-solid:#0d1219; --line:rgba(150,175,200,.20);
+  --accent:#4fd1c5;
+  --s173:#ff704d; --s183:#a78bfa; --s163:#52c99a;
+  --road:#c8a06a;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+.sr-only{position:absolute!important; width:1px!important; height:1px!important;
+  padding:0!important; margin:-1px!important; overflow:hidden!important;
+  clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important}
+body{
+  margin:0; background:#080b10; color:var(--ink); overflow:hidden;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif; font-size:13px;
+  -webkit-font-smoothing:antialiased;
+}
+#scene{position:fixed; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab}
+#scene:active{cursor:grabbing}
+.mono{font-family:ui-monospace,"DejaVu Sans Mono",monospace; font-variant-numeric:tabular-nums}
+
+.panel{
+  position:fixed; background:rgba(13,18,25,.68); border:1px solid var(--line);
+  border-radius:12px; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 18px 50px -24px rgba(0,0,0,.95);
+}
+.panel-toggle{
+  appearance:none; width:100%; border:0; background:transparent; color:var(--ink);
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:8px 10px; border-radius:8px; cursor:pointer; font:650 12px inherit;
+  letter-spacing:.02em; text-align:left
+}
+.panel-toggle:hover{background:rgba(255,255,255,.07)}
+.panel-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.panel-toggle .chev{color:var(--accent); transition:transform .18s ease}
+.collapsible:not(.collapsed)>.panel-toggle .chev{transform:rotate(180deg)}
+.collapsible.collapsed>:not(.panel-toggle){display:none!important}
+
+/* masthead */
+#top{left:14px; top:14px; z-index:5; padding:6px; width:min(390px,calc(100vw - 28px))}
+#top.collapsed{width:auto}
+#top:not(.collapsed){padding:6px 15px 13px}
+#top .eyebrow{
+  font-family:ui-monospace,monospace; font-size:9.5px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:8px;
+}
+#top .eyebrow::before{content:""; width:5px; height:5px; border-radius:50%; background:var(--accent)}
+#top h1{margin:7px 0 0; font-size:20px; letter-spacing:-.02em; line-height:1.15; font-weight:700}
+#top p{margin:7px 0 0; color:var(--dim); font-size:12px; line-height:1.5}
+#top .limit{display:block; margin-top:8px; padding-top:8px; border-top:1px solid var(--line)}
+#top .limit strong{color:var(--ink)}
+
+/* views */
+#views{left:14px; top:64px; z-index:4; padding:6px; display:flex; align-items:center; gap:6px; transition:top .18s ease}
+#top:not(.collapsed)+#views{top:158px}
+#views label{font:600 10px ui-monospace,monospace; color:var(--faint); padding-left:5px}
+#view-select{
+  appearance:none; border:0; border-radius:8px; background:rgba(255,255,255,.07);
+  color:var(--ink); padding:8px 30px 8px 10px; font:600 11px inherit; cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);
+  background-position:calc(100% - 14px) 13px,calc(100% - 9px) 13px;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat
+}
+#view-select option{background:var(--panel-solid); color:var(--ink)}
+#views button{
+  appearance:none; border:0; background:transparent; color:var(--dim); cursor:pointer;
+  text-align:left; padding:7px 12px; border-radius:8px; font-size:11.5px; font-weight:600;
+  font-family:inherit; white-space:nowrap;
+}
+#views button:hover{background:rgba(255,255,255,.06); color:var(--ink)}
+#views button.on{background:var(--accent); color:#06211f}
+#views button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+#views .reference{margin-top:4px; border-top:1px solid var(--line); border-radius:0 0 8px 8px}
+
+/* readout */
+#right-tools{position:fixed; z-index:4; right:14px; top:14px; width:286px; display:flex; flex-direction:column; gap:8px; align-items:stretch}
+#right-tools .panel{position:relative; inset:auto; width:100%}
+#hud{padding:6px}
+#hud:not(.collapsed){padding:6px 15px 13px; max-height:calc(100vh - 150px); overflow:auto}
+#hud .row{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:5px 0}
+#hud .row + .row{border-top:1px solid rgba(150,175,200,.10)}
+#hud .k{color:var(--faint); font-size:10px; letter-spacing:.09em; text-transform:uppercase;
+  font-family:ui-monospace,monospace}
+#hud .v{font-size:13px; font-weight:600; text-align:right}
+#hud .v small{font-size:10px; color:var(--dim); font-weight:400}
+#hud .big{font-size:27px; font-weight:700; letter-spacing:-.02em; line-height:1}
+#hud #h-clock{font-size:20px}
+.chip{
+  display:inline-block; padding:2px 7px; border-radius:5px; font-size:9.5px;
+  font-family:ui-monospace,monospace; letter-spacing:.06em; text-transform:uppercase;
+}
+.chip.measured{background:rgba(79,209,197,.16); color:var(--accent)}
+.chip.est{background:rgba(200,160,106,.16); color:var(--road)}
+
+/* Playback stays available while the optional layer controls are closed. It is
+   deliberately a short strip and stops before the AQ chart/wind rose. */
+#playback{left:14px; bottom:14px; z-index:5; width:min(780px,calc(100vw - 490px));
+  padding:7px 10px; display:grid; grid-template-columns:34px 180px minmax(150px,1fr) 142px;
+  grid-template-rows:30px 14px; column-gap:10px; align-items:center}
+#play{grid-row:1/3; align-self:center}
+#clock{grid-column:2; grid-row:1; white-space:nowrap}
+#time{grid-column:3; grid-row:1}
+#record-select{grid-column:4; grid-row:1; appearance:none; width:100%; border:1px solid var(--line);
+  border-radius:7px; background:rgba(255,255,255,.07); color:var(--ink);
+  padding:6px 28px 6px 8px; font:600 10.5px inherit; cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);
+  background-position:calc(100% - 12px) 11px,calc(100% - 7px) 11px;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+#record-select option{background:var(--panel-solid); color:var(--ink)}
+#record-select:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+#rec-status{grid-column:2/5; grid-row:2; margin:0; max-width:none; overflow:hidden;
+  white-space:nowrap; text-overflow:ellipsis; font-size:9px; line-height:1.2}
+
+/* Secondary choices live in a small drawer above playback. Opening it never
+   hides the measurements at the right. */
+#deck{left:14px; right:auto; bottom:78px; width:min(780px,calc(100vw - 490px));
+  padding:5px 10px 10px; display:grid; grid-template-columns:auto 1fr auto;
+  gap:10px 16px; align-items:center; z-index:5}
+#deck>.panel-toggle{grid-column:1/-1; padding:5px 7px; font-size:10.5px}
+#deck.collapsed{width:auto; display:block; padding:4px; min-width:0}
+#deck.collapsed>.panel-toggle{width:auto; padding:5px 8px}
+#deck .lab{margin-bottom:5px}
+#deck .tog{padding:4px 7px; gap:5px; font-size:9.5px}
+#deck .mode{padding:5px 8px; font-size:9.5px}
+#deck .mode-status{margin-top:4px; font-size:9px; max-width:46ch}
+.lab{font-family:ui-monospace,monospace; font-size:9.5px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--faint); margin-bottom:8px}
+.timerow{display:flex; align-items:center; gap:13px}
+#play{
+  appearance:none; width:32px; height:32px; flex:0 0 32px; border-radius:50%; cursor:pointer;
+  border:1px solid var(--line); background:rgba(255,255,255,.07); color:var(--ink); font-size:13px;
+}
+#play:hover{background:rgba(255,255,255,.14)}
+#clock{font-size:13px; font-weight:700; letter-spacing:-.01em}
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%; height:4px; border-radius:3px;
+  background:rgba(150,175,200,.26); outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:15px; height:15px; border-radius:50%;
+  background:var(--accent); cursor:pointer; border:2px solid #0d1219;
+}
+input[type=range]::-moz-range-thumb{
+  width:15px; height:15px; border-radius:50%; background:var(--accent);
+  cursor:pointer; border:2px solid #0d1219;
+}
+.toggles{display:flex; flex-wrap:wrap; gap:6px}
+.tog{
+  display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border-radius:8px;
+  border:1px solid var(--line); background:rgba(255,255,255,.03); cursor:pointer;
+  font-size:11px; font-weight:600; user-select:none;
+}
+.tog input{display:none}
+.tog i{width:9px; height:9px; border-radius:2px; background:currentColor; opacity:.28;
+  transition:opacity .15s}
+.tog.on i{opacity:1; box-shadow:0 0 9px currentColor}
+.tog small{color:var(--faint); font-weight:400; font-family:ui-monospace,monospace; font-size:9.5px}
+#extras{display:flex; gap:8px; align-items:center}
+.mode-row{display:flex; gap:6px}
+.record-row{margin-bottom:8px}
+.mode{
+  appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.03);
+  color:var(--dim); padding:7px 10px; border-radius:8px; font:600 10.5px inherit;
+  cursor:pointer; white-space:nowrap
+}
+.mode.on{background:rgba(79,209,197,.17); border-color:rgba(79,209,197,.55); color:var(--accent)}
+.mode[hidden]{display:none}
+.mode-status{margin-top:7px; color:var(--dim); font:10.5px/1.35 ui-monospace,monospace;
+  white-space:normal; max-width:38ch}
+
+/* The full statement lives in the masthead paragraph. What stays in the frame
+   is a chip, because that paragraph sits inside a drawer that is closed by
+   default and this page is published: a screenshot of smoke leaving a real
+   address should carry at least the word "illustrative". Shown only when smoke
+   is actually drawn. */
+#plume-flag{position:fixed; left:50%; transform:translateX(-50%); bottom:82px;
+  z-index:6; display:none; align-items:center; gap:6px; padding:3px 10px 3px 8px;
+  background:rgba(13,18,25,.78); border:1px solid rgba(255,112,77,.45);
+  border-radius:999px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  color:var(--dim); font-family:ui-monospace,monospace; font-size:9.5px;
+  letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
+  pointer-events:none}
+#plume-flag.on{display:flex}
+#plume-flag .dot{width:6px; height:6px; border-radius:50%; background:var(--s173); flex:0 0 auto}
+
+/* Cheap grade. The core three.js build has no EffectComposer, so the vignette
+   and warm lift are done in CSS over the canvas - free, and it settles the
+   corners the way a real lens would. */
+#vignette{position:fixed; inset:0; pointer-events:none; z-index:1;
+  background:
+    radial-gradient(120% 95% at 50% 42%, rgba(0,0,0,0) 42%, rgba(4,8,14,.36) 100%),
+    linear-gradient(180deg, rgba(255,214,170,.045) 0%, rgba(0,0,0,0) 34%);
+  mix-blend-mode:normal}
+#legend{padding:6px; max-height:calc(100vh - 150px); overflow:auto}
+#legend:not(.collapsed){padding:6px 12px 11px}
+#evidence{left:14px; bottom:64px; padding:6px; width:300px;
+  max-height:min(46vh,420px); overflow:auto}
+#evidence.collapsed{width:auto}
+#evidence:not(.collapsed){padding:6px 13px 11px}
+#evidence .lab{margin-bottom:9px; color:var(--accent)}
+#legend .item,#evidence .item{display:flex; gap:8px; align-items:flex-start; padding:2px 0; font-size:10px}
+#legend .sw,#evidence .sw{width:9px; height:9px; border-radius:2px; margin-top:4px; flex:0 0 9px}
+#legend .item span,#evidence .item span{color:var(--dim); line-height:1.27}
+#legend .item b,#evidence .item b{color:var(--ink); font-weight:600}
+#evidence .item{padding:4px 0; font-size:10.5px}
+
+/* supplied-photo reference: the most exact visual evidence in the file */
+#photo-panel{left:50%; top:50%; transform:translate(-50%,-50%); width:min(920px,calc(100vw - 48px));
+  max-height:calc(100vh - 130px); padding:13px; z-index:8; background:rgba(9,13,19,.96)}
+#photo-panel[hidden]{display:none}
+#photo-panel img{display:block; width:100%; max-height:calc(100vh - 255px); object-fit:contain;
+  border-radius:8px; background:#070a0e}
+#photo-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:2px 2px 10px}
+#photo-head h2{font-size:16px; margin:0 0 4px}
+#photo-head p{font-size:11px; line-height:1.4; color:var(--dim); margin:0}
+#photo-close{appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06);
+  color:var(--ink); width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:18px}
+#photo-thumbs{display:flex; gap:7px; padding-top:9px}
+#photo-thumbs button{appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.04);
+  color:var(--dim); border-radius:7px; padding:6px 9px; cursor:pointer; font:600 10px inherit}
+#photo-thumbs button.on{border-color:var(--accent); color:var(--ink)}
+
+/* camera controls remain usable with every information drawer closed */
+/* Wind rose. Drag/scroll and the arrow keys already drive the camera, so the
+   corner is better spent on the one variable that decides whether anything
+   from the parade reaches this roof at all. Meteorological convention: the
+   needle's TAIL sits on the bearing the wind comes FROM and the head points
+   downwind, and the shaded wedge is the sector that would carry 173 over the
+   terrace - taken from the monitors' own upwind bearings, not hard-coded. */
+#corner{position:fixed; right:14px; bottom:14px; z-index:4;
+  display:flex; gap:8px; align-items:flex-end}
+#wind-rose{
+  width:142px; padding:9px 10px 8px; border:1px solid var(--line); border-radius:12px;
+  background:rgba(13,18,25,.78); backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px); text-align:center; flex:0 0 auto
+}
+#wind-rose .rose-title{font:650 10px ui-monospace,monospace; color:var(--dim);
+  letter-spacing:.10em; text-transform:uppercase; text-align:left}
+#wind-rose svg{display:block; width:100%; height:auto}
+#wind-rose .rose-ring{fill:none; stroke:var(--line); stroke-width:1}
+#wind-rose .rose-tick{stroke:var(--faint); stroke-width:1.6; stroke-linecap:round}
+#wind-rose .rose-card{fill:var(--dim); font:650 9px ui-monospace,monospace;
+  text-anchor:middle; letter-spacing:.06em}
+#rose-sector{fill:var(--s173); opacity:.16}
+/* No transform-origin here. The needle is rotated with the SVG attribute form
+   rotate(deg 50 50), which carries its own centre; adding a CSS origin applies
+   the offset a second time and throws the needle outside the viewBox. */
+#rose-needle{transition:transform .32s ease}
+#rose-needle path{fill:var(--accent); stroke:none}
+#rose-needle line{stroke:var(--accent); stroke-width:3.4; stroke-linecap:round}
+#wind-rose.in-sector #rose-needle path{fill:var(--s173)}
+#wind-rose.in-sector #rose-needle line{stroke:var(--s173)}
+#wind-rose.in-sector #rose-sector{opacity:.34}
+#rose-hub{fill:var(--panel-solid); stroke:var(--faint); stroke-width:1.2}
+#wind-rose.no-wind #rose-needle{display:none}
+#wind-rose.no-wind #rose-sector{opacity:.07}
+#wind-rose .rose-read{font:700 17px inherit; margin-top:2px; letter-spacing:.01em;
+  font-variant-numeric:tabular-nums}
+#wind-rose .rose-read small{font-size:9.5px; color:var(--dim); font-weight:500}
+#wind-rose .rose-dir{font-family:ui-monospace,monospace; font-size:10.5px;
+  color:var(--dim); margin-top:1px; letter-spacing:.02em}
+#wind-rose .rose-src{font-family:ui-monospace,monospace; font-size:9.5px;
+  color:var(--faint); margin-top:4px; letter-spacing:.04em}
+
+/* PM2.5 trace for the selected instrument across the whole loaded episode, with
+   a playhead on the frame the scene is showing. Downsampled by MAXIMUM per
+   column, never by mean: the episodes are 34 short excursions on a low floor,
+   and averaging into ~215 columns is exactly the operation that hides them -
+   the same mistake as reading a cooking extract on hourly means. */
+#aq-chart{
+  width:280px; padding:9px 11px 8px; border:1px solid var(--line); border-radius:12px;
+  background:rgba(13,18,25,.78); backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px); flex:0 0 auto
+}
+#aq-chart .aq-head{display:flex; align-items:baseline; justify-content:space-between; gap:8px}
+#aq-chart .aq-title{font-family:ui-monospace,monospace; font-size:10px; color:var(--dim);
+  letter-spacing:.10em; text-transform:uppercase}
+#aq-chart .aq-now{font:700 17px inherit; font-variant-numeric:tabular-nums}
+#aq-chart .aq-now small{font-size:10px; color:var(--dim); font-weight:500}
+#aq-plot{display:block; width:100%; height:64px; margin:5px 0 2px; overflow:visible}
+#aq-area{fill:var(--accent); opacity:.14}
+#aq-line{fill:none; stroke:var(--accent); stroke-width:1.3; stroke-linejoin:round}
+#aq-chart.indoor #aq-area{fill:var(--s183)}
+#aq-chart.indoor #aq-line{stroke:var(--s183)}
+#aq-play{stroke:var(--ink); stroke-width:1; opacity:.62}
+#aq-dot{fill:var(--ink)}
+#aq-baseline{stroke:var(--line); stroke-width:1}
+#aq-chart .aq-scale{display:flex; justify-content:space-between;
+  font-family:ui-monospace,monospace; font-size:9.5px; color:var(--faint); letter-spacing:.02em}
+#aq-select-row{display:grid; grid-template-columns:auto 1fr; align-items:center; gap:8px; margin-top:7px}
+#aq-select-row label{font:650 9.5px ui-monospace,monospace; color:var(--faint);
+  letter-spacing:.10em; text-transform:uppercase}
+#aq-unit-select{appearance:none; width:100%; border:1px solid var(--line); border-radius:7px;
+  background:rgba(255,255,255,.07); color:var(--ink); padding:5px 28px 5px 8px;
+  font:600 10.5px inherit; cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);
+  background-position:calc(100% - 12px) 10px,calc(100% - 7px) 10px;
+  background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+#aq-unit-select option{background:var(--panel-solid); color:var(--ink)}
+#aq-unit-select:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+#aq-note{font-family:ui-monospace,monospace; font-size:9.5px; color:var(--dim);
+  margin-top:6px; line-height:1.35}
+#aq-chart.indoor #aq-note{color:var(--s183); opacity:.95}
+
+@media(max-width:1080px){
+  #right-tools{width:240px}
+  #playback,#deck{width:calc(100vw - 410px)}
+  #playback{grid-template-columns:32px 165px minmax(100px,1fr) 125px}
+  #deck:not(.collapsed){grid-template-columns:1fr 1fr; max-height:40vh; overflow:auto}
+  #deck:not(.collapsed)>.panel-toggle{grid-column:1/-1}
+  #top{max-width:310px}
+  #aq-chart{width:240px}
+  #wind-rose{width:120px}
+}
+@media(max-width:680px){
+  #top{max-width:calc(100vw - 28px)}
+  #views{top:64px; max-width:calc(100vw - 28px)}
+  #right-tools{top:112px; width:min(240px,calc(100vw - 28px))}
+  #evidence{display:none}
+  #playback{left:8px; right:8px; bottom:8px; width:auto; padding:6px 8px;
+    grid-template-columns:32px minmax(0,1fr) 118px; grid-template-rows:28px 20px 13px;
+    column-gap:8px}
+  #play{grid-row:1/3}
+  #clock{grid-column:2; grid-row:1; font-size:11px; overflow:hidden; text-overflow:ellipsis}
+  #record-select{grid-column:3; grid-row:1; padding-top:5px; padding-bottom:5px; font-size:9.5px}
+  #time{grid-column:2/4; grid-row:2}
+  #rec-status{grid-column:1/4; grid-row:3; font-size:8px}
+  #deck{left:8px; right:8px; bottom:82px; width:auto}
+  #deck:not(.collapsed){grid-template-columns:1fr; max-height:38vh; overflow:auto}
+  #plume-flag{font-size:8.5px; bottom:84px}
+  #corner{left:8px; right:8px; bottom:88px; display:grid;
+    grid-template-columns:minmax(0,1fr) 96px; gap:6px; align-items:end}
+  body.deck-open #corner{opacity:.22; pointer-events:none}
+  #aq-chart{width:auto; min-width:0; padding:7px 8px 6px}
+  #aq-plot{height:46px; margin:3px 0 1px}
+  #aq-note{font-size:8.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  #aq-unit-select{font-size:10px}
+  #wind-rose{width:96px; padding:7px 7px 6px}
+  #wind-rose .rose-title{font-size:8.5px}
+  #wind-rose .rose-read{font-size:14px}
+  #wind-rose .rose-dir,#wind-rose .rose-src{font-size:8.5px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+<div id="vignette"></div>
+
+<div class="panel collapsible collapsed" id="top">
+  <button class="panel-toggle" type="button" aria-expanded="false">
+    <span>Covent Garden air-quality model</span><span class="chev">⌄</span>
+  </button>
+  <div class="eyebrow">Air Aware Labs · Covent Garden Plants</div>
+  <h1>Covent Garden air-quality site model</h1>
+  <p>Explore five-minute PM₂.₅ readings and roof weather around 74–75 County Street.
+  Choose a data period and monitor, compare the co-location and proposed layouts, and
+  drag or scroll to move around the model. Times are local (BST/GMT).
+  <span class="limit"><strong>Plume display:</strong> on by default so its movement can be
+  explored. It follows the selected wind record and an illustrative operating profile; it is
+  not measured emissions, proof that an outlet was operating, or a dispersion model. Switch
+  it off under Layers.</span></p>
+</div>
+
+<div class="panel" id="views">
+  <label for="view-select">VIEW</label>
+  <select id="view-select" aria-label="Choose a camera view">
+    <option value="overview">Overview</option>
+    <option value="terrace">From the terrace</option>
+    <option value="weather">Weather station</option>
+    <option value="side">Side passage / bedroom</option>
+    <option value="flues">The flue gap</option>
+    <option value="street">Road in context</option>
+    <option value="aerial">Aerial</option>
+    <option value="plan">Plan view</option>
+  </select>
+  <button class="reference" id="photo-open">Supplied photos</button>
+</div>
+
+<div id="right-tools">
+<div class="panel collapsible collapsed" id="hud">
+  <button class="panel-toggle" type="button" aria-expanded="false">
+    <span>Selected measurements</span><span class="chev">⌄</span>
+  </button>
+  <div class="row"><span class="k">Local time</span><span class="v big mono" id="h-clock">—</span></div>
+  <div class="row"><span class="k">Outdoor PM₂.₅<small> mean of units 1–4</small></span>
+    <span class="v big mono" id="h-pm">—<small> µg/m³</small></span></div>
+  <div class="row"><span class="k">Outdoor units</span><span class="v mono" id="h-units">—</span></div>
+  <div class="row"><span class="k">Unit 5<small> indoor · own scale</small></span><span class="v mono" id="h-in">—</span></div>
+  <div class="row"><span class="k">PM data</span><span class="v mono" id="h-pm-basis">—</span></div>
+  <div class="row"><span class="k">Air</span><span class="v mono" id="h-air">—</span></div>
+  <div class="row"><span class="k">Wind</span><span class="v mono" id="h-wind">—</span></div>
+  <div class="row"><span class="k">Rain</span><span class="v mono" id="h-rain">—</span></div>
+  <div class="row"><span class="k">Weather data</span><span class="v mono" id="h-weather">—</span></div>
+  <div class="row"><span class="k">A201 traffic</span><span class="v mono"><span id="h-flow">—</span> <span id="h-src"></span></span></div>
+</div>
+
+<div class="panel collapsible collapsed" id="legend">
+  <button class="panel-toggle" type="button" aria-expanded="false">
+    <span>Methods &amp; limits</span><span class="chev">⌄</span>
+  </button>
+  <div class="lab">What each layer means</div>
+  <div class="item"><span class="sw" style="background:var(--accent)"></span>
+    <span><b>PM₂.₅:</b> five-minute AirGradient readings. Latest AQ uses corrected values
+    where available; Historic AQ uses the original raw co-location record. Unit 5 is indoors
+    and must be read on its own scale.</span></div>
+  <div class="item"><span class="sw" style="background:#64a9d7"></span>
+    <span><b>Wind:</b> exact-time roof-sensor data for Latest AQ; a regional 10 m estimate
+    for Historic AQ. The rose points downwind, so its tail marks where the wind comes from.
+    The shaded sector could carry emissions from 173 towards the terrace.</span></div>
+  <div class="item"><span class="sw" style="background:var(--s173)"></span>
+    <span><b>Plume:</b> illustrative, based on wind and assumed opening hours. It is not a
+    measurement, CFD result or proof of operation. A visible plume is documented only for
+    173; the other outlets are off unless selected.</span></div>
+  <div class="item"><span class="sw" style="background:#8a8378"></span>
+    <span><b>Geometry:</b> EA 1 m LiDAR context combined with OSM and supplied photographs.
+    Outlet locations, instrument heights and proposed deployment positions remain
+    approximate rather than surveyed.</span></div>
+  <div class="item"><span class="sw" style="background:var(--road)"></span>
+    <span><b>Context only:</b> the A201 animation uses a 2022 traffic count and the monitoring
+    analysis uses SWK06 as an urban-background reference. Neither is a modelled
+    concentration surface.</span></div>
+</div>
+</div>
+
+<div class="panel collapsible collapsed" id="evidence">
+  <button class="panel-toggle" type="button" aria-expanded="false">
+    <span>What the historic record shows</span><span class="chev">⌄</span>
+  </button>
+  <div class="lab">FIVE-MINUTE RECORD · 5–10 AUG 2026</div>
+  <div class="item"><span class="sw" style="background:#ff704d"></span>
+    <span><b>Short peaks:</b> outdoor PM₂.₅ reached <b>96.9 µg/m³</b>. The highest hourly
+    mean was 31.4, so hourly averaging reduced the observed maximum by <b>3.1×</b>.</span></div>
+  <div class="item"><span class="sw" style="background:#e6c86a"></span>
+    <span><b>Evening pattern:</b> 34 excursions exceeded 35 µg/m³; most occurred in the
+    evening rather than as a continuously raised background.</span></div>
+  <div class="item"><span class="sw" style="background:#4fd1c5"></span>
+    <span><b>Wind pattern:</b> west-south-west evenings averaged <b>20.2 µg/m³</b>, compared
+    with <b>7.5</b> for other evening wind directions.</span></div>
+  <div class="item"><span class="sw" style="background:#a78bfa"></span>
+    <span><b>Indoor timing:</b> unit 5 peaked at 53.7 µg/m³ against a median of 0.9. It is an
+    indoor instrument and is interpreted only on its own scale.</span></div>
+  <div class="item"><span class="sw" style="background:#8a8378"></span>
+    <span><b>Key limit:</b> five days, no source operating log, and regional rather than roof
+    wind. The pattern supports a testable hypothesis; it does not attribute a source.</span></div>
+</div>
+
+<div id="plume-flag" role="status" title="A scenario animation driven by the selected wind record — not a measurement, and not a dispersion model. It does not show that an outlet was operating."><span class="dot"></span><span>illustrative plume</span></div>
+
+<div id="corner">
+
+<div id="aq-chart" aria-label="PM2.5 across the loaded episode">
+  <div class="aq-head">
+    <span class="aq-title" id="aq-title">PM₂.₅ trend</span>
+    <span class="aq-now" aria-live="polite"><span id="aq-value">—</span><small> µg/m³</small></span>
+  </div>
+  <svg id="aq-plot" viewBox="0 0 228 58" preserveAspectRatio="none" aria-hidden="true">
+    <path id="aq-area" d=""></path>
+    <path id="aq-line" d=""></path>
+    <line id="aq-baseline" x1="0" y1="57.5" x2="228" y2="57.5"></line>
+    <line id="aq-play" x1="0" y1="0" x2="0" y2="58"></line>
+    <circle id="aq-dot" cx="0" cy="58" r="2.4"></circle>
+  </svg>
+  <div class="aq-scale"><span id="aq-span">—</span><span id="aq-max">—</span></div>
+  <div id="aq-select-row">
+    <label for="aq-unit-select">Monitor</label>
+    <select id="aq-unit-select" aria-label="Choose an AirGradient monitor"></select>
+  </div>
+  <div id="aq-note"></div>
+</div>
+
+<div id="wind-rose" class="no-wind" aria-label="Observed wind for the selected frame">
+  <div class="rose-title">Wind at selected time</div>
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <path id="rose-sector" d=""><title>Wind sector that would carry the 173 outlet over the roof terrace</title></path>
+    <circle class="rose-ring" cx="50" cy="50" r="36"></circle>
+    <circle class="rose-ring" cx="50" cy="50" r="17"></circle>
+    <line class="rose-tick" x1="50" y1="7" x2="50" y2="14"></line>
+    <line class="rose-tick" x1="93" y1="50" x2="86" y2="50"></line>
+    <line class="rose-tick" x1="50" y1="93" x2="50" y2="86"></line>
+    <line class="rose-tick" x1="7" y1="50" x2="14" y2="50"></line>
+    <text class="rose-card" x="50" y="28">N</text>
+    <text class="rose-card" x="75" y="53">E</text>
+    <text class="rose-card" x="50" y="79">S</text>
+    <text class="rose-card" x="25" y="53">W</text>
+    <g id="rose-needle">
+      <line x1="50" y1="15" x2="50" y2="49"></line>
+      <path d="M44.5 45 L50 65 L55.5 45 Z"></path>
+    </g>
+    <circle id="rose-hub" cx="50" cy="50" r="3"></circle>
+  </svg>
+  <div class="rose-read"><span id="rose-speed">—</span><small> m/s</small></div>
+  <div class="rose-dir" id="rose-dir">no wind</div>
+  <div class="rose-src" id="rose-src">—</div>
+</div>
+
+</div>
+
+<div class="panel" id="photo-panel" hidden>
+  <div id="photo-head"><div><h2 id="photo-title">Supplied photo</h2><p id="photo-caption"></p></div>
+    <button id="photo-close" aria-label="Close photo reference">×</button></div>
+  <img id="photo-image" alt="Supplied site reference photograph">
+  <div id="photo-thumbs"></div>
+</div>
+
+<div class="panel" id="playback" aria-label="Data playback">
+  <button id="play" aria-label="Play or pause the five-minute record">▶</button>
+  <div class="mono" id="clock">—</div>
+  <input id="time" type="range" min="0" max="1" step="1" value="0"
+         aria-label="Position in the measured record">
+  <label class="sr-only" for="record-select">Data period</label>
+  <select id="record-select" aria-label="Choose a data period">
+    <option value="current-aq">Latest AQ</option>
+    <option value="historic-aq">Historic AQ</option>
+    <option value="tempest">Roof weather</option>
+  </select>
+  <div class="mode-status" id="rec-status">Latest five-minute AirGradient readings</div>
+</div>
+
+<div class="panel collapsible collapsed" id="deck">
+  <button class="panel-toggle" type="button" aria-expanded="false">
+    <span>Layers</span><span class="chev">⌄</span>
+  </button>
+  <div>
+    <div class="lab">Monitor layout</div>
+    <div class="mode-row">
+      <button class="mode on" data-network="colocation">Co-location</button>
+      <button class="mode" data-network="deployment">Proposed deployment</button>
+    </div>
+    <div class="mode-status" id="network-status">Units 1–4 are together outdoors; unit 5 stays indoors.</div>
+  </div>
+  <div>
+    <div class="lab">Outlets shown</div>
+    <div class="toggles" id="src-toggles"></div>
+  </div>
+  <div>
+    <div class="lab">Layers</div>
+    <div id="extras">
+      <label class="tog on" style="color:var(--road)"><input type="checkbox" id="t-traffic" checked><i></i>Traffic</label>
+      <label class="tog on" style="color:var(--accent)"><input type="checkbox" id="t-labels" checked><i></i>Labels</label>
+      <label class="tog on" style="color:var(--s173)"><input type="checkbox" id="t-plume" checked><i></i>Plume</label>
+    </div>
+  </div>
+</div>
+
+<script>window.__GEO__=__GEO_JSON__;window.__TRAFFIC__=__TRAFFIC_JSON__;window.__OBS__=__OBS_JSON__;window.__CURRENT_AQ__=__CURRENT_AQ_JSON__;window.__WEATHER__=__WEATHER_JSON__;window.__LIDAR__=__LIDAR_JSON__;window.__PHOTOS__=__PHOTO_JSON__;</script>
+<script>__THREE__</script>
+<script>
+/* Operating schedules. These are declared assumptions, not observed logs: 173's
+   hours come from the supplied site record and Environmental Protection correspondence,
+   183 is off because operation is reported paused. The western outlet has no
+   verified operating schedule and remains off unless the user enables it. */
+var SCHEDULE = {
+  existing_173: { on: 12, off: 26, peak: [18, 23] },
+  permitted_183: { on: 12, off: 26, peak: [18, 23] },
+  chicky_163:   { on: 11, off: 24, peak: [17, 22] }
+};
+window.__schedule = function (key, hour) {
+  var s = SCHEDULE[key]; if (!s) return 0;
+  var h = hour < s.on ? hour + 24 : hour;
+  if (h < s.on || h > s.off) return 0;
+  var ramp = Math.min(1, (h - s.on) / 1.5, (s.off - h) / 1.5);
+  var inPeak = h >= s.peak[0] && h <= s.peak[1];
+  return Math.max(0, ramp) * (inPeak ? 1 : 0.45);
+};
+window.__plumeScenarioStrength = function (key, hour) {
+  var scheduled = window.__schedule(key, hour);
+  var state = window.__state;
+  return state && state.plumePreview ? Math.max(scheduled, 0.72) : 0;
+};
+
+var SRC_META = [
+  { key: "existing_173", label: "173 charcoal", css: "--s173", on: true },
+  { key: "chicky_163",   label: "western outlet", css: "--s163", on: false, sub: "provisional" },
+  { key: "permitted_183", label: "183 kebab",   css: "--s183", on: false, sub: "paused" }
+];
+var wrap = document.getElementById("src-toggles");
+SRC_META.forEach(function (m) {
+  var l = document.createElement("label");
+  l.className = "tog" + (m.on ? " on" : "");
+  l.style.color = "var(" + m.css + ")";
+  l.innerHTML = '<input type="checkbox"' + (m.on ? " checked" : "") + '><i></i>' +
+                m.label + (m.sub ? ' <small>' + m.sub + '</small>' : "");
+  var cb = l.querySelector("input");
+  cb.addEventListener("change", function () {
+    window.__state.enabled[m.key] = cb.checked;
+    l.classList.toggle("on", cb.checked);
+  });
+  wrap.appendChild(l);
+});
+
+var OBS = window.__OBS__, CURRENT_AQ = window.__CURRENT_AQ__, WEATHER = window.__WEATHER__;
+var timeInput = document.getElementById("time");
+var initialRecord = CURRENT_AQ || WEATHER || OBS;
+timeInput.max = Math.max((initialRecord && initialRecord.n ? initialRecord.n : 1) - 1, 1);
+timeInput.value = (initialRecord && initialRecord.default_frame) || 0;
+var clockEls = [document.getElementById("clock"), document.getElementById("h-clock")];
+// Everything on the wire is UTC; everything on screen is site-local and says
+// so. Pinned to Europe/London rather than the viewer's own zone - the schedule,
+// the sun position and the evening argument are all about this street.
+var londonClock = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/London", weekday: "short", day: "numeric", month: "short",
+  hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short"
+});
+var londonParts = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/London", year: "numeric", month: "numeric", day: "numeric",
+  hour: "numeric", minute: "numeric", hourCycle: "h23"
+});
+window.__londonParts = function (date) {
+  var out = {};
+  londonParts.formatToParts(date).forEach(function (part) {
+    if (part.type !== "literal") out[part.type] = +part.value;
+  });
+  return out;
+};
+function recordForMode(mode) {
+  if (mode === "current-aq") return CURRENT_AQ;
+  if (mode === "tempest") return WEATHER;
+  return OBS;
+}
+function activeRecord() {
+  var s = window.__state;
+  return recordForMode(s ? s.recordMode : "historic-aq");
+}
+function recordStepMs(record) {
+  return record && record.step_seconds
+    ? record.step_seconds * 1000
+    : ((record && record.step_minutes) || 5) * 60000;
+}
+function recordTimeMs(record, frame) {
+  return Date.parse(record.start_utc) + frame * recordStepMs(record);
+}
+window.__syncTime = function () {
+  var s = window.__state;
+  var record = activeRecord();
+  if (!s || !record) return;
+  timeInput.value = s.frame;
+  var d = new Date(Date.parse(record.start_utc) + s.frame * recordStepMs(record));
+  var clock = {};
+  londonClock.formatToParts(d).forEach(function (part) {
+    if (part.type !== "literal") clock[part.type] = part.value;
+  });
+  var txt = clock.weekday + " " + clock.day + " " + clock.month + " · " +
+            clock.hour + ":" + clock.minute + " " + (clock.timeZoneName || "");
+  clockEls.forEach(function (e) { e.textContent = txt; });
+};
+var recordStatus = document.getElementById("rec-status");
+var recordSelect = document.getElementById("record-select");
+window.__recordModeChanged = function (mode, record) {
+  recordSelect.value = mode;
+  timeInput.max = Math.max(((record && record.n) || 1) - 1, 1);
+  timeInput.value = window.__state.frame;
+  rebuildAqSeries(true);
+  if (mode === "tempest") {
+    var weatherText = record.latest && record.latest.bucket_start_utc;
+    recordStatus.textContent = "Latest roof weather: " +
+      (weatherText ? londonClock.format(new Date(weatherText)) : "time unavailable") +
+      " · five-minute readings";
+  } else if (mode === "current-aq") {
+    var latestText = record.latest_observation_utc || record.end_utc;
+    var latest = latestText ? new Date(latestText) : null;
+    recordStatus.textContent = "Latest available: " +
+      (latest ? londonClock.format(latest) : "time unavailable") +
+      " · five-minute AirGradient readings";
+  } else {
+    recordStatus.textContent = "5–10 Aug 2026 · raw PM₂.₅ · regional wind estimate";
+  }
+  window.__syncTime();
+};
+if (!CURRENT_AQ) {
+  var currentOption = recordSelect.querySelector('option[value="current-aq"]');
+  if (currentOption) currentOption.disabled = true;
+}
+recordSelect.addEventListener("change", function () {
+  if (window.__setRecordMode) window.__setRecordMode(recordSelect.value);
+});
+timeInput.addEventListener("input", function () {
+  window.__state.frame = +timeInput.value;
+  window.__state.playing = false;
+  document.getElementById("play").textContent = "▶";
+  window.__syncTime();
+});
+document.getElementById("play").addEventListener("click", function () {
+  var s = window.__state;
+  s.playing = !s.playing;
+  this.textContent = s.playing ? "❚❚" : "▶";
+});
+document.getElementById("t-traffic").addEventListener("change", function () {
+  window.__state.trafficOn = this.checked;
+  this.parentNode.classList.toggle("on", this.checked);
+});
+document.getElementById("t-labels").addEventListener("change", function () {
+  window.__state.showLabels = this.checked;
+  this.parentNode.classList.toggle("on", this.checked);
+});
+document.getElementById("t-plume").addEventListener("change", function () {
+  window.__state.plumePreview = this.checked;
+  this.parentNode.classList.toggle("on", this.checked);
+});
+var networkStatus = document.getElementById("network-status");
+window.__networkModeChanged = function (mode) {
+  Array.prototype.forEach.call(document.querySelectorAll("[data-network]"), function (button) {
+    button.classList.toggle("on", button.dataset.network === mode);
+  });
+  networkStatus.textContent = mode === "colocation"
+    ? "Units 1–4 are together outdoors; unit 5 stays indoors."
+    : "Units 1–4 move to proposed outdoor positions; unit 5 stays indoors.";
+};
+Array.prototype.forEach.call(document.querySelectorAll("[data-network]"), function (button) {
+  button.addEventListener("click", function () { window.__setNetworkMode(button.dataset.network); });
+});
+Array.prototype.forEach.call(document.querySelectorAll(".collapsible>.panel-toggle"), function (button) {
+  button.addEventListener("click", function () {
+    var panel = button.parentNode;
+    var willOpen = panel.classList.contains("collapsed");
+    if (willOpen && panel.parentNode.id === "right-tools") {
+      Array.prototype.forEach.call(panel.parentNode.querySelectorAll(".collapsible"), function (sibling) {
+        if (sibling === panel) return;
+        sibling.classList.add("collapsed");
+        var siblingButton = sibling.querySelector(":scope>.panel-toggle");
+        if (siblingButton) siblingButton.setAttribute("aria-expanded", "false");
+      });
+    }
+    panel.classList.toggle("collapsed", !willOpen);
+    button.setAttribute("aria-expanded", String(willOpen));
+    if (panel.id === "deck") document.body.classList.toggle("deck-open", willOpen);
+  });
+});
+var viewSelect = document.getElementById("view-select");
+viewSelect.addEventListener("change", function () {
+  if (window.__goto) window.__goto(viewSelect.value);
+});
+Array.prototype.forEach.call(document.querySelectorAll("[data-nav]"), function (button) {
+  button.addEventListener("click", function () {
+    if (window.__nudgeCamera) window.__nudgeCamera(button.dataset.nav);
+  });
+});
+
+var photoPanel = document.getElementById("photo-panel"), photoImage = document.getElementById("photo-image"),
+    photoTitle = document.getElementById("photo-title"), photoCaption = document.getElementById("photo-caption"),
+    photoThumbs = document.getElementById("photo-thumbs");
+function showPhoto(index) {
+  var photo = window.__PHOTOS__[index]; if (!photo) return;
+  photoImage.src = photo.data_uri; photoImage.alt = photo.title;
+  photoTitle.textContent = photo.title; photoCaption.textContent = photo.caption;
+  Array.prototype.forEach.call(photoThumbs.children, function (button, i) {
+    button.classList.toggle("on", i === index);
+  });
+}
+window.__PHOTOS__.forEach(function (photo, index) {
+  var button = document.createElement("button"); button.textContent = photo.short;
+  button.addEventListener("click", function () { showPhoto(index); });
+  photoThumbs.appendChild(button);
+});
+document.getElementById("photo-open").addEventListener("click", function () {
+  photoPanel.hidden = false; showPhoto(0);
+});
+document.getElementById("photo-close").addEventListener("click", function () { photoPanel.hidden = true; });
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") photoPanel.hidden = true;
+});
+
+var elFlow = document.getElementById("h-flow"),
+    elSrc = document.getElementById("h-src"), elWind = document.getElementById("h-wind"),
+    elWeather = document.getElementById("h-weather"), elAir = document.getElementById("h-air"),
+    elRain = document.getElementById("h-rain");
+var elPm = document.getElementById("h-pm"), elUnits = document.getElementById("h-units"),
+    elIn = document.getElementById("h-in"), elPmBasis = document.getElementById("h-pm-basis");
+var elPlumeFlag = document.getElementById("plume-flag");
+
+/* ---- wind rose ------------------------------------------------------- */
+var roseEl = document.getElementById("wind-rose"),
+    roseNeedle = document.getElementById("rose-needle"),
+    roseSector = document.getElementById("rose-sector"),
+    roseSpeed = document.getElementById("rose-speed"),
+    roseDir = document.getElementById("rose-dir"),
+    roseSrc = document.getElementById("rose-src");
+var COMPASS = ["N","NNE","NE","ENE","E","ESE","SE","SSE",
+               "S","SSW","SW","WSW","W","WNW","NW","NNW"];
+function compassPoint(deg) {
+  return COMPASS[Math.round(((deg % 360) + 360) % 360 / 22.5) % 16];
+}
+// The sector that puts 173 over the roof terrace, read off the terrace
+// monitors' own upwind bearings so it follows the geometry rather than a
+// remembered number. Padded by half a sector each side: a plume is not a ray.
+var ROSE_SECTOR = (function () {
+  var geo = window.__GEO__, bearings = [];
+  if (geo && geo.monitors) {
+    geo.monitors.forEach(function (m) {
+      var up = m.upwind_sector_deg;
+      if (up && up.existing_173 !== undefined && m.environment &&
+          m.environment.indexOf("roof terrace") >= 0 &&
+          m.position !== "neighbour_terrace") bearings.push(up.existing_173);
+    });
+  }
+  if (!bearings.length) return null;
+  return { from: Math.min.apply(null, bearings) - 11.25,
+           to: Math.max.apply(null, bearings) + 11.25 };
+})();
+function rosePoint(deg, r) {
+  var a = deg * Math.PI / 180;
+  return (50 + r * Math.sin(a)).toFixed(2) + " " + (50 - r * Math.cos(a)).toFixed(2);
+}
+if (ROSE_SECTOR) {
+  var span = ROSE_SECTOR.to - ROSE_SECTOR.from;
+  roseSector.setAttribute("d",
+    "M50 50 L" + rosePoint(ROSE_SECTOR.from, 36) +
+    " A36 36 0 " + (span > 180 ? 1 : 0) + " 1 " + rosePoint(ROSE_SECTOR.to, 36) + " Z");
+  roseSector.parentNode.insertBefore(document.createComment(
+    " sector carrying 173 over the terrace: " +
+    ROSE_SECTOR.from.toFixed(0) + "-" + ROSE_SECTOR.to.toFixed(0) + " deg "), roseSector);
+}
+function inSector(deg) {
+  if (!ROSE_SECTOR || deg === null) return false;
+  var d = ((deg % 360) + 360) % 360;
+  return d >= ROSE_SECTOR.from && d <= ROSE_SECTOR.to;
+}
+/* ---- PM2.5 chart ------------------------------------------------------ */
+var AQ_COLS = 228, AQ_TOP = 4, AQ_BASE = 57.5;
+var aqChart = document.getElementById("aq-chart"),
+    aqArea = document.getElementById("aq-area"), aqLine = document.getElementById("aq-line"),
+    aqPlay = document.getElementById("aq-play"), aqDot = document.getElementById("aq-dot"),
+    aqValue = document.getElementById("aq-value"), aqMax = document.getElementById("aq-max"),
+    aqSpan = document.getElementById("aq-span"), aqTitle = document.getElementById("aq-title"),
+    aqUnitSelect = document.getElementById("aq-unit-select"), aqNote = document.getElementById("aq-note");
+var aqSelection = "avg", aqSeries = null, aqPeak = 1, aqBuiltFor = null;
+var aqDayFmt = new Intl.DateTimeFormat("en-GB",
+  { timeZone: "Europe/London", day: "numeric", month: "short" });
+
+// Tempest mode still drives the timeline, so the chart follows the AQ episode
+// that overlaps it and locates the playhead by timestamp rather than by frame
+// index. Scrubbing the weather then moves the marker through the PM record.
+function chartRecord() {
+  var mode = window.__state ? window.__state.recordMode : "historic-aq";
+  if (mode === "historic-aq") return OBS;
+  return CURRENT_AQ || OBS;
+}
+function aqSeriesFor(record, selection) {
+  if (!record || !record.pm25) return null;
+  if (selection !== "avg") return record.pm25[selection] || null;
+  var outdoor = record.outdoor_units || [];
+  if (!outdoor.length) return null;
+  var out = [];
+  for (var i = 0; i < record.n; i++) {
+    var sum = 0, count = 0;
+    for (var u = 0; u < outdoor.length; u++) {
+      var v = record.pm25[outdoor[u]] && record.pm25[outdoor[u]][i];
+      if (v !== null && v !== undefined && Number.isFinite(+v)) { sum += +v; count++; }
+    }
+    out.push(count ? sum / count : null);
+  }
+  return out;
+}
+function buildAqUnitOptions(record) {
+  aqUnitSelect.innerHTML = "";
+  var indoor = record && record.indoor_unit;
+  var choices = [{ key: "avg", label: "Outdoor average" }];
+  ((record && record.units) || []).forEach(function (u) {
+    choices.push({ key: u, label: u === indoor ? "Unit " + u + " (indoor)" : "Unit " + u });
+  });
+  choices.forEach(function (choice) {
+    var option = document.createElement("option");
+    option.value = choice.key;
+    option.textContent = choice.label;
+    aqUnitSelect.appendChild(option);
+  });
+}
+aqUnitSelect.addEventListener("change", function () {
+  aqSelection = this.value;
+  rebuildAqSeries(true);
+});
+function rebuildAqSeries(force) {
+  var record = chartRecord();
+  if (!record) return;
+  var signature = (record.episode_kind || "historic") + "|" + record.n;
+  if (signature !== aqBuiltFor) {
+    buildAqUnitOptions(record);
+    if (aqSelection !== "avg" && !(record.pm25 && record.pm25[aqSelection])) aqSelection = "avg";
+    aqBuiltFor = signature;
+  } else if (!force && aqSeries) return;
+
+  aqUnitSelect.value = aqSelection;
+  var indoor = record.indoor_unit;
+  aqChart.classList.toggle("indoor", aqSelection === indoor);
+  aqSeries = aqSeriesFor(record, aqSelection);
+  if (!aqSeries || !aqSeries.length) {
+    aqLine.setAttribute("d", ""); aqArea.setAttribute("d", "");
+    aqMax.textContent = "no series"; return;
+  }
+  var n = aqSeries.length, peak = 0, columns = [];
+  for (var c = 0; c < AQ_COLS; c++) {
+    var from = Math.floor(c * n / AQ_COLS), to = Math.max(from + 1, Math.floor((c + 1) * n / AQ_COLS));
+    var best = null;
+    for (var i = from; i < to && i < n; i++) {
+      var v = aqSeries[i];
+      if (v === null || v === undefined || !Number.isFinite(+v)) continue;
+      if (best === null || +v > best) best = +v;
+    }
+    columns.push(best);
+    if (best !== null && best > peak) peak = best;
+  }
+  aqPeak = peak > 0 ? peak : 1;
+  var line = "", area = "", run = [];
+  function flush() {
+    if (run.length < 1) { run = []; return; }
+    line += "M" + run.map(function (p) { return p[0] + " " + p[1]; }).join(" L");
+    if (run.length > 1) {
+      area += "M" + run[0][0] + " " + AQ_BASE +
+              " L" + run.map(function (p) { return p[0] + " " + p[1]; }).join(" L") +
+              " L" + run[run.length - 1][0] + " " + AQ_BASE + " Z";
+    }
+    run = [];
+  }
+  columns.forEach(function (value, index) {
+    if (value === null) { flush(); return; }
+    run.push([index.toFixed(1), (AQ_BASE - (value / aqPeak) * (AQ_BASE - AQ_TOP)).toFixed(2)]);
+  });
+  flush();
+  aqLine.setAttribute("d", line); aqArea.setAttribute("d", area);
+  aqMax.textContent = "peak " + aqPeak.toFixed(1);
+  var startMs = Date.parse(record.start_utc);
+  aqSpan.textContent = aqDayFmt.format(new Date(startMs)) + " → " +
+    aqDayFmt.format(new Date(startMs + (n - 1) * recordStepMs(record)));
+  aqTitle.textContent = (record.episode_kind === "current_airgradient_api" ? "Latest" : "Historic") +
+    " PM₂.₅";
+  // Unit 5 is an indoor-model instrument that has never been co-located, so its
+  // numbers do not share a scale with the outdoor four. Say so on the panel
+  // rather than trusting the reader to remember it.
+  var channel = (record.channel || "PM2.5")
+    .replace(/^PM2\.5[ ,]*/i, "").replace(/[ ,]*ug\/m3$/i, "").trim() || "PM2.5";
+  aqNote.textContent = aqSelection === indoor
+    ? "Indoor reading · own scale; do not compare directly with outdoor units"
+    : aqSelection === "avg" ? "Mean of outdoor units 1–4 · " + channel
+      : "Outdoor unit " + aqSelection + " · " + channel;
+  updateAqPlayhead();
+}
+function updateAqPlayhead() {
+  var record = chartRecord();
+  if (!record || !aqSeries) return;
+  var index = record === activeRecord() ? window.__state.frame
+    : Math.round((recordTimeMs(activeRecord(), window.__state.frame) - Date.parse(record.start_utc)) /
+                 recordStepMs(record));
+  var inside = index >= 0 && index < aqSeries.length;
+  var value = inside ? aqSeries[index] : null;
+  var x = inside ? (index / Math.max(aqSeries.length - 1, 1)) * (AQ_COLS - 1) : -10;
+  aqPlay.setAttribute("x1", x.toFixed(1)); aqPlay.setAttribute("x2", x.toFixed(1));
+  aqPlay.style.display = inside ? "" : "none";
+  if (value === null || value === undefined || !Number.isFinite(+value)) {
+    aqValue.textContent = "—";
+    aqDot.style.display = "none";
+  } else {
+    aqValue.textContent = (+value).toFixed(1);
+    aqDot.style.display = "";
+    aqDot.setAttribute("cx", x.toFixed(1));
+    aqDot.setAttribute("cy", (AQ_BASE - (+value / aqPeak) * (AQ_BASE - AQ_TOP)).toFixed(2));
+  }
+}
+
+function updateRose(weather) {
+  var direction = weather && weather.wind_from_deg,
+      speed = weather && weather.wind_average_m_s,
+      hasDir = direction !== null && direction !== undefined && Number.isFinite(+direction),
+      hasSpeed = speed !== null && speed !== undefined && Number.isFinite(+speed);
+  roseSpeed.textContent = hasSpeed ? (+speed).toFixed(1) : "—";
+  // Below the anemometer's own directional threshold the vane wanders, so the
+  // needle comes off rather than pointing somewhere it cannot support.
+  var calm = hasSpeed && +speed < 0.2;
+  if (!hasDir || calm) {
+    roseEl.classList.add("no-wind");
+    roseEl.classList.remove("in-sector");
+    roseDir.textContent = calm ? "calm · no direction"
+      : hasSpeed ? "direction indeterminate" : "no wind observation";
+  } else {
+    roseEl.classList.remove("no-wind");
+    roseNeedle.setAttribute("transform", "rotate(" + (+direction).toFixed(1) + " 50 50)");
+    roseDir.textContent = "from " + Math.round(+direction) + "° " + compassPoint(+direction);
+    roseEl.classList.toggle("in-sector", inSector(+direction));
+  }
+  roseSrc.textContent = !weather ? "—"
+    : weather.source === "tempest" ? "Roof sensor"
+    : weather.source === "openmeteo_proxy" ? "Regional 10 m estimate"
+    : "No matching wind";
+}
+function present(value, digits) {
+  return value === null || value === undefined || !Number.isFinite(+value)
+    ? null : (+value).toFixed(digits);
+}
+window.__hud = function (h, sunAng, flow, th, night, when, readings, weather) {
+  elFlow.innerHTML = Math.round(flow).toLocaleString() + "<small> veh/h</small>";
+  elSrc.innerHTML = th.measured
+    ? '<span class="chip measured">counted 2022</span>'
+    : '<span class="chip est">illustrative</span>';
+  var live = SRC_META.filter(function (m) {
+    return window.__state.enabled[m.key] &&
+      (window.__state.hasWind || window.__state.windIsCalm) &&
+      window.__plumeScenarioStrength(m.key, window.__state.hour) > 0;
+  });
+  // Tied to what is actually on screen: unavailable direction suppresses both
+  // the plume and its chip, while a valid calm observation can still disperse
+  // vertically through buoyancy/turbulence.
+  elPlumeFlag.classList.toggle("on", live.length > 0);
+  updateRose(weather);
+  updateAqPlayhead();
+  if (weather) {
+    var coverage = present(weather.coverage_fraction, 0);
+    elWeather.textContent = weather.source === "tempest"
+      ? "Roof sensor" +
+        (coverage === null ? "" : " · " + Math.round(+weather.coverage_fraction * 100) + "% complete")
+      : weather.source === "openmeteo_proxy"
+        ? "Regional 10 m estimate"
+        : "No matching weather";
+    var temp = present(weather.temperature_c, 1), rh = present(weather.relative_humidity_pct, 0);
+    elAir.textContent = temp === null && rh === null ? "—" :
+      (temp === null ? "—" : temp + "°C") + " · " + (rh === null ? "—" : rh + "% RH");
+    var avg = present(weather.wind_average_m_s, 1), gust = present(weather.wind_gust_m_s, 1);
+    var direction = present(weather.wind_from_deg, 0);
+    elWind.textContent = direction === null
+      ? (avg === null ? "no wind observation" : +avg < 0.2
+          ? "calm · direction indeterminate"
+          : avg + " m/s · direction unavailable")
+      : (avg === null ? "—" : avg) + " m/s from " + compassPoint(+direction) +
+        " (" + direction + "°)" + (gust === null ? "" : " · gust " + gust);
+    var rain = present(weather.rain_5min_mm, 2), dayRain = present(weather.local_day_rain_mm, 2);
+    elRain.textContent = rain === null && dayRain === null ? "—" :
+      (rain === null ? "—" : rain + " mm (5 min)") +
+      (dayRain === null ? "" : " · " + dayRain + " mm today");
+  }
+  if (readings) {
+    var aqRecord = window.__state.recordMode === "current-aq" ? CURRENT_AQ
+      : window.__state.recordMode === "historic-aq" ? OBS : null;
+    var unitRecord = aqRecord || OBS;
+    var outdoorUnits = (unitRecord && unitRecord.outdoor_units) || [];
+    var out = outdoorUnits.map(function (u) { return readings[u]; })
+                              .filter(function (v) { return v !== null; });
+    var mean = out.length ? out.reduce(function (a, b) { return a + b; }, 0) / out.length : null;
+    elPm.innerHTML = (mean === null ? "—" : mean.toFixed(1)) + "<small> µg/m³</small>";
+    elUnits.textContent = outdoorUnits.map(function (u) {
+      return "U" + u + " " + (readings[u] === null ? "–" : readings[u].toFixed(1));
+    }).join(" · ");
+    var iv = unitRecord && unitRecord.indoor_unit ? readings[unitRecord.indoor_unit] : null;
+    elIn.textContent = iv === null || iv === undefined ? "—" : iv.toFixed(1) + " µg/m³";
+    if (!aqRecord) {
+      elPmBasis.textContent = "No AQ record selected";
+    } else if (window.__state.recordMode === "historic-aq") {
+      elPmBasis.textContent = "Raw PM₂.₅ · historic record";
+    } else {
+      var frameIndex = window.__state.frame;
+      var bases = outdoorUnits.map(function (unit) {
+        var values = aqRecord.pm25_display_basis && aqRecord.pm25_display_basis[unit];
+        return values && values[frameIndex];
+      }).filter(Boolean);
+      var fractions = outdoorUnits.map(function (unit) {
+        var values = aqRecord.coverage_fraction && aqRecord.coverage_fraction[unit];
+        var value = values && values[frameIndex];
+        return value === null || value === undefined ? null : +value;
+      }).filter(function (value) { return value !== null && Number.isFinite(value); });
+      var basis = bases.length && bases.every(function (value) { return value === "corrected"; })
+        ? "corrected" : bases.indexOf("corrected") >= 0 ? "mixed corrected/raw"
+        : bases.length ? "raw fallback" : "no PM observation";
+      var aqCoverage = fractions.length
+        ? " · " + Math.round(fractions.reduce(function (a, b) { return a + b; }, 0) /
+          fractions.length * 100) + "% complete"
+        : "";
+      elPmBasis.textContent = basis.charAt(0).toUpperCase() + basis.slice(1) + aqCoverage;
+    }
+  }
+};
+</script>
+<script>__SCENE__</script>
+</body>
+</html>

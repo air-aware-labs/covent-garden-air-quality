@@ -1,0 +1,2402 @@
+{
+ "origin": {
+  "latitude": 51.4945876,
+  "longitude": -0.0918488,
+  "note": "Local metres: +east, +north. Heights are metres above local ground level."
+ },
+ "heights": {
+  "garden_deck_m": 8.2,
+  "home_parapet_m": 8.94,
+  "home_balustrade_m": 9.3,
+  "greenhouse_ridge_m": 10.3,
+  "bedroom_window_sill_m": 5.1,
+  "bedroom_window_head_m": 7.05,
+  "nkr_eaves_m": 7.1,
+  "nkr_ridge_m": 10.2,
+  "nkr_rear_addition_m": 5.6,
+  "flue_183_outlet_m": 8.49,
+  "flue_173_outlet_m": 10.0,
+  "flue_163_outlet_m": 7.1
+ },
+ "home": {
+  "label": "74-75 County Street",
+  "ring": [
+   [
+    -3.14,
+    1.05
+   ],
+   [
+    8.867,
+    2.547
+   ],
+   [
+    11.032,
+    -14.818
+   ],
+   [
+    6.756,
+    -15.352
+   ],
+   [
+    6.136,
+    -10.38
+   ],
+   [
+    1.561,
+    -10.951
+   ],
+   [
+    1.346,
+    -9.224
+   ],
+   [
+    -1.81,
+    -9.617
+   ]
+  ],
+  "garden_ring": [
+   [
+    -2.861,
+    0.833
+   ],
+   [
+    8.68,
+    2.272
+   ],
+   [
+    10.776,
+    -14.538
+   ],
+   [
+    6.965,
+    -15.013
+   ],
+   [
+    6.355,
+    -10.121
+   ],
+   [
+    1.781,
+    -10.691
+   ],
+   [
+    1.544,
+    -8.796
+   ],
+   [
+    -1.611,
+    -9.19
+   ]
+  ],
+  "wing": {
+   "note": "The 4.31 m wide south-east wing - the projection with the greenhouse on it.",
+   "ring": [
+    [
+     5.92,
+     -8.653
+    ],
+    [
+     10.197,
+     -8.12
+    ],
+    [
+     11.032,
+     -14.818
+    ],
+    [
+     6.756,
+     -15.352
+    ]
+   ]
+  },
+  "greenhouse": {
+   "ring": [
+    [
+     8.15,
+     -9.887
+    ],
+    [
+     9.986,
+     -9.658
+    ],
+    [
+     10.308,
+     -12.238
+    ],
+    [
+     8.472,
+     -12.467
+    ]
+   ],
+   "size_m": [
+    1.85,
+    2.6
+   ],
+   "provenance": "Photo/user-corrected domestic greenhouse footprint confirmed by the site owner on 13 August 2026, positioned slightly behind the instrument line. The planning drawing remains the orientation reference; dimensions are approximate."
+  },
+  "skylight": {
+   "ring": [
+    [
+     6.088,
+     -3.453
+    ],
+    [
+     8.638,
+     -3.135
+    ],
+    [
+     9.063,
+     -6.538
+    ],
+    [
+     6.512,
+     -6.856
+    ]
+   ]
+  },
+  "planters": [
+   {
+    "ring": [
+     [
+      9.398,
+      -5.187
+     ],
+     [
+      9.577,
+      -5.164
+     ],
+     [
+      10.547,
+      -12.944
+     ],
+     [
+      10.368,
+      -12.966
+     ]
+    ],
+    "label": "Blackberries and raspberries along the rear wall"
+   },
+   {
+    "ring": [
+     [
+      -2.188,
+      -4.565
+     ],
+     [
+      -0.848,
+      -4.398
+     ],
+     [
+      -0.394,
+      -8.04
+     ],
+     [
+      -1.734,
+      -8.207
+     ]
+    ],
+    "label": "West-edge raised bed"
+   },
+   {
+    "ring": [
+     [
+      1.688,
+      -8.98
+     ],
+     [
+      3.276,
+      -8.782
+     ],
+     [
+      3.369,
+      -9.526
+     ],
+     [
+      1.781,
+      -9.724
+     ]
+    ],
+    "label": "Apple, raspberries, blueberries, strawberries"
+   },
+   {
+    "ring": [
+     [
+      3.722,
+      -8.726
+     ],
+     [
+      5.31,
+      -8.528
+     ],
+     [
+      5.403,
+      -9.272
+     ],
+     [
+      3.815,
+      -9.47
+     ]
+    ],
+    "label": "Apple, raspberries, blueberries, strawberries"
+   },
+   {
+    "ring": [
+     [
+      7.045,
+      -13.552
+     ],
+     [
+      8.633,
+      -13.354
+     ],
+     [
+      8.726,
+      -14.098
+     ],
+     [
+      7.138,
+      -14.296
+     ]
+    ],
+    "label": "Bay, rosemary, basil"
+   },
+   {
+    "ring": [
+     [
+      8.782,
+      -13.335
+     ],
+     [
+      10.32,
+      -13.144
+     ],
+     [
+      10.413,
+      -13.888
+     ],
+     [
+      8.874,
+      -14.08
+     ]
+    ],
+    "label": "Herb and fruit planters"
+   }
+  ],
+  "planting": [
+   {
+    "at": [
+     -1.931,
+     -0.16
+    ],
+    "r": 0.62,
+    "label": "Acer"
+   },
+   {
+    "at": [
+     -2.08,
+     -1.388
+    ],
+    "r": 0.58,
+    "label": "Gaillardia"
+   },
+   {
+    "at": [
+     -0.927,
+     -1.748
+    ],
+    "r": 0.55,
+    "label": "Agapanthus"
+   },
+   {
+    "at": [
+     -0.61,
+     -0.247
+    ],
+    "r": 0.52,
+    "label": "Agave"
+   },
+   {
+    "at": [
+     1.021,
+     0.41
+    ],
+    "r": 0.6,
+    "label": "Hawthorne"
+   },
+   {
+    "at": [
+     2.559,
+     0.199
+    ],
+    "r": 0.55,
+    "label": "Nandina domestica"
+   },
+   {
+    "at": [
+     3.812,
+     0.657
+    ],
+    "r": 0.55,
+    "label": "Agapanthus"
+   },
+   {
+    "at": [
+     4.947,
+     0.446
+    ],
+    "r": 0.52,
+    "label": "Viburnum"
+   },
+   {
+    "at": [
+     6.485,
+     1.041
+    ],
+    "r": 0.58,
+    "label": "Agapanthus"
+   },
+   {
+    "at": [
+     7.806,
+     0.954
+    ],
+    "r": 0.58,
+    "label": "Acer"
+   },
+   {
+    "at": [
+     8.258,
+     -0.25
+    ],
+    "r": 0.55,
+    "label": "Olive"
+   },
+   {
+    "at": [
+     8.363,
+     -1.496
+    ],
+    "r": 0.55,
+    "label": "Malus"
+   },
+   {
+    "at": [
+     3.737,
+     -1.166
+    ],
+    "r": 0.55,
+    "label": "Hydrangea"
+   },
+   {
+    "at": [
+     5.486,
+     -2.258
+    ],
+    "r": 0.55,
+    "label": "Hemerocallis"
+   },
+   {
+    "at": [
+     5.436,
+     -3.474
+    ],
+    "r": 0.55,
+    "label": "Cornus"
+   },
+   {
+    "at": [
+     5.856,
+     -7.251
+    ],
+    "r": 0.58,
+    "label": "Lemon (outside in summer)"
+   },
+   {
+    "at": [
+     6.129,
+     -8.224
+    ],
+    "r": 0.58,
+    "label": "Apple"
+   }
+  ],
+  "rear_window": {
+   "centre": [
+    8.949,
+    -15.078
+   ],
+   "width_m": 2.4,
+   "sill_m": 5.1,
+   "head_m": 7.05
+  }
+ },
+ "buildings": [
+  {
+   "ring": [
+    [
+     46.53,
+     56.45
+    ],
+    [
+     30.75,
+     32.55
+    ],
+    [
+     4.16,
+     40.21
+    ],
+    [
+     3.56,
+     66.88
+    ],
+    [
+     28.59,
+     76.9
+    ]
+   ],
+   "role": "context",
+   "eaves_m": 6.81,
+   "ridge_m": 9.51,
+   "label": "",
+   "osm_id": "189346244",
+   "eaves_m_role_default": 8.4,
+   "wall_top_m": 6.09,
+   "height_source": "EA 1 m nDSM, median of 1092 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -34.01,
+     50.11
+    ],
+    [
+     -33.9,
+     54.45
+    ],
+    [
+     -30.43,
+     54.93
+    ],
+    [
+     -30.77,
+     57.75
+    ],
+    [
+     -26.7,
+     58.22
+    ],
+    [
+     -26.37,
+     55.39
+    ],
+    [
+     -25.1,
+     55.54
+    ],
+    [
+     -24.59,
+     51.2
+    ]
+   ],
+   "role": "context",
+   "eaves_m": 6.72,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "189346245",
+   "eaves_m_role_default": 8.4,
+   "wall_top_m": 6.5,
+   "height_source": "EA 1 m nDSM, median of 14 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     45.65,
+     7.2
+    ],
+    [
+     47.03,
+     -2.61
+    ],
+    [
+     63.63,
+     -0.78
+    ],
+    [
+     62.52,
+     9.74
+    ]
+   ],
+   "role": "county_street_flat",
+   "eaves_m": 7.81,
+   "ridge_m": null,
+   "label": "65-69 County Street",
+   "osm_id": "456076831",
+   "eaves_m_role_default": 8.8,
+   "wall_top_m": 7.14,
+   "height_source": "EA 1 m nDSM, median of 121 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     45.65,
+     7.2
+    ],
+    [
+     40.41,
+     6.47
+    ],
+    [
+     42.41,
+     -9.71
+    ],
+    [
+     47.69,
+     -9.11
+    ],
+    [
+     47.03,
+     -2.61
+    ]
+   ],
+   "role": "county_street_flat",
+   "eaves_m": 6.37,
+   "ridge_m": 7.59,
+   "label": "70 County Street",
+   "osm_id": "456076832",
+   "eaves_m_role_default": 8.8,
+   "wall_top_m": 6.16,
+   "height_source": "EA 1 m nDSM, median of 85 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     40.41,
+     6.47
+    ],
+    [
+     34.85,
+     5.49
+    ],
+    [
+     35.31,
+     -2.82
+    ],
+    [
+     35.92,
+     -2.74
+    ],
+    [
+     36.42,
+     -10.39
+    ],
+    [
+     42.41,
+     -9.71
+    ]
+   ],
+   "role": "county_street_flat",
+   "eaves_m": 7.16,
+   "ridge_m": 9.03,
+   "label": "70a County Street",
+   "osm_id": "456076834",
+   "eaves_m_role_default": 8.8,
+   "wall_top_m": 6.27,
+   "height_source": "EA 1 m nDSM, median of 79 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     36.42,
+     -10.39
+    ],
+    [
+     11.39,
+     -13.87
+    ],
+    [
+     9.13,
+     2.58
+    ],
+    [
+     34.85,
+     5.49
+    ],
+    [
+     35.31,
+     -2.82
+    ],
+    [
+     35.92,
+     -2.74
+    ]
+   ],
+   "role": "county_street_flat",
+   "eaves_m": 6.94,
+   "ridge_m": 9.57,
+   "label": "71-73 County Street",
+   "osm_id": "456076836",
+   "eaves_m_role_default": 8.8,
+   "wall_top_m": 6.27,
+   "height_source": "EA 1 m nDSM, median of 358 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -3.14,
+     1.05
+    ],
+    [
+     -16.01,
+     -0.78
+    ],
+    [
+     -15.84,
+     -1.62
+    ],
+    [
+     -12.02,
+     -17.98
+    ],
+    [
+     -2.24,
+     -16.57
+    ],
+    [
+     -2.92,
+     -12.62
+    ],
+    [
+     -1.07,
+     -12.28
+    ]
+   ],
+   "role": "context",
+   "eaves_m": 8.33,
+   "ridge_m": 13.71,
+   "label": "",
+   "osm_id": "456076840",
+   "eaves_m_role_default": 8.4,
+   "wall_top_m": 7.55,
+   "height_source": "EA 1 m nDSM, median of 119 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -15.84,
+     -1.62
+    ],
+    [
+     -23.0,
+     -2.91
+    ],
+    [
+     -19.91,
+     -22.03
+    ],
+    [
+     -11.39,
+     -20.73
+    ],
+    [
+     -12.02,
+     -17.98
+    ]
+   ],
+   "role": "county_street",
+   "eaves_m": 6.59,
+   "ridge_m": 11.62,
+   "label": "81 County Street",
+   "osm_id": "456076841",
+   "eaves_m_role_default": 9.4,
+   "wall_top_m": 4.38,
+   "height_source": "EA 1 m nDSM, median of 127 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -23.0,
+     -2.91
+    ],
+    [
+     -28.17,
+     -3.76
+    ],
+    [
+     -26.0,
+     -22.72
+    ],
+    [
+     -19.91,
+     -22.03
+    ]
+   ],
+   "role": "county_street",
+   "eaves_m": 5.36,
+   "ridge_m": 11.49,
+   "label": "83 County Street",
+   "osm_id": "456076843",
+   "eaves_m_role_default": 9.4,
+   "wall_top_m": 4.14,
+   "height_source": "EA 1 m nDSM, median of 96 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -28.17,
+     -3.76
+    ],
+    [
+     -33.96,
+     -4.7
+    ],
+    [
+     -31.9,
+     -21.42
+    ],
+    [
+     -31.16,
+     -21.32
+    ],
+    [
+     -30.91,
+     -23.37
+    ],
+    [
+     -26.0,
+     -22.72
+    ]
+   ],
+   "role": "county_street",
+   "eaves_m": 6.88,
+   "ridge_m": 11.98,
+   "label": "85 County Street",
+   "osm_id": "456076844",
+   "eaves_m_role_default": 9.4,
+   "wall_top_m": 4.75,
+   "height_source": "EA 1 m nDSM, median of 97 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -33.96,
+     -4.7
+    ],
+    [
+     -40.29,
+     -5.8
+    ],
+    [
+     -39.04,
+     -17.69
+    ],
+    [
+     -38.28,
+     -24.61
+    ],
+    [
+     -33.75,
+     -24.12
+    ],
+    [
+     -34.06,
+     -21.71
+    ],
+    [
+     -31.9,
+     -21.42
+    ]
+   ],
+   "role": "county_street",
+   "eaves_m": 6.11,
+   "ridge_m": 12.06,
+   "label": "87 County Street",
+   "osm_id": "456076846",
+   "eaves_m_role_default": 9.4,
+   "wall_top_m": 4.83,
+   "height_source": "EA 1 m nDSM, median of 105 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -59.94,
+     -26.0
+    ],
+    [
+     -60.58,
+     -32.27
+    ],
+    [
+     -59.74,
+     -33.63
+    ],
+    [
+     -58.63,
+     -33.54
+    ],
+    [
+     -43.49,
+     -32.44
+    ],
+    [
+     -44.0,
+     -26.01
+    ],
+    [
+     -44.0,
+     -26.0
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 15.39,
+   "ridge_m": null,
+   "label": "157-159 New Kent Road",
+   "osm_id": "456076848",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 9.53,
+   "height_source": "EA 1 m nDSM, median of 98 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -40.29,
+     -5.8
+    ],
+    [
+     -56.96,
+     -7.33
+    ],
+    [
+     -58.18,
+     -8.8
+    ],
+    [
+     -59.94,
+     -26.0
+    ],
+    [
+     -44.0,
+     -26.0
+    ],
+    [
+     -44.3,
+     -22.15
+    ],
+    [
+     -46.75,
+     -21.78
+    ],
+    [
+     -46.27,
+     -15.85
+    ],
+    [
+     -43.23,
+     -16.05
+    ],
+    [
+     -42.86,
+     -18.29
+    ],
+    [
+     -39.04,
+     -17.69
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 15.34,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "456076848",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 12.63,
+   "height_source": "EA 1 m nDSM, median of 234 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     47.03,
+     -2.61
+    ],
+    [
+     58.74,
+     -1.45
+    ],
+    [
+     59.43,
+     -8.25
+    ],
+    [
+     64.75,
+     -7.73
+    ],
+    [
+     64.99,
+     -10.05
+    ],
+    [
+     47.95,
+     -11.74
+    ],
+    [
+     47.69,
+     -9.11
+    ]
+   ],
+   "role": "context",
+   "eaves_m": 2.77,
+   "ridge_m": 6.23,
+   "label": "",
+   "osm_id": "1203883898",
+   "eaves_m_role_default": 8.4,
+   "wall_top_m": 2.6,
+   "height_source": "EA 1 m nDSM, median of 80 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -44.0,
+     -26.01
+    ],
+    [
+     -43.88,
+     -26.0
+    ],
+    [
+     -41.06,
+     -26.0
+    ],
+    [
+     -40.81,
+     -29.28
+    ],
+    [
+     -38.47,
+     -29.07
+    ],
+    [
+     -37.73,
+     -35.79
+    ],
+    [
+     -43.2,
+     -35.96
+    ],
+    [
+     -43.49,
+     -32.44
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 8.81,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883899",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 5.03,
+   "height_source": "EA 1 m nDSM, median of 37 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -43.88,
+     -26.0
+    ],
+    [
+     -41.08,
+     -25.76
+    ],
+    [
+     -41.06,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 5.6,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883899",
+   "eaves_m_role_default": 5.6,
+   "height_source": "OSM role default - too little LiDAR cover to measure"
+  },
+  {
+   "ring": [
+    [
+     -38.47,
+     -29.07
+    ],
+    [
+     -37.88,
+     -29.02
+    ],
+    [
+     -38.11,
+     -26.0
+    ],
+    [
+     -33.55,
+     -26.0
+    ],
+    [
+     -33.32,
+     -27.51
+    ],
+    [
+     -32.4,
+     -35.63
+    ],
+    [
+     -37.73,
+     -35.79
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 8.87,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883900",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 3.22,
+   "height_source": "EA 1 m nDSM, median of 45 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -38.11,
+     -26.0
+    ],
+    [
+     -38.19,
+     -25.03
+    ],
+    [
+     -33.78,
+     -24.52
+    ],
+    [
+     -33.55,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 3.2,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883900",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 3.16,
+   "height_source": "EA 1 m nDSM, median of 4 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -33.32,
+     -27.51
+    ],
+    [
+     -25.21,
+     -26.64
+    ],
+    [
+     -24.06,
+     -35.37
+    ],
+    [
+     -25.51,
+     -35.42
+    ],
+    [
+     -32.4,
+     -35.63
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 11.11,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883901",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 11.04,
+   "height_source": "EA 1 m nDSM, median of 56 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -25.21,
+     -26.64
+    ],
+    [
+     -25.3,
+     -26.0
+    ],
+    [
+     -21.11,
+     -26.0
+    ],
+    [
+     -20.97,
+     -26.83
+    ],
+    [
+     -20.01,
+     -26.72
+    ],
+    [
+     -18.69,
+     -35.22
+    ],
+    [
+     -24.06,
+     -35.37
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 10.17,
+   "ridge_m": 11.78,
+   "label": "169 New Kent Road",
+   "osm_id": "1203883902",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 9.95,
+   "height_source": "EA 1 m nDSM, median of 40 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -25.3,
+     -26.0
+    ],
+    [
+     -25.71,
+     -23.03
+    ],
+    [
+     -21.72,
+     -22.47
+    ],
+    [
+     -21.11,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 4.77,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883902",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 3.11,
+   "height_source": "EA 1 m nDSM, median of 13 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -20.01,
+     -26.72
+    ],
+    [
+     -18.6,
+     -26.53
+    ],
+    [
+     -18.66,
+     -26.0
+    ],
+    [
+     -15.09,
+     -26.0
+    ],
+    [
+     -13.68,
+     -35.06
+    ],
+    [
+     -18.69,
+     -35.22
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 11.84,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883903",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 10.53,
+   "height_source": "EA 1 m nDSM, median of 44 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -18.66,
+     -26.0
+    ],
+    [
+     -19.11,
+     -22.12
+    ],
+    [
+     -15.77,
+     -21.62
+    ],
+    [
+     -15.09,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 8.85,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883903",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 8.77,
+   "height_source": "EA 1 m nDSM, median of 9 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -15.09,
+     -26.0
+    ],
+    [
+     -11.37,
+     -26.0
+    ],
+    [
+     -11.26,
+     -26.7
+    ],
+    [
+     -10.17,
+     -26.56
+    ],
+    [
+     -9.15,
+     -34.93
+    ],
+    [
+     -13.68,
+     -35.06
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 11.26,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883904",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 10.48,
+   "height_source": "EA 1 m nDSM, median of 40 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -15.09,
+     -26.0
+    ],
+    [
+     -15.77,
+     -21.62
+    ],
+    [
+     -12.14,
+     -21.14
+    ],
+    [
+     -11.37,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 3.93,
+   "ridge_m": 8.85,
+   "label": "",
+   "osm_id": "1203883904",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 3.36,
+   "height_source": "EA 1 m nDSM, median of 10 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -10.17,
+     -26.56
+    ],
+    [
+     -10.24,
+     -26.0
+    ],
+    [
+     -5.53,
+     -26.0
+    ],
+    [
+     -4.28,
+     -34.78
+    ],
+    [
+     -9.15,
+     -34.93
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 11.61,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883905",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 10.91,
+   "height_source": "EA 1 m nDSM, median of 44 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -10.24,
+     -26.0
+    ],
+    [
+     -10.91,
+     -20.75
+    ],
+    [
+     -6.37,
+     -20.09
+    ],
+    [
+     -5.53,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 6.81,
+   "ridge_m": 8.19,
+   "label": "",
+   "osm_id": "1203883905",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 6.25,
+   "height_source": "EA 1 m nDSM, median of 24 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -5.53,
+     -26.0
+    ],
+    [
+     1.57,
+     -26.0
+    ],
+    [
+     2.65,
+     -34.57
+    ],
+    [
+     -4.28,
+     -34.78
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 11.35,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883906",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 10.63,
+   "height_source": "EA 1 m nDSM, median of 57 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     -5.53,
+     -26.0
+    ],
+    [
+     -6.37,
+     -20.09
+    ],
+    [
+     -1.73,
+     -19.29
+    ],
+    [
+     -1.03,
+     -25.57
+    ],
+    [
+     1.48,
+     -25.29
+    ],
+    [
+     1.57,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 8.14,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883906",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 3.13,
+   "height_source": "EA 1 m nDSM, median of 17 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     1.57,
+     -26.0
+    ],
+    [
+     8.21,
+     -26.0
+    ],
+    [
+     8.94,
+     -34.38
+    ],
+    [
+     2.65,
+     -34.57
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 10.16,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883907",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 10.09,
+   "height_source": "EA 1 m nDSM, median of 44 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     1.57,
+     -26.0
+    ],
+    [
+     1.48,
+     -25.29
+    ],
+    [
+     3.77,
+     -25.02
+    ],
+    [
+     2.95,
+     -18.58
+    ],
+    [
+     7.5,
+     -17.91
+    ],
+    [
+     8.21,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 8.58,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883907",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 5.72,
+   "height_source": "EA 1 m nDSM, median of 31 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     8.21,
+     -26.0
+    ],
+    [
+     12.57,
+     -26.0
+    ],
+    [
+     13.3,
+     -34.25
+    ],
+    [
+     8.94,
+     -34.38
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 6.81,
+   "ridge_m": 10.24,
+   "label": "",
+   "osm_id": "1203883908",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 6.71,
+   "height_source": "EA 1 m nDSM, median of 26 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     8.21,
+     -26.0
+    ],
+    [
+     7.5,
+     -17.91
+    ],
+    [
+     7.4,
+     -16.56
+    ],
+    [
+     11.62,
+     -15.7
+    ],
+    [
+     11.72,
+     -16.3
+    ],
+    [
+     12.57,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 5.7,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883908",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 5.28,
+   "height_source": "EA 1 m nDSM, median of 38 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     12.57,
+     -26.0
+    ],
+    [
+     18.93,
+     -26.0
+    ],
+    [
+     19.57,
+     -34.06
+    ],
+    [
+     13.3,
+     -34.25
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 10.04,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883909",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 9.8,
+   "height_source": "EA 1 m nDSM, median of 45 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     12.57,
+     -26.0
+    ],
+    [
+     11.72,
+     -16.3
+    ],
+    [
+     15.68,
+     -15.61
+    ],
+    [
+     16.14,
+     -22.0
+    ],
+    [
+     18.6,
+     -21.85
+    ],
+    [
+     18.93,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 5.25,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883909",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 4.27,
+   "height_source": "EA 1 m nDSM, median of 41 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     18.93,
+     -26.0
+    ],
+    [
+     24.86,
+     -26.0
+    ],
+    [
+     25.17,
+     -33.89
+    ],
+    [
+     19.57,
+     -34.06
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 9.76,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883910",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 9.41,
+   "height_source": "EA 1 m nDSM, median of 42 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     18.93,
+     -26.0
+    ],
+    [
+     18.6,
+     -21.85
+    ],
+    [
+     18.19,
+     -15.01
+    ],
+    [
+     24.37,
+     -13.81
+    ],
+    [
+     24.86,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 3.54,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883910",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 3.45,
+   "height_source": "EA 1 m nDSM, median of 65 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     24.86,
+     -26.0
+    ],
+    [
+     30.7,
+     -26.0
+    ],
+    [
+     31.08,
+     -33.71
+    ],
+    [
+     25.17,
+     -33.89
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 9.78,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883911",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 9.56,
+   "height_source": "EA 1 m nDSM, median of 43 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     24.86,
+     -26.0
+    ],
+    [
+     24.37,
+     -13.81
+    ],
+    [
+     30.06,
+     -12.79
+    ],
+    [
+     30.7,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 3.84,
+   "ridge_m": 6.06,
+   "label": "",
+   "osm_id": "1203883911",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 3.55,
+   "height_source": "EA 1 m nDSM, median of 67 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     30.7,
+     -26.0
+    ],
+    [
+     36.47,
+     -26.0
+    ],
+    [
+     36.56,
+     -31.39
+    ],
+    [
+     36.59,
+     -33.55
+    ],
+    [
+     31.08,
+     -33.71
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 9.6,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883912",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 9.34,
+   "height_source": "EA 1 m nDSM, median of 36 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     30.7,
+     -26.0
+    ],
+    [
+     30.06,
+     -12.79
+    ],
+    [
+     36.28,
+     -11.78
+    ],
+    [
+     36.37,
+     -20.32
+    ],
+    [
+     36.47,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 2.75,
+   "ridge_m": 7.65,
+   "label": "",
+   "osm_id": "1203883912",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 2.12,
+   "height_source": "EA 1 m nDSM, median of 57 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     36.47,
+     -26.0
+    ],
+    [
+     47.21,
+     -26.0
+    ],
+    [
+     47.29,
+     -30.65
+    ],
+    [
+     42.37,
+     -30.73
+    ],
+    [
+     42.38,
+     -31.32
+    ],
+    [
+     41.28,
+     -31.34
+    ],
+    [
+     41.29,
+     -32.09
+    ],
+    [
+     37.89,
+     -32.15
+    ],
+    [
+     37.88,
+     -31.37
+    ],
+    [
+     36.56,
+     -31.39
+    ]
+   ],
+   "role": "new_kent",
+   "eaves_m": 11.71,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883913",
+   "eaves_m_role_default": 7.1,
+   "wall_top_m": 10.63,
+   "height_source": "EA 1 m nDSM, median of 27 above-ground cells in the footprint"
+  },
+  {
+   "ring": [
+    [
+     36.47,
+     -26.0
+    ],
+    [
+     36.37,
+     -20.32
+    ],
+    [
+     47.11,
+     -20.14
+    ],
+    [
+     47.21,
+     -26.0
+    ]
+   ],
+   "role": "new_kent_rear",
+   "eaves_m": 11.87,
+   "ridge_m": null,
+   "label": "",
+   "osm_id": "1203883913",
+   "eaves_m_role_default": 5.6,
+   "wall_top_m": 7.4,
+   "height_source": "EA 1 m nDSM, median of 43 above-ground cells in the footprint"
+  }
+ ],
+ "roads": [
+  {
+   "name": "NEW KENT ROAD",
+   "sub": "A201 · 28,404 vehicles/day (DfT 2025)",
+   "centreline": [
+    [
+     -60.0,
+     -47.5
+    ],
+    [
+     -40.0,
+     -51.18
+    ],
+    [
+     0.0,
+     -47.46
+    ],
+    [
+     20.0,
+     -41.44
+    ],
+    [
+     40.0,
+     -41.29
+    ],
+    [
+     60.0,
+     -41.07
+    ]
+   ],
+   "half_width_m": 8.5,
+   "footway_m": 3.4,
+   "label_offset_m": 0.0,
+   "traffic": {
+    "count_point_id": 46783,
+    "road": "A201",
+    "link": "A2 to Elephant and Castle",
+    "link_length_km": 1.1,
+    "count_point_offset_m": 259,
+    "year": 2025,
+    "estimation_method": "Estimated",
+    "aadt_all_motor_vehicles": 28404,
+    "by_class": {
+     "cars_and_taxis": 15329,
+     "lgv": 6239,
+     "hgv": 1510,
+     "buses_and_coaches": 2392,
+     "two_wheeled": 934
+    },
+    "pedal_cycles": 5133,
+    "heavy_share": 0.137,
+    "source": "https://roadtraffic.dft.gov.uk/ count point 46783"
+   }
+  },
+  {
+   "name": "COUNTY STREET",
+   "sub": "residential",
+   "centreline": [
+    [
+     -63.23,
+     -2.31
+    ],
+    [
+     -58.97,
+     -1.89
+    ],
+    [
+     -36.47,
+     0.74
+    ],
+    [
+     64.16,
+     15.56
+    ]
+   ],
+   "half_width_m": 3.6,
+   "footway_m": 1.8,
+   "label_offset_m": 19.0,
+   "traffic": {
+    "count_point_id": null,
+    "road": "unclassified",
+    "year": null,
+    "aadt_all_motor_vehicles": null,
+    "note": "No DfT count point. County Street is a residential street serving the terrace and is not a through route; its flow is small beside the A201 but it is the nearer road to the front elevation."
+   }
+  }
+ ],
+ "sources": [
+  {
+   "key": "existing_173",
+   "east_m": -11.6,
+   "north_m": -21.0,
+   "outlet_m": 10.0,
+   "base_m": 2.4,
+   "radius_m": 0.3,
+   "default_on": true,
+   "evidence_status": "reported operational; visible plume documented in supplied site media"
+  },
+  {
+   "key": "permitted_183",
+   "east_m": 9.14,
+   "north_m": -16.57,
+   "outlet_m": 8.49,
+   "base_m": 1.55,
+   "radius_m": 0.28,
+   "default_on": false,
+   "evidence_status": "installed; operation reported paused"
+  },
+  {
+   "key": "chicky_163",
+   "east_m": -40.7,
+   "north_m": -25.5,
+   "outlet_m": 7.1,
+   "base_m": 2.4,
+   "radius_m": 0.28,
+   "default_on": false,
+   "evidence_status": "photo-observed context outlet; premise assignment and geometry provisional"
+  }
+ ],
+ "weather_stations": [
+  {
+   "key": "tempest_roof",
+   "label": "Tempest weather station",
+   "latitude": 51.49448956457452,
+   "longitude": -0.09173226134409403,
+   "east_m": 8.08,
+   "north_m": -10.84,
+   "render_east_m": 6.85,
+   "render_north_m": -13.17,
+   "render_u_m": 8.15,
+   "render_v_m": 15.35,
+   "mount_style": "universal_wall_mount",
+   "mount_anchor_east_m": 6.49,
+   "mount_anchor_north_m": -13.22,
+   "mount_anchor_u_m": 7.79,
+   "mount_anchor_v_m": 15.35,
+   "sensor_height_m": 9.72,
+   "mast_base_m": 8.95,
+   "installed_date_local": "2026-08-12",
+   "position_provenance": "WGS84 GPS position supplied by the site owner on 12 August 2026; not surveyed. Raw local position is retained in east_m/north_m.",
+   "render_position_provenance": "User/photo-corrected on 13 August 2026: north of and aligned with unit 1, on the western wall section between the greenhouse and south wall. The universal mount is anchored on that west wall and projects to the sensor head.",
+   "height_provenance": "Sensor head approximately five feet (1.52 m) above the local terrace deck, confirmed by the site owner on 13 August 2026; approximate and not used analytically.",
+   "evidence": "Installation photograph supplied 12 August 2026."
+  }
+ ],
+ "monitors": [
+  {
+   "key": "M1_courtyard",
+   "unit": "1",
+   "position": "courtyard",
+   "label": "Side courtyard - ground level",
+   "height_m": 1.52,
+   "mount_base_m": 0.0,
+   "environment": "outdoor courtyard",
+   "raw_gps_east_m": -2.55,
+   "raw_gps_north_m": 1.1,
+   "east_m": -2.55,
+   "north_m": 1.1,
+   "position_provenance": "GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
+   "latitude": 51.49459752908327,
+   "longitude": -0.09188556478327002,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 23.88,
+     "slant_m": 25.34,
+     "monitor_above_outlet_m": -8.48,
+     "bearing_from_source_deg": 22.3
+    },
+    "permitted_183": {
+     "horizontal_m": 21.19,
+     "slant_m": 22.3,
+     "monitor_above_outlet_m": -6.97,
+     "bearing_from_source_deg": 326.5
+    },
+    "chicky_163": {
+     "horizontal_m": 46.51,
+     "slant_m": 46.84,
+     "monitor_above_outlet_m": -5.58,
+     "bearing_from_source_deg": 55.1
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 37.6,
+     "monitor_above_kerb_m": 1.52
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 202.3,
+    "permitted_183": 146.5,
+    "chicky_163": 235.1
+   }
+  },
+  {
+   "key": "M2_terrace_west",
+   "unit": "4",
+   "position": "terrace_west",
+   "label": "Roof terrace - southern edge of west section",
+   "height_m": 9.72,
+   "mount_base_m": 8.2,
+   "environment": "outdoor roof terrace",
+   "raw_gps_east_m": 0.71,
+   "raw_gps_north_m": -7.21,
+   "east_m": 0.91,
+   "north_m": -8.82,
+   "building_u_m": 2.8,
+   "building_v_m": 10.3,
+   "position_provenance": "User-corrected scene position supplied by the site owner, 13 August 2026; original 10 August handheld GPS fix retained separately; not surveyed.",
+   "latitude": 51.49452238296899,
+   "longitude": -0.09183862612410243,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 17.46,
+     "slant_m": 17.46,
+     "monitor_above_outlet_m": -0.28,
+     "bearing_from_source_deg": 45.8
+    },
+    "permitted_183": {
+     "horizontal_m": 11.3,
+     "slant_m": 11.37,
+     "monitor_above_outlet_m": 1.23,
+     "bearing_from_source_deg": 313.3
+    },
+    "chicky_163": {
+     "horizontal_m": 44.83,
+     "slant_m": 44.91,
+     "monitor_above_outlet_m": 2.62,
+     "bearing_from_source_deg": 68.2
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 27.68,
+     "monitor_above_kerb_m": 9.72
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 225.8,
+    "permitted_183": 133.3,
+    "chicky_163": 248.2
+   }
+  },
+  {
+   "key": "M3_terrace_southeast",
+   "unit": "3",
+   "position": "terrace_impact",
+   "label": "Roof terrace - retained south-wall position",
+   "height_m": 9.72,
+   "mount_base_m": 8.2,
+   "environment": "outdoor roof terrace",
+   "raw_gps_east_m": 9.91,
+   "raw_gps_north_m": -12.33,
+   "east_m": 7.99,
+   "north_m": -14.24,
+   "building_u_m": 9.15,
+   "building_v_m": 16.55,
+   "position_provenance": "User-corrected scene position supplied by the site owner, 13 August 2026; original 10 August handheld GPS fix retained separately; not surveyed.",
+   "latitude": 51.494476042803875,
+   "longitude": -0.09170585677982707,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 20.72,
+     "slant_m": 20.73,
+     "monitor_above_outlet_m": -0.28,
+     "bearing_from_source_deg": 71.0
+    },
+    "permitted_183": {
+     "horizontal_m": 2.6,
+     "slant_m": 2.87,
+     "monitor_above_outlet_m": 1.23,
+     "bearing_from_source_deg": 333.7
+    },
+    "chicky_163": {
+     "horizontal_m": 49.98,
+     "slant_m": 50.04,
+     "monitor_above_outlet_m": 2.62,
+     "bearing_from_source_deg": 77.0
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 22.26,
+     "monitor_above_kerb_m": 9.72
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 251.0,
+    "permitted_183": 153.7,
+    "chicky_163": 257.0
+   }
+  },
+  {
+   "key": "M4_neighbour_terrace",
+   "unit": "2",
+   "position": "neighbour_terrace",
+   "label": "Neighbouring terrace, County Street",
+   "height_m": 14.13,
+   "mount_base_m": 12.61,
+   "environment": "outdoor roof terrace",
+   "raw_gps_east_m": -44.42,
+   "raw_gps_north_m": -11.5,
+   "east_m": -44.42,
+   "north_m": -11.5,
+   "position_provenance": "GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
+   "latitude": 51.49448355742755,
+   "longitude": -0.09248973236258659,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 34.17,
+     "slant_m": 34.42,
+     "monitor_above_outlet_m": 4.13,
+     "bearing_from_source_deg": 286.1
+    },
+    "permitted_183": {
+     "horizontal_m": 53.8,
+     "slant_m": 54.09,
+     "monitor_above_outlet_m": 5.64,
+     "bearing_from_source_deg": 275.4
+    },
+    "chicky_163": {
+     "horizontal_m": 14.49,
+     "slant_m": 16.1,
+     "monitor_above_outlet_m": 7.03,
+     "bearing_from_source_deg": 345.1
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 25.0,
+     "monitor_above_kerb_m": 14.13
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 106.1,
+    "permitted_183": 95.4,
+    "chicky_163": 165.1
+   }
+  },
+  {
+   "key": "M5_bedroom",
+   "unit": "5",
+   "position": "bedroom",
+   "label": "Rear bedroom - indoor",
+   "height_m": 5.8,
+   "mount_base_m": 4.28,
+   "environment": "indoor rear bedroom",
+   "raw_gps_east_m": 5.03,
+   "raw_gps_north_m": -9.06,
+   "east_m": 5.03,
+   "north_m": -9.06,
+   "position_provenance": "GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
+   "latitude": 51.49450568381552,
+   "longitude": -0.09177626476522943,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 20.47,
+     "slant_m": 20.9,
+     "monitor_above_outlet_m": -4.2,
+     "bearing_from_source_deg": 54.3
+    },
+    "permitted_183": {
+     "horizontal_m": 8.56,
+     "slant_m": 8.97,
+     "monitor_above_outlet_m": -2.69,
+     "bearing_from_source_deg": 331.3
+    },
+    "chicky_163": {
+     "horizontal_m": 48.6,
+     "slant_m": 48.61,
+     "monitor_above_outlet_m": -1.3,
+     "bearing_from_source_deg": 70.2
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 27.44,
+     "monitor_above_kerb_m": 5.8
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 234.3,
+    "permitted_183": 151.3,
+    "chicky_163": 250.2
+   }
+  }
+ ],
+ "monitor_states": {
+  "colocation": {
+   "label": "5-9 August co-location: four outdoor units",
+   "status": "Four outdoor units approximately five feet above the south-facing terrace/deck. From the right-hand end of the primary view: units 1, 2, 3 and 4. Spacing remains illustrative. Unit 5 was indoors throughout.",
+   "colocated_units": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "view_order_right_to_left": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "indoor_units": [
+    "5"
+   ],
+   "positions": {
+    "1": {
+     "east_m": 7.0,
+     "north_m": -14.36,
+     "building_u_m": 8.15,
+     "building_v_m": 16.55,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor south-facing terrace balustrade",
+     "colocated": true,
+     "view_order_right_to_left": 1
+    },
+    "2": {
+     "east_m": 7.49,
+     "north_m": -14.3,
+     "building_u_m": 8.65,
+     "building_v_m": 16.55,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor south-facing terrace balustrade",
+     "colocated": true,
+     "view_order_right_to_left": 2
+    },
+    "3": {
+     "east_m": 7.99,
+     "north_m": -14.24,
+     "building_u_m": 9.15,
+     "building_v_m": 16.55,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor south-facing terrace balustrade",
+     "colocated": true,
+     "view_order_right_to_left": 3
+    },
+    "4": {
+     "east_m": 8.48,
+     "north_m": -14.18,
+     "building_u_m": 9.65,
+     "building_v_m": 16.55,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor south-facing terrace balustrade",
+     "colocated": true,
+     "view_order_right_to_left": 4
+    },
+    "5": {
+     "east_m": 5.03,
+     "north_m": -9.06,
+     "height_m": 5.8,
+     "mount_base_m": 4.28,
+     "environment": "indoor - rear bedroom, inside the home",
+     "colocated": false,
+     "note": "Indoor-model instrument, indoors throughout the export window. Confirmed by the site owner and independently supported by the data: it lags the outdoor units by about an hour, its temperature and PM2.5 ranges are damped, and it retains 85% of their 0.3 um particle count while reporting 44% of their PM2.5 mass - the coarse-mode removal expected across a building envelope. It is not a faulty outdoor unit."
+    }
+   }
+  },
+  "deployment": {
+   "label": "proposed deployment",
+   "status": "Unit 3 retained at its current south-wall position and unit 4 corrected to the southern edge of its west-terrace location; remaining plan positions are GPS placeholders pending final deployment photographs.",
+   "positions": {
+    "1": {
+     "east_m": -2.55,
+     "north_m": 1.1,
+     "height_m": 1.52,
+     "mount_base_m": 0.0,
+     "environment": "outdoor courtyard",
+     "label": "Side courtyard - ground level",
+     "building_u_m": null,
+     "building_v_m": null
+    },
+    "4": {
+     "east_m": 0.91,
+     "north_m": -8.82,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor roof terrace",
+     "label": "Roof terrace - southern edge of west section",
+     "building_u_m": 2.8,
+     "building_v_m": 10.3
+    },
+    "3": {
+     "east_m": 7.99,
+     "north_m": -14.24,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor roof terrace",
+     "label": "Roof terrace - retained south-wall position",
+     "building_u_m": 9.15,
+     "building_v_m": 16.55
+    },
+    "2": {
+     "east_m": -44.42,
+     "north_m": -11.5,
+     "height_m": 14.13,
+     "mount_base_m": 12.61,
+     "environment": "outdoor roof terrace",
+     "label": "Neighbouring terrace, County Street",
+     "building_u_m": null,
+     "building_v_m": null
+    },
+    "5": {
+     "east_m": 5.03,
+     "north_m": -9.06,
+     "height_m": 5.8,
+     "mount_base_m": 4.28,
+     "environment": "indoor rear bedroom",
+     "label": "Rear bedroom - indoor",
+     "building_u_m": null,
+     "building_v_m": null
+    }
+   }
+  }
+ }
+}

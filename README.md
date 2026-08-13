@@ -11,26 +11,31 @@ site geometry and supplied photographs in one self-contained page.
 - compare the latest and historic AirGradient records;
 - select the outdoor average or an individual monitor;
 - inspect the wind at the selected time;
+- play or scrub the five-minute record while the PM graph and wind rose remain visible;
 - compare the co-location and proposed deployment layouts;
 - check the photographs and spatial assumptions behind the model.
 
 ## Read this first
 
-The plume is off by default. If selected, it is an illustration driven by the
-chosen wind and an assumed operating profile—not measured emissions, a CFD
-result, or proof that an outlet was operating. Unit 5 is indoors and is interpreted on its own scale. Outlet
-locations, monitor heights and proposed positions are approximate rather than
-surveyed.
+The plume is on by default because exploring its wind-driven movement is a main
+purpose of the model. It remains an illustration driven by the chosen wind and
+an assumed operating profile—not measured emissions, a CFD result, or proof
+that an outlet was operating—and can be switched off under Layers. Unit 5 is
+indoors and is interpreted on its own scale. Outlet locations, monitor heights
+and proposed positions are approximate rather than surveyed.
 
-The published page is a static snapshot, not a live API connection. Its
-interface shows the latest timestamp included in the snapshot in London local
-time (BST/GMT).
+The page is rebuilt from both provider APIs every ten minutes. It is still a
+static publication artifact rather than a browser-to-provider connection: API
+observations themselves can arrive several minutes behind real time, and
+scheduled GitHub runs can occasionally be delayed. The interface always shows
+the actual latest timestamp included, in London local time (BST/GMT).
 
 ## Publication boundary
 
-This repository contains only the generated publication page and required
-attribution. API credentials, provider IDs and instrument serial numbers are
-not included. The precise site context, supplied photographs and indoor Unit 5
-record are published with the site owner's approval.
+This repository contains the generated publication page and the stripped source
+needed to reproduce its scheduled refresh. API credentials, provider IDs,
+instrument serial numbers, the private monitor registry and rolling databases
+are not included. The precise site context, supplied photographs and indoor
+Unit 5 record are published with the site owner's approval.
 
 See [NOTICE.md](NOTICE.md) for data, image and software attribution.

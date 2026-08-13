@@ -1,4 +1,16 @@
 .DS_Store
 Thumbs.db
-*** Add File: /home/willh/projects/covent-garden-air-quality/docs/.nojekyll
 
+# Live collector credentials and rolling runtime archives
+live/monitoring-2026/.airgradient.env*
+live/monitoring-2026/.tempest.env*
+live/monitoring-2026/data/airgradient/
+live/monitoring-2026/data/tempest/
+live/monitoring-2026/data/airgradient_monitor_registry.csv
+live/monitoring-2026/outputs/airgradient/
+live/monitoring-2026/outputs/tempest/
+live/digital-twin-v4/scene/airgradient_current.json
+live/digital-twin-v4/scene/tempest_weather.json
+live/digital-twin-v4/coventg_evening_scene.html
+__pycache__/
+*.py[cod]

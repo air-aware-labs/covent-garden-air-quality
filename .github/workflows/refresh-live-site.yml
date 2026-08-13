@@ -1,0 +1,141 @@
+name: Refresh live air-quality site
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Provider observations arrive a few minutes behind real time. A ten-minute
+    # rebuild keeps the site current without pretending the feeds are instant.
+    - cron: "*/10 * * * *"
+
+concurrency:
+  group: covent-garden-live-site
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: vars.LIVE_SITE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    env:
+      TEMPEST_TOKEN: ${{ secrets.TEMPEST_TOKEN }}
+      TEMPEST_STATION_ID: ${{ secrets.TEMPEST_STATION_ID }}
+      TEMPEST_DEVICE_ID: ${{ secrets.TEMPEST_DEVICE_ID }}
+      AIRGRADIENT_TOKEN: ${{ secrets.AIRGRADIENT_TOKEN }}
+      AIRGRADIENT_LOCATION_IDS: ${{ secrets.AIRGRADIENT_LOCATION_IDS }}
+      AIRGRADIENT_REGISTRY_B64: ${{ secrets.AIRGRADIENT_REGISTRY_B64 }}
+    steps:
+      - name: Check out the public-safe builder
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the image builder dependency
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Restore the private monitor registry
+        shell: bash
+        run: |
+          test -n "$AIRGRADIENT_REGISTRY_B64"
+          mkdir -p live/monitoring-2026/data
+          printf '%s' "$AIRGRADIENT_REGISTRY_B64" | base64 --decode > live/monitoring-2026/data/airgradient_monitor_registry.csv
+
+      - name: Set the daily archive cache key
+        id: cache-date
+        shell: bash
+        run: echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore rolling provider archives
+        uses: actions/cache@v4
+        with:
+          path: |
+            live/monitoring-2026/data/tempest
+            live/monitoring-2026/data/airgradient
+          key: coventg-provider-archives-${{ steps.cache-date.outputs.date }}
+          restore-keys: coventg-provider-archives-
+
+      - name: Refresh both APIs and rebuild
+        shell: bash
+        working-directory: live/monitoring-2026
+        run: |
+          set +e
+          python scripts/update_tempest_twin.py --airgradient > "$RUNNER_TEMP/refresh.log" 2>&1
+          status=$?
+          set -e
+          if [ "$status" -ne 0 ]; then
+            sed -E 's/[0-9a-f]{12}/[device]/g; s/[0-9]{6}/[location]/g' "$RUNNER_TEMP/refresh.log"
+            exit "$status"
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          aq = json.loads(Path("outputs/airgradient/airgradient_current_5min.json").read_text())
+          weather = json.loads(Path("outputs/tempest/tempest_5min.json").read_text())
+          print("AirGradient latest UTC:", aq["latest_observation_utc"])
+          print("Tempest latest UTC:", weather["latest"]["bucket_start_utc"])
+          PY
+
+      - name: Verify the generated page is credential-free
+        shell: bash
+        working-directory: live
+        run: |
+          python - <<'PY'
+          import base64
+          import csv
+          import io
+          import os
+          from pathlib import Path
+
+          page = Path("digital-twin-v4/coventg_evening_scene.html").read_text()
+          registry = base64.b64decode(os.environ["AIRGRADIENT_REGISTRY_B64"]).decode("utf-8-sig")
+          rows = list(csv.DictReader(io.StringIO(registry)))
+          private_values = [
+              os.environ.get("TEMPEST_TOKEN", ""),
+              os.environ.get("TEMPEST_STATION_ID", ""),
+              os.environ.get("TEMPEST_DEVICE_ID", ""),
+              os.environ.get("AIRGRADIENT_TOKEN", ""),
+              *os.environ.get("AIRGRADIENT_LOCATION_IDS", "").split(","),
+              *(row.get("location_id", "") for row in rows),
+              *(row.get("serial_number", "") for row in rows),
+          ]
+          leaked = [value for value in private_values if len(value.strip()) >= 4 and value.strip() in page]
+          if leaked:
+              raise SystemExit("Generated page contains a private provider identifier")
+          print("Public-page privacy checks passed")
+          PY
+
+      - name: Build the Pages artifact
+        shell: bash
+        run: |
+          mkdir -p _site
+          cp live/digital-twin-v4/coventg_evening_scene.html _site/index.html
+          cp live/digital-twin-v4/scene/THREE-LICENSE.txt _site/THREE-LICENSE.txt
+          touch _site/.nojekyll
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: vars.LIVE_SITE_ENABLED == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
