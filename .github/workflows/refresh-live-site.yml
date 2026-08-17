@@ -3,9 +3,17 @@ name: Refresh live air-quality site
 on:
   workflow_dispatch:
   schedule:
-    # Provider observations arrive a few minutes behind real time. A ten-minute
-    # rebuild keeps the site current without pretending the feeds are instant.
-    - cron: "*/10 * * * *"
+    # Four rebuilds a day, at 00:07 / 06:07 / 12:07 / 18:07 UTC. The evidence
+    # this page carries is a multi-day record read at five-minute resolution, so
+    # what it needs is to stay current within the working day, not within the
+    # hour; a ten-minute rebuild spent a run every ten minutes to move the last
+    # point along. Both providers backfill, so each run still collects every
+    # five-minute observation since the last one — the record stays complete,
+    # only its leading edge is older. Offset off the hour because GitHub's
+    # scheduler is most congested there and defers runs it cannot start.
+    #
+    # Use workflow_dispatch for an immediate rebuild (a site visit, a demo).
+    - cron: "7 */6 * * *"
 
 concurrency:
   group: covent-garden-live-site

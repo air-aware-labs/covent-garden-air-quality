@@ -24,11 +24,15 @@ that an outlet was operating—and can be switched off under Layers. Unit 5 is
 indoors and is interpreted on its own scale. Outlet locations, monitor heights
 and proposed positions are approximate rather than surveyed.
 
-The page is rebuilt from both provider APIs every ten minutes. It is still a
-static publication artifact rather than a browser-to-provider connection: API
-observations themselves can arrive several minutes behind real time, and
+The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
+06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation
+recorded since the previous one, so the record itself stays complete and at full
+resolution—it is the most recent hours that can be missing, by up to six. It is
+also a static publication artifact rather than a browser-to-provider connection:
+API observations themselves can arrive several minutes behind real time, and
 scheduled GitHub runs can occasionally be delayed. The interface always shows
-the actual latest timestamp included, in London local time (BST/GMT).
+the actual latest timestamp included, in London local time (BST/GMT), so what is
+on the page is never in doubt.
 
 ## Publication boundary
 
