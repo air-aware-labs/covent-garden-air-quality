@@ -133,8 +133,9 @@ def main() -> None:
                 "bamboo screen at the farther 81a plot, beyond the intervening house. The "
                 "screen stands on the ridge of a pitched roof whose panels are fixed flush "
                 "to it, so the array carries the roof's own angle. The raised garden is behind, "
-                "the run stops at the light-brick gabled house on its left, and the plot west of "
-                "it repeats the same house format. Plan position and height remain approximate."
+                "and the run stops at the light-brick gabled house on its left. That house now "
+                "meets the adjoining western house and has a simple two-window rear facade; the "
+                "window positions, plan position and height remain approximate."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (6).jpeg"

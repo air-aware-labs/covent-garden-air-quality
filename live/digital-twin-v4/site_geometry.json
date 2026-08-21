@@ -2190,8 +2190,8 @@
    ],
    "suppress_lidar_ring": [
     [
-     -23.85,
-     -2.7
+     -28.55,
+     -3.55
     ],
     [
      -16.0,
@@ -2206,12 +2206,12 @@
      -12.75
     ],
     [
-     -21.25,
-     -13.4
+     -26.95,
+     -13.05
     ],
     [
-     -23.4,
-     -11.0
+     -27.3,
+     -10.8
     ]
    ],
    "wall_top_m": 4.38,
@@ -2270,8 +2270,8 @@
     {
      "ring": [
       [
-       -23.61,
-       -3.6
+       -28.1,
+       -4.31
       ],
       [
        -20.89,
@@ -2282,8 +2282,8 @@
        -11.37
       ],
       [
-       -22.31,
-       -11.8
+       -26.8,
+       -12.51
       ]
      ],
      "base_m": 0.0,
@@ -2293,15 +2293,37 @@
    ],
    "gable": {
     "centre": [
-     -21.6,
-     -7.49
+     -23.85,
+     -7.84
     ],
     "width_m": 8.3,
-    "depth_m": 2.75,
+    "depth_m": 7.3,
     "eaves_m": 7.65,
     "rise_m": 0.95,
     "yaw_deg": -81.0
    },
+   "rear_windows": [
+    {
+     "centre": [
+      -24.49,
+      -12.15
+     ],
+     "centre_height_m": 5.55,
+     "width_m": 1.8,
+     "height_m": 2.2,
+     "yaw_deg": 9.0
+    },
+    {
+     "centre": [
+      -21.9,
+      -11.73
+     ],
+     "centre_height_m": 5.55,
+     "width_m": 1.8,
+     "height_m": 2.2,
+     "yaw_deg": 9.0
+    }
+   ],
    "bamboo_screen": {
     "from": [
      -21.32,
@@ -2349,7 +2371,7 @@
     }
    ],
    "screening_note": "The panels are fixed flush to the pitched roof on the source-facing south side of the bamboo screen, so they carry the roof's own 30 degree angle. The garden is set back on the higher 8.20 m deck to the north. The screen therefore interrupts the lower direct view toward the 173 flue.",
-   "house_relationship_note": "The light-brick gabled 81a house runs down the west party wall and is immediately to the left of the screen in the installation view. The bamboo run terminates at the house instead of wrapping around or continuing across the solar roof.",
+   "house_relationship_note": "The light-brick gabled 81a house keeps its screen-side wall fixed and extends west to share a party wall with the adjoining house. Its broad south rear wall carries two large windows so it reads as a house rather than a detached blank slab. The bamboo run still terminates at the house instead of wrapping around or continuing across the solar roof.",
    "provenance": "The 81/81a OSM plot and Environment Agency 1 m LiDAR context. The pitched solar roof, house, terminating screen and raised garden are read from the 19 August photographs and set out on the plot grid after the site owner's 21 August corrections; approximate, not surveyed."
   },
   {

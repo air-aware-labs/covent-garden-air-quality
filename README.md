@@ -27,6 +27,8 @@ mounting surfaces are confirmed in the supplied 19 August photographs and the
 21 August site correction: units 1 and 4 share the timber rail beside Tempest;
 unit 2 is on 81a's terminating bamboo screen, standing on the ridge of a pitched
 solar roof with the raised garden behind, all set out on the plot's own grid;
+the 81a house keeps that screen-side edge, extends to the adjoining western
+house, and has a simple two-window rear facade;
 unit 3 is on the east-facing rail of the single communal deck-access gallery
 south of the adjacent private home; and unit 5 remains indoors.
 

@@ -1101,6 +1101,11 @@
         extrude(group, volume.ring, volume.base_m, volume.top_m, material);
         extrude(group, volume.ring, volume.top_m, volume.top_m + 0.09, roof);
       });
+      (home.rear_windows || []).forEach(function (cfg) {
+        facadeWindow(group, cfg.centre[0], cfg.centre[1], cfg.centre_height_m,
+                     cfg.width_m, cfg.height_m, cfg.yaw_deg * Math.PI / 180,
+                     0x805d3f);
+      });
 
       if (home.key === "intervening_neighbour_76") {
         gableRoof(group, -9.80, -4.25, 10.65, 7.55, 12.45, 1.25, -0.12);
@@ -1122,8 +1127,9 @@
                     home.gable.width_m, home.gable.depth_m, home.gable.eaves_m,
                     home.gable.rise_m, home.gable.yaw_deg * Math.PI / 180);
         }
-        // The garden deck sits above the house eaves, so the blank gabled flank
-        // wall is what the garden actually looks at - no window reads from here.
+        // The screen-side edge stays fixed, while the house now reaches the
+        // adjoining western building. Its two large windows are data-driven
+        // above, on the newly exposed broad south/rear wall.
         planter(group, -20.69, -7.46, home.deck_m, 0.80, 0.36);
         planter(group, -19.29, -6.81, home.deck_m, 0.66, 0.71);
         planter(group, -18.04, -6.71, home.deck_m, 0.72, 0.54);
@@ -2298,10 +2304,10 @@
     // From the north-east. The obvious framing is from the flue side, but the
     // 173 outlet is only 11 m from unit 2, so any south-easterly camera stands
     // almost on top of the stack and its label swallows the roof.
-    // From the south-west, the way the installation photographs were taken: the
-    // panelled belt in front, the screen across it, the raised garden behind and
-    // the gabled house on the left.
-    home81a: { t: new THREE.Vector3(-19.4, 8.7, 8.9), r: 16.5, phi: 0.70, th: 5.30 },
+    // From farther south-west than the installation close-ups: the broad rear
+    // wall and both windows now fit below the roof, while the panels, screen,
+    // garden and shared party wall remain legible in one view.
+    home81a: { t: new THREE.Vector3(-22.3, 7.1, 9.8), r: 26.5, phi: 1.20, th: 6.05 },
     // From the south, so the communal rail reads where it is - outboard of and
     // below the private terrace, not on it.
     // From the east, over the private roof garden: the gallery rail faces this
