@@ -40,6 +40,7 @@ HISTORIC = ROOT / "outputs" / "observations.json"
 OUT_JSON = ROOT / "outputs" / "airgradient" / "airgradient_current_5min.json"
 OUT_CSV = ROOT / "outputs" / "airgradient" / "airgradient_current_5min.csv"
 SCENE_OUT = ROOT.parent / "digital-twin-v4" / "scene" / "airgradient_current.json"
+SITE_GEOMETRY = ROOT.parent / "digital-twin-v4" / "site_geometry.json"
 
 STEP_SECONDS = 300
 EXPECTED_DATAPOINTS = 5
@@ -170,6 +171,24 @@ def load_registry(path: Path = REGISTRY) -> list[Monitor]:
     if len(keys) != len(monitors) or len(units) != len(monitors):
         raise ValueError("AirGradient monitor registry has duplicate identity or unit entries")
     return sorted(monitors, key=lambda monitor: int(monitor.unit))
+
+
+def load_scene_deployment_status(path: Path = SITE_GEOMETRY) -> dict[str, str]:
+    """Read public-safe installed/proposed state from the scene geometry.
+
+    The private provider registry establishes instrument identity. Geometry is
+    the authority for physical placement so a cached GitHub Actions registry
+    cannot make a confirmed installation appear provisional again.
+    """
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    positions = payload.get("monitor_states", {}).get("deployment", {}).get("positions", {})
+    return {
+        str(unit): str(position.get("deployment_status", "")).strip()
+        for unit, position in positions.items()
+        if str(position.get("deployment_status", "")).strip()
+    }
 
 
 def historic_last_bucket(path: Path = HISTORIC) -> int | None:
@@ -350,10 +369,12 @@ def build_payload(
     historic_last: int | None,
     alignment: Mapping[str, object] | None = None,
     now_epoch: int | None = None,
+    deployment_status_by_unit: Mapping[str, str] | None = None,
 ) -> tuple[dict[str, object] | None, list[dict[str, object]], dict[str, int]]:
     """Return sanitized scene payload, long five-minute rows, and import counts."""
 
     by_identity = {(m.location_id, m.serial_number): m for m in monitors}
+    scene_status = dict(deployment_status_by_unit or {})
     buckets: dict[int, dict[str, list[Mapping[str, object]]]] = defaultdict(
         lambda: defaultdict(list)
     )
@@ -430,7 +451,7 @@ def build_payload(
                     "bucket_end_utc": iso_utc(bucket + STEP_SECONDS),
                     "unit": unit,
                     "location_type": monitor.location_type,
-                    "deployment_status": monitor.deployment_status,
+                    "deployment_status": scene_status.get(unit, monitor.deployment_status),
                     "source_code": source,
                     "quality_code": qcode,
                     "coverage_fraction": "" if fraction is None else fraction,
@@ -489,6 +510,10 @@ def build_payload(
         "source_code": source_code,
         **measurement_arrays,
         "correction_register": correction_register,
+        "deployment_status": {
+            monitor.unit: scene_status.get(monitor.unit, monitor.deployment_status)
+            for monitor in monitors
+        },
         "timestamp_alignment": alignment_summary,
         "provenance": {
             "source": INPUT.name,
@@ -503,8 +528,9 @@ def build_payload(
                 None if historic_last is None else iso_utc(historic_last)
             ),
             "placement": (
-                "AQ values identify instruments. Scene deployment positions remain proposed "
-                "until final photographs and tape measurements replace the provisional geometry."
+                "AQ values identify instruments by stable local unit number. The installed "
+                "scene hosts and mounts were confirmed by the 19 August 2026 photographs; "
+                "their plan positions and heights remain approximate rather than surveyed."
             ),
         },
     }
@@ -573,6 +599,7 @@ def main() -> int:
         monitors,
         historic_last_bucket(),
         alignment=alignment,
+        deployment_status_by_unit=load_scene_deployment_status(),
     )
     if payload is None:
         removed = clear_outputs()

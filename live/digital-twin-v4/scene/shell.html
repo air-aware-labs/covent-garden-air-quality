@@ -657,7 +657,7 @@ body:has(#top:not(.collapsed)) #compass{top:222px}
   <div class="eyebrow">Air Aware Labs · Covent Garden Plants</div>
   <h1>Covent Garden air-quality site model</h1>
   <p>Explore five-minute PM₂.₅ readings and roof weather around 74–75 County Street.
-  Choose a data period and monitor, compare the co-location and proposed layouts, and
+  Choose a data period and monitor, explore the installed network or its historic co-location, and
   drag or scroll to move around the model. Times are local (BST/GMT).
   <span class="limit"><strong>Plume display:</strong> on by default so its movement can be
   explored. It follows the selected wind record and an illustrative operating profile; it is
@@ -669,6 +669,9 @@ body:has(#top:not(.collapsed)) #compass{top:222px}
   <label for="view-select">VIEW</label>
   <select id="view-select" aria-label="Choose a camera view">
     <option value="overview">Overview</option>
+    <option value="deployment" selected>Installed network</option>
+    <option value="home81a">81a · unit 2</option>
+    <option value="western">Western terrace · unit 3</option>
     <option value="terrace">From the terrace</option>
     <option value="weather">Weather station</option>
     <option value="side">Side passage / bedroom</option>
@@ -719,8 +722,8 @@ body:has(#top:not(.collapsed)) #compass{top:222px}
     A visible plume is documented only for 173; the other outlets stay off unless selected.</span></div>
   <div class="item"><span class="sw" style="background:#8a8378"></span>
     <span><b>Geometry:</b> EA 1 m LiDAR context combined with OSM and supplied photographs.
-    Outlet locations, instrument heights and proposed deployment positions remain
-    approximate rather than surveyed.</span></div>
+    Installed host homes and mounts are photographically confirmed; outlet locations,
+    instrument heights and plan positions remain approximate rather than surveyed.</span></div>
   <div class="item"><span class="sw" style="background:var(--road)"></span>
     <span><b>Context only:</b> the A201 animation uses a 2022 traffic count and the monitoring
     analysis uses SWK06 as an urban-background reference. Neither is a modelled
@@ -829,10 +832,10 @@ body:has(#top:not(.collapsed)) #compass{top:222px}
   <div>
     <div class="lab">Monitor layout</div>
     <div class="mode-row">
-      <button class="mode on" data-network="colocation">Co-location</button>
-      <button class="mode" data-network="deployment">Proposed deployment</button>
+      <button class="mode" data-network="colocation">Historic co-location</button>
+      <button class="mode on" data-network="deployment">Installed deployment</button>
     </div>
-    <div class="mode-status" id="network-status">Units 1–4 are together outdoors; unit 5 stays indoors.</div>
+    <div class="mode-status" id="network-status">Units 1 &amp; 4 share the Tempest rail; unit 2 is at 81a; unit 3 is on the western terrace; unit 5 stays indoors.</div>
   </div>
   <div>
     <div class="lab">Outlets shown</div>
@@ -1009,13 +1012,13 @@ document.getElementById("t-plume").addEventListener("change", function () {
   this.parentNode.classList.toggle("on", this.checked);
 });
 var networkStatus = document.getElementById("network-status");
-window.__networkModeChanged = function (mode) {
+window.__networkModeChanged = function (mode, stateSet) {
   Array.prototype.forEach.call(document.querySelectorAll("[data-network]"), function (button) {
     button.classList.toggle("on", button.dataset.network === mode);
   });
-  networkStatus.textContent = mode === "colocation"
-    ? "Units 1–4 are together outdoors; unit 5 stays indoors."
-    : "Units 1–4 move to proposed outdoor positions; unit 5 stays indoors.";
+  networkStatus.textContent = stateSet && stateSet.status ? stateSet.status : mode === "colocation"
+    ? "Units 1–4 were together outdoors; unit 5 stayed indoors."
+    : "Units 1 and 4 share the Tempest rail; unit 2 is at 81a; unit 3 is on the western terrace; unit 5 stays indoors.";
 };
 Array.prototype.forEach.call(document.querySelectorAll("[data-network]"), function (button) {
   button.addEventListener("click", function () { window.__setNetworkMode(button.dataset.network); });
@@ -1091,17 +1094,16 @@ var COMPASS = ["N","NNE","NE","ENE","E","ESE","SE","SSE",
 function compassPoint(deg) {
   return COMPASS[Math.round(((deg % 360) + 360) % 360 / 22.5) % 16];
 }
-// The sector that puts 173 over the roof terrace, read off the terrace
-// monitors' own upwind bearings so it follows the geometry rather than a
+// The sector that puts 173 over the main roof terrace, read from the installed
+// unit 1/4 pair's own upwind bearings so it follows the geometry rather than a
 // remembered number. Padded by half a sector each side: a plume is not a ray.
 var ROSE_SECTOR = (function () {
   var geo = window.__GEO__, bearings = [];
   if (geo && geo.monitors) {
     geo.monitors.forEach(function (m) {
       var up = m.upwind_sector_deg;
-      if (up && up.existing_173 !== undefined && m.environment &&
-          m.environment.indexOf("roof terrace") >= 0 &&
-          m.position !== "neighbour_terrace") bearings.push(up.existing_173);
+      if (up && up.existing_173 !== undefined &&
+          m.mount_style === "timber_rail") bearings.push(up.existing_173);
     });
   }
   if (!bearings.length) return null;

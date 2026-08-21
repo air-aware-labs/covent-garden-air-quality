@@ -12,6 +12,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import re
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -21,6 +22,20 @@ TWIN = HERE.parent
 PROJECT = TWIN.parent
 THREE_LOCAL = HERE / "three-0.149.0.min.js"
 OUT = TWIN / "coventg_evening_scene.html"
+
+
+def public_safe_text(value):
+    """Remove personal names that add nothing to the published evidence trail."""
+    if isinstance(value, dict):
+        return {key: public_safe_text(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [public_safe_text(item) for item in value]
+    if not isinstance(value, str):
+        return value
+    value = re.sub(r"\bWill's\b", "the site owner's", value)
+    value = re.sub(r"\bWill\b", "the site owner", value)
+    value = re.sub(r"\bAlex's\b", "the resident's", value)
+    return re.sub(r"\bAlex\b", "the resident", value)
 
 
 def image_data_uri(path: Path, max_edge: int = 1400, quality: int = 82) -> str:
@@ -59,7 +74,7 @@ def main() -> None:
         k: geo[k]
         for k in (
             "origin", "heights", "home", "buildings", "roads", "sources",
-            "weather_stations", "monitors", "monitor_states",
+            "weather_stations", "receptor_homes", "monitors", "monitor_states",
         )
     }
     for s in slim["sources"]:
@@ -70,6 +85,7 @@ def main() -> None:
         # Instrument identity is needed by the local registry/collector, not by
         # the browser.  Keep serials out of the standalone HTML.
         m.pop("serial", None)
+    slim = public_safe_text(slim)
 
     html = (HERE / "shell.html").read_text(encoding="utf-8")
     html = html.replace("__GEO_JSON__", json.dumps(slim, separators=(",", ":")))
@@ -95,6 +111,56 @@ def main() -> None:
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-12 at 16.48.05.jpeg"
+            ),
+        },
+        {
+            "short": "Installed · 1 + 4",
+            "title": "Units 1 and 4 installed together beside Tempest",
+            "caption": (
+                "Supplied 19 August installation photograph. The hand-labelled units 1 "
+                "and 4 share the timber cross-rail beside the Tempest weather station. "
+                "Their retained pairing provides a continuous on-site comparability check during deployment."
+            ),
+            "data_uri": image_data_uri(
+                PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (9).jpeg"
+            ),
+        },
+        {
+            "short": "Installed · unit 2",
+            "title": "Unit 2 installed at 81a County Street",
+            "caption": (
+                "Supplied 19 August installation photograph. Unit 2 is fixed to the "
+                "brown bamboo screen on the far side of the fence beside the solar panels. "
+                "The scene aligns it almost due north of the 173 main flue; its exact plan "
+                "position and height remain approximate rather than surveyed."
+            ),
+            "data_uri": image_data_uri(
+                PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (6).jpeg"
+            ),
+        },
+        {
+            "short": "Installed · unit 3",
+            "title": "Unit 3 installed on the western host roof terrace",
+            "caption": (
+                "Supplied 19 August installation photograph. Unit 3 is mounted on the "
+                "grey metal roof-terrace balustrade. The white render, timber-framed "
+                "openings, glass/metal railing and planted terrace inform the detailed model."
+            ),
+            "data_uri": image_data_uri(
+                PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (12).jpeg"
+            ),
+        },
+        {
+            "short": "81a house detail",
+            "title": "Photo-informed architecture around 81a County Street",
+            "caption": (
+                "Supplied 19 August site photograph used with OSM and LiDAR to rebuild "
+                "the newly instrumented home: pale render, light brick, timber-framed "
+                "windows and layered roof forms. This is a visual reconstruction, not "
+                "photogrammetry or an architectural survey."
+            ),
+            "data_uri": image_data_uri(
+                PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.43.jpeg"
             ),
         },
         {
@@ -147,8 +213,8 @@ def main() -> None:
             "title": "Side passage and courtyard towards County Street",
             "caption": (
                 "Supplied elevated view of the gap/courtyard between the properties. "
-                "Unit 1 is proposed near the terrace-level stair door; unit 3 is the "
-                "lower side-courtyard comparator, with the bedroom receptor above."
+                "It remains useful architectural and source-receptor context; the final "
+                "outdoor deployment no longer places a unit in this courtyard."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-09 at 17.52.53.jpeg"
@@ -181,7 +247,7 @@ def main() -> None:
         },
     ]
     html = html.replace(
-        "__PHOTO_JSON__", json.dumps(photos, separators=(",", ":"))
+        "__PHOTO_JSON__", json.dumps(public_safe_text(photos), separators=(",", ":"))
     )
     html = html.replace("__THREE__", THREE_LOCAL.read_text(encoding="utf-8"))
     html = html.replace("__SCENE__", (HERE / "scene.js").read_text(encoding="utf-8"))

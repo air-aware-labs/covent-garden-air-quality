@@ -191,6 +191,13 @@
     }
     return inside;
   }
+  function inReceptorDetail(e, nn) {
+    var homes = GEO.receptor_homes || [];
+    for (var i = 0; i < homes.length; i++) {
+      if (pointInRing(homes[i].suppress_lidar_ring || homes[i].ring, e, nn)) return true;
+    }
+    return false;
+  }
   function ringArea(r) {
     var a = 0, i, j;
     for (i = 0, j = r.length - 1; i < r.length; j = i++) a += r[j][0] * r[i][1] - r[i][0] * r[j][1];
@@ -571,6 +578,7 @@
         // the home, which comes from the 1:50 plan and is better than LiDAR.
         if (pointInRing(GEO.home.ring, x0 + 0.5, northCell) ||
             pointInRing(GEO.home.garden_ring, x0 + 0.5, northCell) ||
+            inReceptorDetail(x0 + 0.5, northCell) ||
             onCarriageway(x0 + 0.5, northCell, y)) continue;
         var isVeg = veg[k] === 1;
         // Vegetation is rendered as clustered crowns below. Treating every
@@ -624,7 +632,8 @@
             zn = -nc, zs = zn + 1;
         if (xw < -105 || xe > 85 || nc < -82 || nc > 74) continue;
         if (pointInRing(GEO.home.ring, xe, nc) ||
-            pointInRing(GEO.home.garden_ring, xe, nc)) continue;
+            pointInRing(GEO.home.garden_ring, xe, nc) ||
+            inReceptorDetail(xe, nc)) continue;
         var h00 = at(r, q), h10 = at(r, q + 1), h01 = at(r + 1, q), h11 = at(r + 1, q + 1);
         if (veg[r * cols + q] || veg[r * cols + q + 1] ||
             veg[(r + 1) * cols + q] || veg[(r + 1) * cols + q + 1]) continue;
@@ -684,7 +693,7 @@
       // LiDAR crown is unwanted is over the roof garden, where the nineteen named
       // specimens are drawn explicitly from the 1:50 plan.
       if (pointInRing(GEO.home.garden_ring || GEO.home.ring, tx, tn) ||
-          pointInRing(GEO.home.ring, tx, tn)) continue;
+          pointInRing(GEO.home.ring, tx, tn) || inReceptorDetail(tx, tn)) continue;
       var jx = hash("tjx" + i) - 0.5, jz = hash("tjz" + i) - 0.5;
       crowns.push({ x: tx + jx * 1.5, z: -tn + jz * 1.5, h: maxH, seed: hash("t" + i),
                     radius: clamp(Math.sqrt(count) * 0.32, 0.9, 3.6) });
@@ -823,6 +832,10 @@
   GEO.buildings.forEach(function (b) {
     if (LID && !inCentralBlock(b.ring)) return;
     if (ringArea(b.ring) < 6) return;
+    var replaced = (GEO.receptor_homes || []).some(function (home) {
+      return home.replace_osm_walls && String(home.osm_id) === String(b.osm_id);
+    });
+    if (replaced) return;
     var jitter = hash(b.osm_id + b.role);
     var base = new THREE.Color(ROLE_TINT[b.role] || 0x6d6a68);
     base.offsetHSL((jitter - 0.5) * 0.03, (jitter - 0.5) * 0.05, (jitter - 0.5) * 0.10);
@@ -860,6 +873,199 @@
     // surface lost. They were invented detail rather than evidence, so the
     // facade pattern now lives in the wall texture, where it cannot come loose.
   });
+
+  /* ------------------------------------------------ photo-informed host homes
+   * The instrumented homes deserve more than anonymous context massing. OSM
+   * and LiDAR still control footprint and level; the 19 August installation
+   * photographs control the recognisable material language and mount context.
+   * These details communicate the site but are not photogrammetry or a survey.
+   */
+  var receptorGroup = new THREE.Group();
+  scene.add(receptorGroup);
+  (function () {
+    var pale = new THREE.MeshStandardMaterial({ color: 0xd8d0c3, roughness: 0.88 });
+    var white = new THREE.MeshStandardMaterial({ color: 0xe3e2dc, roughness: 0.82 });
+    var lightBrick = new THREE.MeshStandardMaterial({
+      color: 0xbda98e, map: BRICK_TEX, roughness: 0.91
+    });
+    var roof = new THREE.MeshStandardMaterial({ color: 0x414449, map: ROOF_TEX, roughness: 0.82 });
+    var deckMat = new THREE.MeshStandardMaterial({ color: 0x80766b, roughness: 0.93 });
+    var timber = new THREE.MeshStandardMaterial({ color: 0x75543a, roughness: 0.91 });
+    var bamboo = new THREE.MeshStandardMaterial({ color: 0x9b743b, roughness: 0.90 });
+    var metal = new THREE.MeshStandardMaterial({ color: 0x626970, roughness: 0.43, metalness: 0.55 });
+    var glass = new THREE.MeshPhysicalMaterial({
+      color: 0x93b6c4, roughness: 0.12, transparent: true, opacity: 0.30,
+      side: THREE.DoubleSide, depthWrite: false
+    });
+    var solar = new THREE.MeshStandardMaterial({
+      color: 0x172b3b, roughness: 0.28, metalness: 0.45
+    });
+    var solarLine = new THREE.MeshStandardMaterial({ color: 0xb7c3ca, roughness: 0.36, metalness: 0.70 });
+    var planterMat = new THREE.MeshStandardMaterial({ color: 0x3d4140, roughness: 0.88 });
+    var foliage = new THREE.MeshStandardMaterial({ color: 0x557244, roughness: 0.95 });
+    var windowGlass = new THREE.MeshStandardMaterial({
+      color: 0x263d4b, roughness: 0.18, metalness: 0.18,
+      emissive: 0xffbd73, emissiveIntensity: 0.0
+    });
+    litMaterials.push({ mat: windowGlass, w: 0.88 });
+
+    function extrude(group, ring, base, top, material) {
+      var g = new THREE.ExtrudeGeometry(shapeFrom(ring), {
+        depth: Math.max(top - base, 0.05), bevelEnabled: false
+      });
+      g.rotateX(-Math.PI / 2);
+      var mesh = new THREE.Mesh(g, material);
+      mesh.position.y = base;
+      mesh.castShadow = true; mesh.receiveShadow = true;
+      group.add(mesh);
+      return mesh;
+    }
+    function beam(group, a, b, y, height, depth, material) {
+      var dx = b[0] - a[0], dz = -(b[1] - a[1]), length = Math.hypot(dx, dz) || 0.01;
+      var mesh = new THREE.Mesh(new THREE.BoxGeometry(length, height, depth), material);
+      mesh.position.set((a[0] + b[0]) / 2, y, -(a[1] + b[1]) / 2);
+      mesh.rotation.y = -Math.atan2(dz, dx);
+      mesh.castShadow = true; mesh.receiveShadow = true;
+      group.add(mesh);
+      return mesh;
+    }
+    function vertical(group, e, n, base, top, radius, material, sides) {
+      var mesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(radius, radius * 1.04, top - base, sides || 8), material
+      );
+      mesh.position.set(e, (base + top) / 2, -n);
+      mesh.castShadow = true; group.add(mesh);
+      return mesh;
+    }
+    function facadeWindow(group, e, n, y, width, height, yaw, frameColour) {
+      var frame = new THREE.MeshStandardMaterial({ color: frameColour, roughness: 0.72 });
+      var g = new THREE.Group(); g.position.set(e, y, -n); g.rotation.y = yaw || 0;
+      var backing = new THREE.Mesh(new THREE.BoxGeometry(width + 0.18, height + 0.18, 0.10), frame);
+      var pane = new THREE.Mesh(new THREE.BoxGeometry(width, height, 0.055), windowGlass);
+      pane.position.z = 0.065; g.add(backing); g.add(pane);
+      var mullion = new THREE.Mesh(new THREE.BoxGeometry(0.055, height, 0.075), frame);
+      mullion.position.z = 0.10; g.add(mullion);
+      var transom = new THREE.Mesh(new THREE.BoxGeometry(width, 0.055, 0.075), frame);
+      transom.position.set(0, height * 0.12, 0.10); g.add(transom);
+      g.traverse(function (o) { if (o.isMesh) o.castShadow = true; });
+      group.add(g);
+    }
+    function gableRoof(group, cx, north, width, depth, eaves, rise, yaw) {
+      var slope = Math.hypot(depth / 2, rise), angle = Math.atan2(rise, depth / 2);
+      [-1, 1].forEach(function (side) {
+        var panel = new THREE.Mesh(new THREE.BoxGeometry(width, 0.12, slope), roof);
+        panel.position.set(0, eaves + rise / 2, side * depth / 4);
+        panel.rotation.x = side * angle;
+        panel.castShadow = true; panel.receiveShadow = true;
+        var holder = new THREE.Group();
+        holder.position.set(cx, 0, -north); holder.rotation.y = yaw || 0;
+        holder.add(panel); group.add(holder);
+      });
+    }
+    function solarPanel(group, cfg, deckY) {
+      var g = new THREE.Group();
+      g.position.set(cfg.centre[0], deckY + 0.48, -cfg.centre[1]);
+      g.rotation.y = (cfg.yaw_deg || 0) * Math.PI / 180;
+      g.rotation.x = -0.24;
+      var panel = new THREE.Mesh(new THREE.BoxGeometry(cfg.width_m, 0.07, cfg.depth_m), solar);
+      panel.castShadow = true; g.add(panel);
+      for (var i = -1; i <= 1; i++) {
+        var rib = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.018, cfg.depth_m * 0.98), solarLine);
+        rib.position.set(i * cfg.width_m / 3, 0.048, 0); g.add(rib);
+      }
+      for (var j = -1; j <= 1; j += 2) {
+        var leg = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.58, 0.07), metal);
+        leg.position.set(j * cfg.width_m * 0.32, -0.24, cfg.depth_m * 0.22); g.add(leg);
+      }
+      group.add(g);
+    }
+    function bambooScreen(group, cfg) {
+      var a = cfg.from, b = cfg.to, count = Math.max(10, Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]) / 0.105));
+      for (var i = 0; i <= count; i++) {
+        var f = i / count;
+        vertical(group, lerp(a[0], b[0], f), lerp(a[1], b[1], f),
+                 cfg.base_m, cfg.top_m - (i % 3) * 0.035, 0.035, bamboo, 7);
+      }
+      beam(group, a, b, cfg.base_m + 0.48, 0.065, 0.085, timber);
+      beam(group, a, b, cfg.top_m - 0.32, 0.065, 0.085, timber);
+    }
+    function metalRail(group, cfg) {
+      var a = cfg.from, b = cfg.to, spans = 7;
+      beam(group, a, b, cfg.top_m, 0.075, 0.075, metal);
+      beam(group, a, b, cfg.base_m + 0.62, 0.045, 0.055, metal);
+      for (var i = 0; i <= spans; i++) {
+        var f = i / spans;
+        vertical(group, lerp(a[0], b[0], f), lerp(a[1], b[1], f),
+                 cfg.base_m, cfg.top_m, 0.027, metal, 8);
+      }
+      for (var j = 0; j < spans; j++) {
+        var f0 = (j + 0.08) / spans, f1 = (j + 0.92) / spans;
+        var p0 = [lerp(a[0], b[0], f0), lerp(a[1], b[1], f0)];
+        var p1 = [lerp(a[0], b[0], f1), lerp(a[1], b[1], f1)];
+        var panel = beam(group, p0, p1, cfg.base_m + 0.88, 0.82, 0.018, glass);
+        panel.castShadow = false;
+      }
+    }
+    function planter(group, e, n, y, scale, seed) {
+      var pot = new THREE.Mesh(new THREE.BoxGeometry(scale, 0.48, scale * 0.72), planterMat);
+      pot.position.set(e, y + 0.24, -n); pot.castShadow = true; group.add(pot);
+      var crown = new THREE.Mesh(new THREE.IcosahedronGeometry(scale * 0.58, 1), foliage.clone());
+      crown.material.color.offsetHSL((seed - 0.5) * 0.03, 0, (seed - 0.5) * 0.08);
+      crown.position.set(e, y + 0.78 + scale * 0.28, -n);
+      crown.scale.set(0.85, 1.35, 0.85); crown.castShadow = true; group.add(crown);
+    }
+
+    (GEO.receptor_homes || []).forEach(function (home) {
+      var group = new THREE.Group(); group.userData.receptorHome = home.key;
+      receptorGroup.add(group);
+      if (home.replace_osm_walls) extrude(group, home.ring, 0, home.wall_top_m, lightBrick);
+      if (home.terrace_ring) extrude(group, home.terrace_ring, home.deck_m, home.deck_m + 0.13, deckMat);
+      (home.upper_volumes || []).forEach(function (volume) {
+        var material = volume.style === "light_brick" ? lightBrick :
+                       volume.style === "white_render" ? white : pale;
+        extrude(group, volume.ring, volume.base_m, volume.top_m, material);
+        extrude(group, volume.ring, volume.top_m, volume.top_m + 0.09, roof);
+      });
+
+      if (home.key === "home_81a") {
+        gableRoof(group, -9.80, -4.25, 10.65, 7.55, 12.45, 1.25, -0.12);
+        bambooScreen(group, home.bamboo_screen);
+        (home.solar_panels || []).forEach(function (cfg) { solarPanel(group, cfg, home.deck_m); });
+        beam(group, [-12.10, -17.45], [-2.70, -16.10], home.deck_m + 0.38, 0.66, 0.22, lightBrick);
+        facadeWindow(group, -9.45, -17.57, 5.55, 1.55, 1.85, 0.14, 0x8a6848);
+        facadeWindow(group, -6.75, -17.18, 5.55, 1.55, 1.85, 0.14, 0x8a6848);
+        facadeWindow(group, -11.25, -9.10, 10.15, 1.70, 1.60, 0.14, 0x8a6848);
+        planter(group, -3.55, -15.35, home.deck_m, 0.90, 0.22);
+        planter(group, -4.75, -15.50, home.deck_m, 0.72, 0.66);
+      } else if (home.key === "western_host") {
+        metalRail(group, home.metal_balustrade);
+        facadeWindow(group, -46.05, -12.55, 13.85, 1.70, 1.45, 1.50, 0x7a5537);
+        facadeWindow(group, -44.15, -10.25, 13.55, 1.45, 1.18, 0.05, 0x7a5537);
+        facadeWindow(group, -41.95, -10.12, 13.55, 1.45, 1.18, 0.05, 0x7a5537);
+        planter(group, -41.10, -14.90, home.deck_m, 0.92, 0.36);
+        planter(group, -42.55, -15.05, home.deck_m, 0.74, 0.74);
+        planter(group, -44.05, -15.20, home.deck_m, 0.68, 0.53);
+        var light = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 10),
+          new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.18 }));
+        light.position.set(-46.02, 14.45, 12.15); group.add(light);
+      }
+    });
+
+    // The final 1/4 pair is visible in the photograph on a shared timber
+    // cross-rail immediately beside Tempest. Draw the real mounting context,
+    // not two invented freestanding masts.
+    var installed = GEO.monitor_states && GEO.monitor_states.deployment && GEO.monitor_states.deployment.positions;
+    if (installed && installed["1"] && installed["4"]) {
+      var p1 = installed["1"], p4 = installed["4"];
+      var a = [p1.east_m - 0.42, p1.north_m - 0.05];
+      var b = [p4.east_m + 0.42, p4.north_m + 0.05];
+      beam(receptorGroup, a, b, p1.height_m - 0.02, 0.16, 0.12, timber);
+      [a, b].forEach(function (p) {
+        vertical(receptorGroup, p[0], p[1], GEO.heights.garden_deck_m,
+                 p1.height_m + 0.18, 0.045, timber, 8);
+      });
+    }
+  })();
 
   /* --------------------------------------------------------------- chimneys
    * Every photograph of this roofscape is full of brick stacks with pots on
@@ -1756,15 +1962,24 @@
     var initialLength = Math.max(m.height_m - MONITOR_POD_H / 2 - initialBase, 0.05);
     mast.position.set(m.east_m, initialBase + initialLength / 2, -m.north_m);
     mast.scale.y = initialLength;
-    mast.visible = !/indoor/i.test(m.environment || "");
+    mast.visible = !/indoor/i.test(m.environment || "") && !m.mount_style;
     monGroup.add(mast);
+    var bracket = new THREE.Mesh(
+      new THREE.BoxGeometry(0.10, 0.30, 0.045),
+      new THREE.MeshStandardMaterial({ color: 0x6b7379, roughness: 0.42, metalness: 0.58 })
+    );
+    bracket.position.set(m.east_m, m.height_m - 0.02, -m.north_m + 0.065);
+    bracket.castShadow = true;
+    bracket.visible = !/indoor/i.test(m.environment || "") && !!m.mount_style;
+    monGroup.add(bracket);
     var lab = labelSprite("unit " + m.unit, "#4fd1c5", m.label.split(",")[0].replace(" - ", " · "));
     lab.userData.base *= 0.68;
     lab.position.set(m.east_m, m.height_m + 0.65 + (labels.length % 3) * 0.35, -m.north_m);
     monGroup.add(lab);
     lab.userData.monitorLabel = true;
     labels.push(lab);
-    monitorItems.push({ data: m, pod: pod, band: band, mast: mast, label: lab, glow: glow });
+    monitorItems.push({ data: m, pod: pod, band: band, mast: mast,
+                        bracket: bracket, label: lab, glow: glow });
   });
 
   var colocLabel = labelSprite("4 units co-located", "#4fd1c5", "units 1–4 · outdoors");
@@ -1787,8 +2002,17 @@
     var length = Math.max(h - MONITOR_POD_H / 2 - base, 0.05);
     item.mast.position.set(e, base + length / 2, -n);
     item.mast.scale.y = length;
-    item.mast.visible = !/indoor/i.test(position.environment || "");
-    item.label.position.set(e, h + 0.65 + (mode === "deployment" ? (index % 3) * 0.35 : 0), -n);
+    var mountStyle = position.mount_style || "";
+    item.mast.visible = !/indoor/i.test(position.environment || "") && !mountStyle;
+    if (item.bracket) {
+      item.bracket.position.set(e, h - 0.02, -n + 0.065);
+      item.bracket.visible = !/indoor/i.test(position.environment || "") && !!mountStyle;
+    }
+    var unit = String(item.data.unit);
+    var labelLift = mode === "deployment"
+      ? ({ "1": 0.48, "2": 0.72, "3": 0.70, "4": 1.18, "5": 0.62 }[unit] || 0.65)
+      : 0.65;
+    item.label.position.set(e, h + labelLift, -n);
   }
 
   function setNetworkMode(mode) {
@@ -1940,6 +2164,9 @@
   // order in which the three sources actually stack up behind each other.
   var VIEWS = {
     overview: { t: new THREE.Vector3(0, 7, 11), r: 57, phi: 0.90, th: 0.72 },
+    deployment: { t: new THREE.Vector3(-18, 9.2, 12), r: 68, phi: 0.79, th: 0.86 },
+    home81a: { t: new THREE.Vector3(-10.0, 9.3, 12.5), r: 18.5, phi: 1.16, th: 0.02 },
+    western: { t: new THREE.Vector3(-44.4, 13.4, 11.8), r: 25, phi: 1.03, th: 0.84 },
     // Over the deck looking south. Eye level does not work here: the terrace
     // parapet and the rear of the parade are barely a metre apart, so a
     // standing camera sees a wall. The oblique is what shows the gap.
@@ -1994,9 +2221,9 @@
                 enabled: { existing_173: true, permitted_183: false,
                            chicky_163: false },
                 trafficOn: true, showLabels: true, plumePreview: true,
-                networkMode: "colocation" };
+                networkMode: "deployment" };
   window.__state = state;
-  setNetworkMode(urlState.get("layout") || "colocation");
+  setNetworkMode(urlState.get("layout") || "deployment");
   function setRecordMode(mode) {
     if (mode === "air-quality") mode = "historic-aq";
     if (mode === "current-aq" && !CURRENT_AQ) return;
@@ -2167,7 +2394,7 @@
   }
 
   var initialView = urlState.get("view");
-  goto(initialView && VIEWS[initialView] ? initialView : "overview", true);
+  goto(initialView && VIEWS[initialView] ? initialView : "deployment", true);
   window.__syncTime();
   frame();
   window.__traffic = traffic;

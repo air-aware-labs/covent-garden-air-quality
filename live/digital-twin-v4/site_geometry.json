@@ -2036,161 +2036,421 @@
    "evidence": "Installation photograph supplied 12 August 2026."
   }
  ],
+ "receptor_homes": [
+  {
+   "key": "home_81a",
+   "label": "81a County Street",
+   "monitor_units": [
+    "2"
+   ],
+   "osm_id": "456076840",
+   "replace_osm_walls": true,
+   "ring": [
+    [
+     -4.55,
+     0.85
+    ],
+    [
+     -16.01,
+     -0.78
+    ],
+    [
+     -15.84,
+     -1.62
+    ],
+    [
+     -12.02,
+     -17.98
+    ],
+    [
+     -2.24,
+     -16.57
+    ],
+    [
+     -3.2,
+     -12.7
+    ],
+    [
+     -3.55,
+     -10.4
+    ]
+   ],
+   "suppress_lidar_ring": [
+    [
+     -4.55,
+     0.85
+    ],
+    [
+     -16.01,
+     -0.78
+    ],
+    [
+     -15.84,
+     -1.62
+    ],
+    [
+     -12.02,
+     -17.98
+    ],
+    [
+     -2.24,
+     -16.57
+    ],
+    [
+     -3.2,
+     -12.7
+    ],
+    [
+     -3.55,
+     -10.4
+    ]
+   ],
+   "wall_top_m": 7.65,
+   "deck_m": 8.2,
+   "upper_volumes": [
+    {
+     "ring": [
+      [
+       -15.45,
+       -1.25
+      ],
+      [
+       -5.1,
+       0.2
+      ],
+      [
+       -4.15,
+       -7.7
+      ],
+      [
+       -14.45,
+       -9.05
+      ]
+     ],
+     "base_m": 7.65,
+     "top_m": 12.45,
+     "style": "pale_render"
+    },
+    {
+     "ring": [
+      [
+       -13.95,
+       -8.7
+      ],
+      [
+       -4.15,
+       -7.45
+      ],
+      [
+       -3.5,
+       -11.15
+      ],
+      [
+       -13.3,
+       -12.35
+      ]
+     ],
+     "base_m": 7.65,
+     "top_m": 10.95,
+     "style": "light_brick"
+    }
+   ],
+   "terrace_ring": [
+    [
+     -13.3,
+     -11.55
+    ],
+    [
+     -3.6,
+     -10.35
+    ],
+    [
+     -2.55,
+     -16.25
+    ],
+    [
+     -12.05,
+     -17.6
+    ]
+   ],
+   "bamboo_screen": {
+    "from": [
+     -13.35,
+     -12.78
+    ],
+    "to": [
+     -9.7,
+     -12.34
+    ],
+    "base_m": 8.2,
+    "top_m": 10.05
+   },
+   "solar_panels": [
+    {
+     "centre": [
+      -8.2,
+      -13.35
+     ],
+     "width_m": 2.05,
+     "depth_m": 1.2,
+     "yaw_deg": -7
+    },
+    {
+     "centre": [
+      -5.85,
+      -13.05
+     ],
+     "width_m": 2.05,
+     "depth_m": 1.2,
+     "yaw_deg": -7
+    }
+   ],
+   "provenance": "OSM footprint and Environment Agency 1 m LiDAR levels, with photo-informed architectural detail from the 19 August 2026 installation visit; approximate, not surveyed."
+  },
+  {
+   "key": "western_host",
+   "label": "Western host roof terrace",
+   "monitor_units": [
+    "3"
+   ],
+   "osm_id": "456076848",
+   "replace_osm_walls": false,
+   "ring": [
+    [
+     -50.55,
+     -7.3
+    ],
+    [
+     -40.15,
+     -6.6
+    ],
+    [
+     -39.35,
+     -16.8
+    ],
+    [
+     -49.85,
+     -17.25
+    ]
+   ],
+   "suppress_lidar_ring": [
+    [
+     -50.55,
+     -7.3
+    ],
+    [
+     -40.15,
+     -6.6
+    ],
+    [
+     -39.35,
+     -16.8
+    ],
+    [
+     -49.85,
+     -17.25
+    ]
+   ],
+   "wall_top_m": 12.48,
+   "deck_m": 12.61,
+   "upper_volumes": [
+    {
+     "ring": [
+      [
+       -50.1,
+       -7.75
+      ],
+      [
+       -46.55,
+       -7.55
+      ],
+      [
+       -46.05,
+       -15.85
+      ],
+      [
+       -49.6,
+       -16.1
+      ]
+     ],
+     "base_m": 12.61,
+     "top_m": 15.35,
+     "style": "white_render"
+    },
+    {
+     "ring": [
+      [
+       -45.95,
+       -7.6
+      ],
+      [
+       -40.65,
+       -7.15
+      ],
+      [
+       -40.25,
+       -10.15
+      ],
+      [
+       -45.7,
+       -10.35
+      ]
+     ],
+     "base_m": 12.61,
+     "top_m": 14.45,
+     "style": "white_render"
+    }
+   ],
+   "terrace_ring": [
+    [
+     -46.25,
+     -10.1
+    ],
+    [
+     -40.35,
+     -9.75
+    ],
+    [
+     -39.85,
+     -16.25
+    ],
+    [
+     -46.05,
+     -16.05
+    ]
+   ],
+   "metal_balustrade": {
+    "from": [
+     -47.7,
+     -11.72
+    ],
+    "to": [
+     -40.65,
+     -11.35
+    ],
+    "base_m": 12.61,
+    "top_m": 14.1
+   },
+   "provenance": "OSM footprint and Environment Agency 1 m LiDAR levels, with photo-informed roof-terrace detail from the 19 August 2026 installation visit; approximate, not surveyed."
+  }
+ ],
  "monitors": [
   {
-   "key": "M1_courtyard",
+   "key": "M1_home_shared_rail",
    "unit": "1",
    "position": "courtyard",
-   "label": "Side courtyard - ground level",
-   "height_m": 1.52,
-   "mount_base_m": 0.0,
-   "environment": "outdoor courtyard",
+   "label": "74–75 roof terrace · Tempest rail",
+   "height_m": 9.72,
+   "mount_base_m": 8.2,
+   "environment": "outdoor roof terrace",
+   "mount_style": "timber_rail",
+   "deployment_status": "installed",
+   "installed_date_local": "2026-08-19",
    "raw_gps_east_m": -2.55,
    "raw_gps_north_m": 1.1,
-   "east_m": -2.55,
-   "north_m": 1.1,
-   "position_provenance": "GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
-   "latitude": 51.49459752908327,
-   "longitude": -0.09188556478327002,
-   "ranges": {
-    "existing_173": {
-     "horizontal_m": 23.88,
-     "slant_m": 25.34,
-     "monitor_above_outlet_m": -8.48,
-     "bearing_from_source_deg": 22.3
-    },
-    "permitted_183": {
-     "horizontal_m": 21.19,
-     "slant_m": 22.3,
-     "monitor_above_outlet_m": -6.97,
-     "bearing_from_source_deg": 326.5
-    },
-    "chicky_163": {
-     "horizontal_m": 46.51,
-     "slant_m": 46.84,
-     "monitor_above_outlet_m": -5.58,
-     "bearing_from_source_deg": 55.1
-    },
-    "new_kent_road_kerb": {
-     "horizontal_m": 37.6,
-     "monitor_above_kerb_m": 1.52
-    }
-   },
-   "upwind_sector_deg": {
-    "existing_173": 202.3,
-    "permitted_183": 146.5,
-    "chicky_163": 235.1
-   }
-  },
-  {
-   "key": "M2_terrace_west",
-   "unit": "4",
-   "position": "terrace_west",
-   "label": "Roof terrace - southern edge of west section",
-   "height_m": 9.72,
-   "mount_base_m": 8.2,
-   "environment": "outdoor roof terrace",
-   "raw_gps_east_m": 0.71,
-   "raw_gps_north_m": -7.21,
-   "east_m": 0.91,
-   "north_m": -8.82,
-   "building_u_m": 2.8,
-   "building_v_m": 10.3,
-   "position_provenance": "User-corrected scene position supplied by the site owner, 13 August 2026; original 10 August handheld GPS fix retained separately; not surveyed.",
-   "latitude": 51.49452238296899,
-   "longitude": -0.09183862612410243,
-   "ranges": {
-    "existing_173": {
-     "horizontal_m": 17.46,
-     "slant_m": 17.46,
-     "monitor_above_outlet_m": -0.28,
-     "bearing_from_source_deg": 45.8
-    },
-    "permitted_183": {
-     "horizontal_m": 11.3,
-     "slant_m": 11.37,
-     "monitor_above_outlet_m": 1.23,
-     "bearing_from_source_deg": 313.3
-    },
-    "chicky_163": {
-     "horizontal_m": 44.83,
-     "slant_m": 44.91,
-     "monitor_above_outlet_m": 2.62,
-     "bearing_from_source_deg": 68.2
-    },
-    "new_kent_road_kerb": {
-     "horizontal_m": 27.68,
-     "monitor_above_kerb_m": 9.72
-    }
-   },
-   "upwind_sector_deg": {
-    "existing_173": 225.8,
-    "permitted_183": 133.3,
-    "chicky_163": 248.2
-   }
-  },
-  {
-   "key": "M3_terrace_southeast",
-   "unit": "3",
-   "position": "terrace_impact",
-   "label": "Roof terrace - retained south-wall position",
-   "height_m": 9.72,
-   "mount_base_m": 8.2,
-   "environment": "outdoor roof terrace",
-   "raw_gps_east_m": 9.91,
-   "raw_gps_north_m": -12.33,
-   "east_m": 7.99,
-   "north_m": -14.24,
-   "building_u_m": 9.15,
+   "east_m": 7.39,
+   "north_m": -14.31,
+   "building_u_m": 8.55,
    "building_v_m": 16.55,
-   "position_provenance": "User-corrected scene position supplied by the site owner, 13 August 2026; original 10 August handheld GPS fix retained separately; not surveyed.",
-   "latitude": 51.494476042803875,
-   "longitude": -0.09170585677982707,
+   "position_provenance": "Installed mount confirmed by the site owner on 20 August 2026 and photographed 19 August; registered to the plan-derived terrace; not surveyed.",
+   "latitude": 51.49445814459924,
+   "longitude": -0.09174217228492422,
    "ranges": {
     "existing_173": {
-     "horizontal_m": 20.72,
-     "slant_m": 20.73,
+     "horizontal_m": 20.13,
+     "slant_m": 20.14,
      "monitor_above_outlet_m": -0.28,
-     "bearing_from_source_deg": 71.0
+     "bearing_from_source_deg": 70.6
     },
     "permitted_183": {
-     "horizontal_m": 2.6,
-     "slant_m": 2.87,
+     "horizontal_m": 2.86,
+     "slant_m": 3.11,
      "monitor_above_outlet_m": 1.23,
-     "bearing_from_source_deg": 333.7
+     "bearing_from_source_deg": 322.2
     },
     "chicky_163": {
-     "horizontal_m": 49.98,
-     "slant_m": 50.04,
+     "horizontal_m": 49.37,
+     "slant_m": 49.44,
      "monitor_above_outlet_m": 2.62,
-     "bearing_from_source_deg": 77.0
+     "bearing_from_source_deg": 76.9
     },
     "new_kent_road_kerb": {
-     "horizontal_m": 22.26,
+     "horizontal_m": 22.19,
      "monitor_above_kerb_m": 9.72
     }
    },
    "upwind_sector_deg": {
-    "existing_173": 251.0,
-    "permitted_183": 153.7,
-    "chicky_163": 257.0
+    "existing_173": 250.6,
+    "permitted_183": 142.2,
+    "chicky_163": 256.9
    }
   },
   {
-   "key": "M4_neighbour_terrace",
+   "key": "M2_home_81a",
    "unit": "2",
    "position": "neighbour_terrace",
-   "label": "Neighbouring terrace, County Street",
+   "label": "81a · bamboo screen by solar panels",
+   "height_m": 9.72,
+   "mount_base_m": 8.2,
+   "environment": "outdoor roof terrace",
+   "mount_style": "bamboo_screen",
+   "deployment_status": "installed",
+   "installed_date_local": "2026-08-19",
+   "raw_gps_east_m": -44.42,
+   "raw_gps_north_m": -11.5,
+   "east_m": -11.6,
+   "north_m": -12.57,
+   "position_provenance": "Installed host and mount confirmed by the site owner on 20 August 2026 and in the 19 August photographs; aligned to OSM/LiDAR context; not surveyed.",
+   "latitude": 51.49447388550751,
+   "longitude": -0.0920161723267766,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 8.43,
+     "slant_m": 8.43,
+     "monitor_above_outlet_m": -0.28,
+     "bearing_from_source_deg": 0.0
+    },
+    "permitted_183": {
+     "horizontal_m": 21.12,
+     "slant_m": 21.16,
+     "monitor_above_outlet_m": 1.23,
+     "bearing_from_source_deg": 280.9
+    },
+    "chicky_163": {
+     "horizontal_m": 31.84,
+     "slant_m": 31.95,
+     "monitor_above_outlet_m": 2.62,
+     "bearing_from_source_deg": 66.0
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 23.93,
+     "monitor_above_kerb_m": 9.72
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 180.0,
+    "permitted_183": 100.9,
+    "chicky_163": 246.0
+   }
+  },
+  {
+   "key": "M3_western_host_terrace",
+   "unit": "3",
+   "position": "terrace_impact",
+   "label": "Western roof terrace · metal balustrade",
    "height_m": 14.13,
    "mount_base_m": 12.61,
    "environment": "outdoor roof terrace",
-   "raw_gps_east_m": -44.42,
-   "raw_gps_north_m": -11.5,
+   "mount_style": "metal_balustrade",
+   "deployment_status": "installed",
+   "installed_date_local": "2026-08-19",
+   "raw_gps_east_m": 9.91,
+   "raw_gps_north_m": -12.33,
    "east_m": -44.42,
    "north_m": -11.5,
-   "position_provenance": "GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
-   "latitude": 51.49448355742755,
-   "longitude": -0.09248973236258659,
+   "position_provenance": "Installed host and mount confirmed by the site owner on 20 August 2026 and in the 19 August photographs; aligned to OSM/LiDAR context; not surveyed.",
+   "latitude": 51.49448356526145,
+   "longitude": -0.09248972058236349,
    "ranges": {
     "existing_173": {
      "horizontal_m": 34.17,
@@ -2222,6 +2482,56 @@
    }
   },
   {
+   "key": "M4_home_shared_rail",
+   "unit": "4",
+   "position": "terrace_west",
+   "label": "74–75 roof terrace · Tempest rail",
+   "height_m": 9.72,
+   "mount_base_m": 8.2,
+   "environment": "outdoor roof terrace",
+   "mount_style": "timber_rail",
+   "deployment_status": "installed",
+   "installed_date_local": "2026-08-19",
+   "raw_gps_east_m": 0.71,
+   "raw_gps_north_m": -7.21,
+   "east_m": 8.88,
+   "north_m": -14.13,
+   "building_u_m": 10.05,
+   "building_v_m": 16.55,
+   "position_provenance": "Installed mount confirmed by the site owner on 20 August 2026 and photographed 19 August; registered to the plan-derived terrace; not surveyed.",
+   "latitude": 51.494459772969066,
+   "longitude": -0.09172067359812273,
+   "ranges": {
+    "existing_173": {
+     "horizontal_m": 21.6,
+     "slant_m": 21.6,
+     "monitor_above_outlet_m": -0.28,
+     "bearing_from_source_deg": 71.5
+    },
+    "permitted_183": {
+     "horizontal_m": 2.45,
+     "slant_m": 2.74,
+     "monitor_above_outlet_m": 1.23,
+     "bearing_from_source_deg": 353.9
+    },
+    "chicky_163": {
+     "horizontal_m": 50.87,
+     "slant_m": 50.93,
+     "monitor_above_outlet_m": 2.62,
+     "bearing_from_source_deg": 77.1
+    },
+    "new_kent_road_kerb": {
+     "horizontal_m": 22.37,
+     "monitor_above_kerb_m": 9.72
+    }
+   },
+   "upwind_sector_deg": {
+    "existing_173": 251.5,
+    "permitted_183": 173.9,
+    "chicky_163": 257.1
+   }
+  },
+  {
    "key": "M5_bedroom",
    "unit": "5",
    "position": "bedroom",
@@ -2229,13 +2539,15 @@
    "height_m": 5.8,
    "mount_base_m": 4.28,
    "environment": "indoor rear bedroom",
+   "mount_style": "indoor",
+   "deployment_status": "installed",
    "raw_gps_east_m": 5.03,
    "raw_gps_north_m": -9.06,
    "east_m": 5.03,
    "north_m": -9.06,
-   "position_provenance": "GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
-   "latitude": 51.49450568381552,
-   "longitude": -0.09177626476522943,
+   "position_provenance": "Indoor GPS fix supplied by the site owner, 10 August 2026; not surveyed.",
+   "latitude": 51.49450563871902,
+   "longitude": -0.09177622389623394,
    "ranges": {
     "existing_173": {
      "horizontal_m": 20.47,
@@ -2295,6 +2607,7 @@
      "height_m": 9.72,
      "mount_base_m": 8.2,
      "environment": "outdoor south-facing terrace balustrade",
+     "mount_style": "timber_rail",
      "colocated": true,
      "view_order_right_to_left": 1
     },
@@ -2306,6 +2619,7 @@
      "height_m": 9.72,
      "mount_base_m": 8.2,
      "environment": "outdoor south-facing terrace balustrade",
+     "mount_style": "timber_rail",
      "colocated": true,
      "view_order_right_to_left": 2
     },
@@ -2317,6 +2631,7 @@
      "height_m": 9.72,
      "mount_base_m": 8.2,
      "environment": "outdoor south-facing terrace balustrade",
+     "mount_style": "timber_rail",
      "colocated": true,
      "view_order_right_to_left": 3
     },
@@ -2328,6 +2643,7 @@
      "height_m": 9.72,
      "mount_base_m": 8.2,
      "environment": "outdoor south-facing terrace balustrade",
+     "mount_style": "timber_rail",
      "colocated": true,
      "view_order_right_to_left": 4
     },
@@ -2337,54 +2653,67 @@
      "height_m": 5.8,
      "mount_base_m": 4.28,
      "environment": "indoor - rear bedroom, inside the home",
+     "mount_style": "indoor",
      "colocated": false,
      "note": "Indoor-model instrument, indoors throughout the export window. Confirmed by the site owner and independently supported by the data: it lags the outdoor units by about an hour, its temperature and PM2.5 ranges are damped, and it retains 85% of their 0.3 um particle count while reporting 44% of their PM2.5 mass - the coarse-mode removal expected across a building envelope. It is not a faulty outdoor unit."
     }
    }
   },
   "deployment": {
-   "label": "proposed deployment",
-   "status": "Unit 3 retained at its current south-wall position and unit 4 corrected to the southern edge of its west-terrace location; remaining plan positions are GPS placeholders pending final deployment photographs.",
+   "label": "installed deployment · 19 August 2026",
+   "status": "Units 1 and 4 share the timber rail beside Tempest; unit 2 is on the 81a bamboo screen beside the solar panels, almost due north of the 173 main flue; unit 3 is on the western host terrace's metal balustrade; unit 5 remains indoors. Positions are photographically confirmed but approximate rather than surveyed.",
    "positions": {
     "1": {
-     "east_m": -2.55,
-     "north_m": 1.1,
-     "height_m": 1.52,
-     "mount_base_m": 0.0,
-     "environment": "outdoor courtyard",
-     "label": "Side courtyard - ground level",
-     "building_u_m": null,
-     "building_v_m": null
-    },
-    "4": {
-     "east_m": 0.91,
-     "north_m": -8.82,
+     "east_m": 7.39,
+     "north_m": -14.31,
      "height_m": 9.72,
      "mount_base_m": 8.2,
      "environment": "outdoor roof terrace",
-     "label": "Roof terrace - southern edge of west section",
-     "building_u_m": 2.8,
-     "building_v_m": 10.3
-    },
-    "3": {
-     "east_m": 7.99,
-     "north_m": -14.24,
-     "height_m": 9.72,
-     "mount_base_m": 8.2,
-     "environment": "outdoor roof terrace",
-     "label": "Roof terrace - retained south-wall position",
-     "building_u_m": 9.15,
+     "label": "74–75 roof terrace · Tempest rail",
+     "mount_style": "timber_rail",
+     "deployment_status": "installed",
+     "installed_date_local": "2026-08-19",
+     "building_u_m": 8.55,
      "building_v_m": 16.55
     },
     "2": {
+     "east_m": -11.6,
+     "north_m": -12.57,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor roof terrace",
+     "label": "81a · bamboo screen by solar panels",
+     "mount_style": "bamboo_screen",
+     "deployment_status": "installed",
+     "installed_date_local": "2026-08-19",
+     "building_u_m": null,
+     "building_v_m": null
+    },
+    "3": {
      "east_m": -44.42,
      "north_m": -11.5,
      "height_m": 14.13,
      "mount_base_m": 12.61,
      "environment": "outdoor roof terrace",
-     "label": "Neighbouring terrace, County Street",
+     "label": "Western roof terrace · metal balustrade",
+     "mount_style": "metal_balustrade",
+     "deployment_status": "installed",
+     "installed_date_local": "2026-08-19",
      "building_u_m": null,
      "building_v_m": null
+    },
+    "4": {
+     "east_m": 8.88,
+     "north_m": -14.13,
+     "height_m": 9.72,
+     "mount_base_m": 8.2,
+     "environment": "outdoor roof terrace",
+     "label": "74–75 roof terrace · Tempest rail",
+     "mount_style": "timber_rail",
+     "deployment_status": "installed",
+     "installed_date_local": "2026-08-19",
+     "building_u_m": 10.05,
+     "building_v_m": 16.55
     },
     "5": {
      "east_m": 5.03,
@@ -2393,6 +2722,9 @@
      "mount_base_m": 4.28,
      "environment": "indoor rear bedroom",
      "label": "Rear bedroom - indoor",
+     "mount_style": "indoor",
+     "deployment_status": "installed",
+     "installed_date_local": null,
      "building_u_m": null,
      "building_v_m": null
     }

@@ -10,6 +10,7 @@ are supplied to Actions through encrypted repository secrets. A rolling Actions
 cache retains the SQLite archives between otherwise ephemeral runners.
 
 The checked-in geometry is the same reduced, identity-free geometry that enters
-the browser. The eight supplied photographs are already present in the published
+the browser. Twelve selected supplied photographs—including the 19 August
+installation evidence for units 1–4—are already present in the published
 standalone page and are retained here only so the automated builder can reproduce
 that approved artifact.
