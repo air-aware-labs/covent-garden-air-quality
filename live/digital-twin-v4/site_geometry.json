@@ -2153,11 +2153,11 @@
      "style": "light_brick"
     }
    ],
-   "provenance": "OSM footprint and Environment Agency 1 m LiDAR levels, with photo-informed architectural detail from the 19 August 2026 visit. the site owner clarified on 21 August that this is the intervening neighbour, not the 81a host; approximate, not surveyed."
+   "provenance": "OSM footprint and Environment Agency 1 m LiDAR levels, with photo-informed architectural detail from the 19 August 2026 visit. The site owner clarified on 21 August that this is the intervening neighbour, not the 81a host; approximate, not surveyed."
   },
   {
    "key": "home_81a",
-   "label": "81a County Street · farther roof garden",
+   "label": "81a County Street · raised rear garden and lower solar belt",
    "monitor_units": [
     "2"
    ],
@@ -2187,43 +2187,109 @@
    ],
    "suppress_lidar_ring": [
     [
-     -22.15,
-     -8.15
+     -22.75,
+     -3.55
     ],
     [
-     -15.45,
-     -7.05
+     -18.35,
+     -2.85
     ],
     [
-     -14.45,
-     -14.55
+     -16.05,
+     -10.15
     ],
     [
-     -21.15,
-     -15.65
+     -15.35,
+     -13.25
+    ],
+    [
+     -18.8,
+     -16.25
+    ],
+    [
+     -22.45,
+     -14.75
     ]
    ],
    "wall_top_m": 4.38,
    "deck_m": 8.2,
-   "upper_volumes": [],
-   "terrace_ring": [
+   "lower_deck_m": 7.05,
+   "upper_garden_ring": [
     [
-     -21.8,
-     -8.5
+     -20.26,
+     -14.11
     ],
     [
-     -15.6,
-     -7.35
+     -17.24,
+     -11.49
     ],
     [
-     -14.7,
-     -14.25
+     -18.55,
+     -9.9
     ],
     [
-     -20.9,
-     -15.35
+     -20.7,
+     -11.85
     ]
    ],
+   "lower_solar_ring": [
+    [
+     -20.26,
+     -14.11
+    ],
+    [
+     -17.24,
+     -11.49
+    ],
+    [
+     -16.04,
+     -12.84
+    ],
+    [
+     -19.06,
+     -15.46
+    ]
+   ],
+   "upper_volumes": [
+    {
+     "ring": [
+      [
+       -22.75,
+       -4.45
+      ],
+      [
+       -20.05,
+       -3.95
+      ],
+      [
+       -19.65,
+       -12.3
+      ],
+      [
+       -20.26,
+       -14.11
+      ],
+      [
+       -22.35,
+       -12.75
+      ]
+     ],
+     "base_m": 0.0,
+     "top_m": 7.65,
+     "style": "light_brick"
+    }
+   ],
+   "gable": {
+    "centre": [
+     -21.25,
+     -8.45
+    ],
+    "width_m": 8.7,
+    "depth_m": 2.8,
+    "eaves_m": 7.65,
+    "rise_m": 2.35,
+    "yaw_deg": -78.0
+   },
    "bamboo_screen": {
     "from": [
      -20.26,
@@ -2233,8 +2299,8 @@
      -17.24,
      -11.49
     ],
-    "base_m": 8.2,
-    "top_m": 10.05
+    "base_m": 7.05,
+    "top_m": 9.85
    },
    "bamboo_screens": [
     {
@@ -2246,66 +2312,65 @@
       -17.24,
       -11.49
      ],
-     "base_m": 8.2,
-     "top_m": 10.05
+     "base_m": 7.05,
+     "top_m": 9.85
     }
    ],
    "solar_panels": [
     {
      "centre": [
-      -19.55,
-      -11.85
+      -19.17,
+      -14.27
      ],
-     "width_m": 1.05,
-     "depth_m": 1.55,
+     "width_m": 0.92,
+     "depth_m": 1.48,
      "yaw_deg": 41
     },
     {
      "centre": [
-      -18.35,
-      -10.8
+      -18.2,
+      -13.43
      ],
-     "width_m": 1.05,
-     "depth_m": 1.55,
+     "width_m": 0.92,
+     "depth_m": 1.48,
      "yaw_deg": 41
     },
     {
      "centre": [
-      -17.15,
-      -9.75
+      -17.23,
+      -12.59
      ],
-     "width_m": 1.05,
-     "depth_m": 1.55,
+     "width_m": 0.92,
+     "depth_m": 1.48,
      "yaw_deg": 41
     }
    ],
-   "screening_note": "The garden and panels are on the north-west side of the L-shaped bamboo barrier. The barrier interrupts the lower direct view toward the 173 flue.",
-   "provenance": "The 81/81a OSM plot and Environment Agency 1 m LiDAR context, with the screen, panels and garden side read from the 19 August photographs and corrected by the site owner on 21 August 2026; approximate, not surveyed."
+   "screening_note": "The solar panels occupy the lower belt directly below and on the source-facing side of the bamboo screen. The garden is farther back on the higher 8.20 m deck. The screen therefore interrupts the lower direct view toward the 173 flue.",
+   "house_relationship_note": "The light-brick gabled 81a house is immediately to the left of the screen in the installation view. The bamboo run terminates at the house instead of wrapping around or continuing across the lower solar belt.",
+   "provenance": "The 81/81a OSM plot and Environment Agency 1 m LiDAR context, with the two roof levels, house, terminating screen and panels read from the 19 August photographs and corrected by the site owner on 21 August 2026; approximate, not surveyed."
   },
   {
-   "key": "communal_balcony",
-   "label": "Adjacent communal access balcony",
-   "monitor_units": [
-    "3"
-   ],
+   "key": "western_private_home",
+   "label": "Adjacent private home and terrace · context only",
+   "monitor_units": [],
    "osm_id": "456076848",
    "replace_osm_walls": false,
    "ring": [
     [
-     -49.1,
-     -7.75
+     -50.55,
+     -7.3
     ],
     [
-     -40.0,
-     -7.1
+     -40.15,
+     -6.6
     ],
     [
-     -39.85,
-     -12.0
+     -39.35,
+     -16.8
     ],
     [
-     -48.95,
-     -12.55
+     -49.85,
+     -17.25
     ]
    ],
    "suppress_lidar_ring": [
@@ -2348,53 +2413,156 @@
     {
      "ring": [
       [
-       -49.1,
+       -50.1,
        -7.75
       ],
       [
-       -40.0,
-       -7.1
+       -46.55,
+       -7.55
       ],
       [
-       -39.82,
-       -9.42
+       -46.05,
+       -15.85
       ],
       [
-       -48.92,
-       -10.08
+       -49.6,
+       -16.1
       ]
      ],
      "base_m": 12.61,
-     "top_m": 15.25,
+     "top_m": 15.35,
+     "style": "white_render"
+    },
+    {
+     "ring": [
+      [
+       -45.95,
+       -7.6
+      ],
+      [
+       -40.65,
+       -7.15
+      ],
+      [
+       -40.25,
+       -10.15
+      ],
+      [
+       -45.7,
+       -10.35
+      ]
+     ],
+     "base_m": 12.61,
+     "top_m": 14.45,
      "style": "white_render"
     }
    ],
+   "terrace_ring": [
+    [
+     -46.25,
+     -10.1
+    ],
+    [
+     -40.35,
+     -9.75
+    ],
+    [
+     -39.85,
+     -16.25
+    ],
+    [
+     -46.05,
+     -16.05
+    ]
+   ],
+   "glass_balustrade": {
+    "from": [
+     -47.7,
+     -11.72
+    ],
+    "to": [
+     -40.65,
+     -11.35
+    ],
+    "base_m": 12.61,
+    "top_m": 14.1
+   },
+   "deployment_note": "The earlier private-home reconstruction is retained as context, but unit 3 is not deployed on this terrace or its glass balustrade.",
+   "provenance": "OSM/LiDAR context with the photo-informed private home, glazing, terrace and planting restored from the 19 August installation sequence; approximate, not surveyed."
+  },
+  {
+   "key": "communal_balcony",
+   "label": "Communal side access balcony · unit 3",
+   "monitor_units": [
+    "3"
+   ],
+   "osm_id": "456076848",
+   "replace_osm_walls": false,
+   "ring": [
+    [
+     -46.5,
+     -10.45
+    ],
+    [
+     -45.82,
+     -10.5
+    ],
+    [
+     -45.24,
+     -16.1
+    ],
+    [
+     -46.12,
+     -16.12
+    ]
+   ],
+   "suppress_lidar_ring": [
+    [
+     -46.65,
+     -10.3
+    ],
+    [
+     -45.68,
+     -10.35
+    ],
+    [
+     -45.08,
+     -16.28
+    ],
+    [
+     -46.3,
+     -16.3
+    ]
+   ],
+   "wall_top_m": 12.48,
+   "deck_m": 12.61,
+   "upper_volumes": [],
    "balcony_ring": [
     [
-     -48.92,
-     -9.62
+     -46.5,
+     -10.45
     ],
     [
-     -39.95,
-     -9.05
+     -45.82,
+     -10.5
     ],
     [
-     -39.8,
-     -11.43
+     -45.24,
+     -16.1
     ],
     [
-     -48.74,
-     -12.02
+     -46.12,
+     -16.12
     ]
    ],
    "metal_balustrade": {
     "from": [
-     -48.74,
-     -12.02
+     -45.82,
+     -10.5
     ],
     "to": [
-     -39.8,
-     -11.43
+     -45.24,
+     -16.1
     ],
     "base_m": 12.61,
     "top_m": 13.73
@@ -2402,31 +2570,31 @@
    "safety_rails": [
     {
      "from": [
-      -48.74,
-      -12.02
+      -46.5,
+      -10.45
      ],
      "to": [
-      -48.92,
-      -9.62
+      -45.82,
+      -10.5
      ],
      "base_m": 12.61,
      "top_m": 13.73
     },
     {
      "from": [
-      -39.8,
-      -11.43
+      -45.24,
+      -16.1
      ],
      "to": [
-      -39.95,
-      -9.05
+      -46.12,
+      -16.12
      ],
      "base_m": 12.61,
      "top_m": 13.73
     }
    ],
-   "absence_note": "There are no three descending steps at the west end. The communal balcony continues at one level and has a safety rail around every open edge.",
-   "provenance": "OSM/LiDAR context and the 19 August installation photographs, corrected by the site owner on 21 August: this is the adjacent communal access balcony, not the residents' private terrace; approximate, not surveyed."
+   "absence_note": "The communal balcony is the narrow side gallery around the corner from the private terrace. It remains on one level, with rails on every open edge and no steps.",
+   "provenance": "The 19 August photographs establish the communal metal-bar gallery. The site owner's 21 August WGS84 fix (51.49446765756895, -0.09250583738303685) places unit 3 on its outer side rail around the corner from the private terrace; not surveyed."
   }
  ],
  "monitors": [
@@ -2484,9 +2652,9 @@
    "key": "M2_home_81a",
    "unit": "2",
    "position": "neighbour_terrace",
-   "label": "81a farther roof garden · bamboo screen",
+   "label": "81a plot · screen above lower solar belt",
    "height_m": 9.72,
-   "mount_base_m": 8.2,
+   "mount_base_m": 7.05,
    "environment": "outdoor roof terrace",
    "mount_style": "bamboo_screen",
    "deployment_status": "installed",
@@ -2531,49 +2699,49 @@
   {
    "key": "M3_communal_balcony",
    "unit": "3",
-   "position": "terrace_impact",
-   "label": "Adjacent communal balcony · metal safety rail",
+   "position": "communal_balcony",
+   "label": "Communal side balcony · metal safety rail",
    "height_m": 14.13,
    "mount_base_m": 12.61,
    "environment": "outdoor communal balcony",
    "mount_style": "metal_balustrade",
    "deployment_status": "installed",
    "installed_date_local": "2026-08-19",
-   "raw_gps_east_m": 9.91,
-   "raw_gps_north_m": -12.33,
-   "east_m": -44.42,
-   "north_m": -11.5,
+   "raw_gps_east_m": -45.54,
+   "raw_gps_north_m": -13.26,
+   "east_m": -45.54,
+   "north_m": -13.26,
    "position_provenance": "Installed host and mount confirmed by the site owner on 20 August 2026 and in the 19 August photographs; aligned to OSM/LiDAR context; not surveyed.",
-   "latitude": 51.49448356526145,
-   "longitude": -0.09248972058236349,
+   "latitude": 51.4944676434232,
+   "longitude": -0.09250588066908674,
    "ranges": {
     "existing_173": {
-     "horizontal_m": 34.17,
-     "slant_m": 34.42,
+     "horizontal_m": 34.81,
+     "slant_m": 35.06,
      "monitor_above_outlet_m": 4.13,
-     "bearing_from_source_deg": 286.1
+     "bearing_from_source_deg": 282.8
     },
     "permitted_183": {
-     "horizontal_m": 53.8,
-     "slant_m": 54.09,
+     "horizontal_m": 54.78,
+     "slant_m": 55.07,
      "monitor_above_outlet_m": 5.64,
-     "bearing_from_source_deg": 275.4
+     "bearing_from_source_deg": 273.5
     },
     "chicky_163": {
-     "horizontal_m": 14.49,
-     "slant_m": 16.1,
+     "horizontal_m": 13.16,
+     "slant_m": 14.92,
      "monitor_above_outlet_m": 7.03,
-     "bearing_from_source_deg": 345.1
+     "bearing_from_source_deg": 338.4
     },
     "new_kent_road_kerb": {
-     "horizontal_m": 25.0,
+     "horizontal_m": 23.24,
      "monitor_above_kerb_m": 14.13
     }
    },
    "upwind_sector_deg": {
-    "existing_173": 106.1,
-    "permitted_183": 95.4,
-    "chicky_163": 165.1
+    "existing_173": 102.8,
+    "permitted_183": 93.5,
+    "chicky_163": 158.4
    }
   },
   {
@@ -2756,7 +2924,7 @@
   },
   "deployment": {
    "label": "installed deployment · 19 August 2026",
-   "status": "Units 1 and 4 share the timber rail beside Tempest; unit 2 is on the farther 81a roof garden's bamboo screen beyond the intervening neighbour, with the screen between the garden and the 173 flue; unit 3 is on the adjacent communal balcony's continuous metal safety rail; unit 5 remains indoors. Positions are photographically confirmed but approximate rather than surveyed.",
+   "status": "Units 1 and 4 share the timber rail beside Tempest; unit 2 is on the farther 81a plot's bamboo screen beyond the intervening neighbour, with solar panels on the lower source-facing belt and the garden higher behind; unit 3 is on the communal side balcony's continuous metal safety rail at the site owner's 21 August GPS fix, around the corner from the separate private terrace; unit 5 remains indoors. Positions are photographically confirmed but approximate rather than surveyed.",
    "positions": {
     "1": {
      "east_m": 7.39,
@@ -2775,9 +2943,9 @@
      "east_m": -18.75,
      "north_m": -12.8,
      "height_m": 9.72,
-     "mount_base_m": 8.2,
+     "mount_base_m": 7.05,
      "environment": "outdoor roof terrace",
-     "label": "81a farther roof garden · bamboo screen",
+     "label": "81a plot · screen above lower solar belt",
      "mount_style": "bamboo_screen",
      "deployment_status": "installed",
      "installed_date_local": "2026-08-19",
@@ -2785,12 +2953,12 @@
      "building_v_m": null
     },
     "3": {
-     "east_m": -44.42,
-     "north_m": -11.5,
+     "east_m": -45.54,
+     "north_m": -13.26,
      "height_m": 14.13,
      "mount_base_m": 12.61,
      "environment": "outdoor communal balcony",
-     "label": "Adjacent communal balcony · metal safety rail",
+     "label": "Communal side balcony · metal safety rail",
      "mount_style": "metal_balustrade",
      "deployment_status": "installed",
      "installed_date_local": "2026-08-19",

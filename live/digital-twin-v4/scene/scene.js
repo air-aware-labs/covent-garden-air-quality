@@ -893,6 +893,10 @@
     var timber = new THREE.MeshStandardMaterial({ color: 0x75543a, roughness: 0.91 });
     var bamboo = new THREE.MeshStandardMaterial({ color: 0x9b743b, roughness: 0.90 });
     var metal = new THREE.MeshStandardMaterial({ color: 0x626970, roughness: 0.43, metalness: 0.55 });
+    var glass = new THREE.MeshPhysicalMaterial({
+      color: 0x93b6c4, roughness: 0.12, transparent: true, opacity: 0.30,
+      side: THREE.DoubleSide, depthWrite: false
+    });
     var solar = new THREE.MeshStandardMaterial({
       color: 0x172b3b, roughness: 0.28, metalness: 0.45
     });
@@ -948,15 +952,27 @@
     }
     function gableRoof(group, cx, north, width, depth, eaves, rise, yaw) {
       var slope = Math.hypot(depth / 2, rise), angle = Math.atan2(rise, depth / 2);
+      var holder = new THREE.Group();
+      holder.position.set(cx, 0, -north); holder.rotation.y = yaw || 0;
       [-1, 1].forEach(function (side) {
         var panel = new THREE.Mesh(new THREE.BoxGeometry(width, 0.12, slope), roof);
         panel.position.set(0, eaves + rise / 2, side * depth / 4);
         panel.rotation.x = side * angle;
         panel.castShadow = true; panel.receiveShadow = true;
-        var holder = new THREE.Group();
-        holder.position.set(cx, 0, -north); holder.rotation.y = yaw || 0;
-        holder.add(panel); group.add(holder);
+        holder.add(panel);
       });
+      [-1, 1].forEach(function (end) {
+        var x = end * width / 2;
+        var vertices = end < 0
+          ? [x, eaves, -depth / 2, x, eaves, depth / 2, x, eaves + rise, 0]
+          : [x, eaves, -depth / 2, x, eaves + rise, 0, x, eaves, depth / 2];
+        var geometry = new THREE.BufferGeometry();
+        geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+        geometry.computeVertexNormals();
+        var gable = new THREE.Mesh(geometry, lightBrick);
+        gable.castShadow = true; gable.receiveShadow = true; holder.add(gable);
+      });
+      group.add(holder);
     }
     function solarPanel(group, cfg, deckY) {
       var g = new THREE.Group();
@@ -984,6 +1000,25 @@
       }
       beam(group, a, b, cfg.base_m + 0.48, 0.065, 0.085, timber);
       beam(group, a, b, cfg.top_m - 0.32, 0.065, 0.085, timber);
+      vertical(group, a[0], a[1], cfg.base_m, cfg.top_m, 0.065, timber, 8);
+      vertical(group, b[0], b[1], cfg.base_m, cfg.top_m, 0.065, timber, 8);
+    }
+    function glassRail(group, cfg) {
+      var a = cfg.from, b = cfg.to, spans = 7;
+      beam(group, a, b, cfg.top_m, 0.075, 0.075, metal);
+      beam(group, a, b, cfg.base_m + 0.62, 0.045, 0.055, metal);
+      for (var i = 0; i <= spans; i++) {
+        var f = i / spans;
+        vertical(group, lerp(a[0], b[0], f), lerp(a[1], b[1], f),
+                 cfg.base_m, cfg.top_m, 0.027, metal, 8);
+      }
+      for (var j = 0; j < spans; j++) {
+        var f0 = (j + 0.08) / spans, f1 = (j + 0.92) / spans;
+        var p0 = [lerp(a[0], b[0], f0), lerp(a[1], b[1], f0)];
+        var p1 = [lerp(a[0], b[0], f1), lerp(a[1], b[1], f1)];
+        var panel = beam(group, p0, p1, cfg.base_m + 0.88, 0.82, 0.018, glass);
+        panel.castShadow = false;
+      }
     }
     function barRail(group, cfg) {
       var a = cfg.from, b = cfg.to;
@@ -1010,8 +1045,13 @@
       var group = new THREE.Group(); group.userData.receptorHome = home.key;
       receptorGroup.add(group);
       if (home.replace_osm_walls) extrude(group, home.ring, 0, home.wall_top_m, lightBrick);
-      var deckRing = home.balcony_ring || home.terrace_ring;
-      if (deckRing) extrude(group, deckRing, home.deck_m, home.deck_m + 0.13, deckMat);
+      if (home.terrace_ring) extrude(group, home.terrace_ring, home.deck_m, home.deck_m + 0.13, deckMat);
+      if (home.balcony_ring) extrude(group, home.balcony_ring, home.deck_m, home.deck_m + 0.13, deckMat);
+      if (home.upper_garden_ring) {
+        extrude(group, home.upper_garden_ring, home.lower_deck_m, home.deck_m, lightBrick);
+        extrude(group, home.upper_garden_ring, home.deck_m, home.deck_m + 0.15, deckMat);
+      }
+      if (home.lower_solar_ring) extrude(group, home.lower_solar_ring, home.lower_deck_m, home.lower_deck_m + 0.13, roof);
       (home.upper_volumes || []).forEach(function (volume) {
         var material = volume.style === "light_brick" ? lightBrick :
                        volume.style === "white_render" ? white : pale;
@@ -1031,21 +1071,30 @@
         (home.bamboo_screens || [home.bamboo_screen]).filter(Boolean).forEach(function (cfg) {
           bambooScreen(group, cfg);
         });
-        (home.solar_panels || []).forEach(function (cfg) { solarPanel(group, cfg, home.deck_m); });
-        planter(group, -20.45, -10.25, home.deck_m, 0.70, 0.36);
-        planter(group, -16.10, -9.10, home.deck_m, 0.58, 0.71);
+        (home.solar_panels || []).forEach(function (cfg) { solarPanel(group, cfg, home.lower_deck_m); });
+        if (home.gable) {
+          gableRoof(group, home.gable.centre[0], home.gable.centre[1],
+                    home.gable.width_m, home.gable.depth_m, home.gable.eaves_m,
+                    home.gable.rise_m, home.gable.yaw_deg * Math.PI / 180);
+        }
+        facadeWindow(group, -20.25, -13.10, 5.05, 1.25, 1.62, 0.67, 0x80644b);
+        planter(group, -19.55, -12.15, home.deck_m, 0.88, 0.36);
+        planter(group, -18.85, -11.10, home.deck_m, 0.72, 0.71);
+        planter(group, -19.65, -10.95, home.deck_m, 0.64, 0.54);
+      } else if (home.key === "western_private_home") {
+        glassRail(group, home.glass_balustrade);
+        facadeWindow(group, -46.05, -12.55, 13.85, 1.70, 1.45, 1.50, 0x7a5537);
+        facadeWindow(group, -44.15, -10.25, 13.55, 1.45, 1.18, 0.05, 0x7a5537);
+        facadeWindow(group, -41.95, -10.12, 13.55, 1.45, 1.18, 0.05, 0x7a5537);
+        planter(group, -41.10, -14.90, home.deck_m, 0.92, 0.36);
+        planter(group, -42.55, -15.05, home.deck_m, 0.74, 0.74);
+        planter(group, -44.05, -15.20, home.deck_m, 0.68, 0.53);
+        var privateLight = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 10),
+          new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.18 }));
+        privateLight.position.set(-46.02, 14.45, 12.15); group.add(privateLight);
       } else if (home.key === "communal_balcony") {
         barRail(group, home.metal_balustrade);
         (home.safety_rails || []).forEach(function (cfg) { barRail(group, cfg); });
-        facadeWindow(group, -47.35, -9.83, 13.72, 1.20, 1.85, 0.06, 0x7a5537);
-        facadeWindow(group, -45.25, -9.69, 13.72, 1.20, 1.85, 0.06, 0x7a5537);
-        facadeWindow(group, -43.15, -9.56, 13.72, 1.20, 1.85, 0.06, 0x7a5537);
-        facadeWindow(group, -41.05, -9.42, 13.72, 1.20, 1.85, 0.06, 0x7a5537);
-        planter(group, -46.55, -10.42, home.deck_m, 0.64, 0.36);
-        planter(group, -41.65, -10.18, home.deck_m, 0.54, 0.74);
-        var light = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 10),
-          new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.18 }));
-        light.position.set(-48.20, 14.32, 9.95); group.add(light);
       }
     });
 
@@ -2163,8 +2212,8 @@
   var VIEWS = {
     overview: { t: new THREE.Vector3(0, 7, 11), r: 57, phi: 0.90, th: 0.72 },
     deployment: { t: new THREE.Vector3(-18, 9.2, 12), r: 68, phi: 0.79, th: 0.86 },
-    home81a: { t: new THREE.Vector3(-16.8, 9.2, 12.0), r: 29.0, phi: 1.10, th: 1.35 },
-    western: { t: new THREE.Vector3(-44.4, 13.3, 10.7), r: 23, phi: 1.08, th: 0.60 },
+    home81a: { t: new THREE.Vector3(-19.2, 8.0, 12.8), r: 22.0, phi: 0.88, th: 0.35 },
+    western: { t: new THREE.Vector3(-44.4, 13.4, 11.8), r: 25, phi: 1.03, th: 0.84 },
     // Over the deck looking south. Eye level does not work here: the terrace
     // parapet and the rear of the parade are barely a metre apart, so a
     // standing camera sees a wall. The oblique is what shows the gap.

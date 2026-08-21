@@ -25,9 +25,10 @@ indoors and is interpreted on its own scale. Outlet locations, monitor heights
 and plan positions are approximate rather than surveyed. The installed hosts and
 mounting surfaces are confirmed in the supplied 19 August photographs and the
 21 August site correction: units 1 and 4 share the timber rail beside Tempest;
-unit 2 is in the farther 81a garden beyond the intervening neighbour, with the
-bamboo screen between the garden and the flue; unit 3 is on the adjacent communal
-balcony's continuous safety rail; and unit 5 remains indoors.
+unit 2 is on 81a's terminating bamboo screen between the lower solar belt and
+raised rear garden; unit 3 is on the communal side balcony at the supplied
+21 August GPS fix, around the corner from the separately retained private terrace;
+and unit 5 remains indoors.
 
 The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
 06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation
