@@ -131,9 +131,10 @@ def main() -> None:
             "caption": (
                 "Supplied 19 August installation photograph. Unit 2 is fixed to the brown "
                 "bamboo screen at the farther 81a plot, beyond the intervening house. The "
-                "screen, the panelled belt below it and the raised garden behind it all run "
-                "on the plot's own axis; the run stops at the light-brick gabled house on its "
-                "left. Plan position and height remain approximate."
+                "screen stands on the ridge of a pitched roof whose panels are fixed flush "
+                "to it, so the array carries the roof's own angle. The raised garden is behind, "
+                "the run stops at the light-brick gabled house on its left, and the plot west of "
+                "it repeats the same house format. Plan position and height remain approximate."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (6).jpeg"
@@ -144,8 +145,8 @@ def main() -> None:
             "title": "Unit 3 installed on the communal access gallery",
             "caption": (
                 "Supplied 19 August installation photograph. Unit 3 is cable-tied to the "
-                "outer metal safety rail of the communal deck-access gallery, which runs along "
-                "the south face of the adjacent private home. The site owner's exact 21 August "
+                "east-facing metal safety rail of the communal deck-access gallery, a single "
+                "north-south run against the east face of the adjacent private home's block. The site owner's exact 21 August "
                 "GPS fix places the rail there, south of the private terrace and not on it. The "
                 "gallery is level, with rails rather than steps."
             ),

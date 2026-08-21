@@ -10,9 +10,9 @@ are supplied to Actions through encrypted repository secrets. A rolling Actions
 cache retains the SQLite archives between otherwise ephemeral runners.
 
 The checked-in geometry is the same reduced, identity-free geometry that enters
-the browser. It distinguishes 81a's lower solar belt from its raised rear garden
-and places unit 3's communal deck-access gallery south of the private western
-terrace rather than on it. Twelve selected supplied photographs—including the 19 August
+the browser. It carries 81a's pitched solar roof and raised rear garden, and a
+single east-facing communal deck-access gallery beside the private western roof
+garden. Twelve selected supplied photographs—including the 19 August
 installation evidence for units 1–4—are already present in the published
 standalone page and are retained here only so the automated builder can reproduce
 that approved artifact.

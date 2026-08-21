@@ -978,20 +978,56 @@
       });
       group.add(holder);
     }
-    function solarPanel(group, cfg, deckY) {
+    /* A roof plane that falls away from a ridge line. `fall` is 90 degrees
+     * clockwise of ridge_from -> ridge_to, which is how the holder's local +Z
+     * lands once it is yawed, so the caller only has to order the ridge ends. */
+    function slopedSlab(group, cfg, thickness, material) {
+      var a = cfg.ridge_from, b = cfg.ridge_to;
+      var span = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      var rise = cfg.ridge_m - cfg.eaves_m, run = cfg.run_m;
+      var slope = Math.hypot(run, rise), pitch = Math.atan2(rise, run);
+      var yaw = Math.PI / 2 - Math.atan2(b[0] - a[0], b[1] - a[1]);
+      var holder = new THREE.Group();
+      holder.position.set((a[0] + b[0]) / 2, 0, -(a[1] + b[1]) / 2);
+      holder.rotation.y = yaw;
+      var slab = new THREE.Mesh(new THREE.BoxGeometry(span, thickness, slope), material);
+      slab.position.set(0, (cfg.ridge_m + cfg.eaves_m) / 2, slope / 2 * Math.cos(pitch));
+      slab.rotation.x = pitch;
+      slab.castShadow = true; slab.receiveShadow = true;
+      holder.add(slab); group.add(holder);
+      return { yaw: yaw, pitch: pitch };
+    }
+    function solarPanel(group, cfg, deckY, roofCfg) {
       var g = new THREE.Group();
-      g.position.set(cfg.centre[0], deckY + 0.48, -cfg.centre[1]);
-      g.rotation.y = (cfg.yaw_deg || 0) * Math.PI / 180;
-      g.rotation.x = -0.24;
+      if (cfg.flush && roofCfg) {
+        // Fixed flat to the roof, so the roof angle is the array angle. Height
+        // comes from how far down the slope the panel sits, not from legs.
+        var a = roofCfg.ridge_from, b = roofCfg.ridge_to;
+        var rise = roofCfg.ridge_m - roofCfg.eaves_m;
+        var along = Math.hypot(cfg.centre[0] - a[0], cfg.centre[1] - a[1]);
+        var lateral = Math.abs(
+          ((b[0] - a[0]) * (a[1] - cfg.centre[1]) - (a[0] - cfg.centre[0]) * (b[1] - a[1]))
+        ) / Math.hypot(b[0] - a[0], b[1] - a[1]);
+        var drop = rise * Math.min(lateral / roofCfg.run_m, 1);
+        g.position.set(cfg.centre[0], roofCfg.ridge_m - drop + 0.06, -cfg.centre[1]);
+        g.rotation.y = Math.PI / 2 - Math.atan2(b[0] - a[0], b[1] - a[1]);
+        g.rotation.x = Math.atan2(rise, roofCfg.run_m);
+      } else {
+        g.position.set(cfg.centre[0], deckY + 0.48, -cfg.centre[1]);
+        g.rotation.y = (cfg.yaw_deg || 0) * Math.PI / 180;
+        g.rotation.x = -0.24;
+      }
       var panel = new THREE.Mesh(new THREE.BoxGeometry(cfg.width_m, 0.07, cfg.depth_m), solar);
       panel.castShadow = true; g.add(panel);
       for (var i = -1; i <= 1; i++) {
         var rib = new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.018, cfg.depth_m * 0.98), solarLine);
         rib.position.set(i * cfg.width_m / 3, 0.048, 0); g.add(rib);
       }
-      for (var j = -1; j <= 1; j += 2) {
-        var leg = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.58, 0.07), metal);
-        leg.position.set(j * cfg.width_m * 0.32, -0.24, cfg.depth_m * 0.22); g.add(leg);
+      if (!cfg.flush) {
+        for (var j = -1; j <= 1; j += 2) {
+          var leg = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.58, 0.07), metal);
+          leg.position.set(j * cfg.width_m * 0.32, -0.24, cfg.depth_m * 0.22); g.add(leg);
+        }
       }
       group.add(g);
     }
@@ -1053,10 +1089,12 @@
       if (home.terrace_ring) extrude(group, home.terrace_ring, home.deck_m, home.deck_m + 0.13, deckSurface);
       if (home.balcony_ring) extrude(group, home.balcony_ring, home.deck_m, home.deck_m + 0.13, deckSurface);
       if (home.upper_garden_ring) {
-        extrude(group, home.upper_garden_ring, home.lower_deck_m, home.deck_m, lightBrick);
+        var skirtBase = home.solar_roof ? home.solar_roof.eaves_m : home.lower_deck_m;
+        extrude(group, home.upper_garden_ring, skirtBase, home.deck_m, lightBrick);
         extrude(group, home.upper_garden_ring, home.deck_m, home.deck_m + 0.15, deckMat);
       }
-      if (home.lower_solar_ring) extrude(group, home.lower_solar_ring, home.lower_deck_m, home.lower_deck_m + 0.13, roof);
+      if (home.solar_roof) slopedSlab(group, home.solar_roof, 0.16, roof);
+      else if (home.lower_solar_ring) extrude(group, home.lower_solar_ring, home.lower_deck_m, home.lower_deck_m + 0.13, roof);
       (home.upper_volumes || []).forEach(function (volume) {
         var material = volume.style === "light_brick" ? lightBrick :
                        volume.style === "white_render" ? white : pale;
@@ -1076,33 +1114,37 @@
         (home.bamboo_screens || [home.bamboo_screen]).filter(Boolean).forEach(function (cfg) {
           bambooScreen(group, cfg);
         });
-        (home.solar_panels || []).forEach(function (cfg) { solarPanel(group, cfg, home.lower_deck_m); });
+        (home.solar_panels || []).forEach(function (cfg) {
+          solarPanel(group, cfg, home.lower_deck_m, home.solar_roof);
+        });
         if (home.gable) {
           gableRoof(group, home.gable.centre[0], home.gable.centre[1],
                     home.gable.width_m, home.gable.depth_m, home.gable.eaves_m,
                     home.gable.rise_m, home.gable.yaw_deg * Math.PI / 180);
         }
         // The garden deck sits above the house eaves, so the blank gabled flank
-        // wall is what the terrace actually looks at - no window reads from here.
-        planter(group, -19.40, -11.10, home.deck_m, 0.80, 0.36);
-        planter(group, -18.00, -10.45, home.deck_m, 0.66, 0.71);
-        planter(group, -16.75, -10.35, home.deck_m, 0.72, 0.54);
-        planter(group, -19.05, -12.30, home.deck_m, 0.55, 0.19);
+        // wall is what the garden actually looks at - no window reads from here.
+        planter(group, -20.25, -10.25, home.deck_m, 0.80, 0.36);
+        planter(group, -18.85, -9.60, home.deck_m, 0.66, 0.71);
+        planter(group, -17.60, -9.50, home.deck_m, 0.72, 0.54);
+        planter(group, -19.90, -11.45, home.deck_m, 0.55, 0.19);
+      } else if (home.key === "west_neighbour_81") {
+        if (home.gable) {
+          gableRoof(group, home.gable.centre[0], home.gable.centre[1],
+                    home.gable.width_m, home.gable.depth_m, home.gable.eaves_m,
+                    home.gable.rise_m, home.gable.yaw_deg * Math.PI / 180);
+        }
       } else if (home.key === "western_private_home") {
         glassRail(group, home.glass_balustrade);
-        // Windows face south off both render blocks onto the private terrace.
-        // yaw = 180 - facade bearing, so a 176 degree wall reads as 0.068 rad.
-        facadeWindow(group, -48.87, -9.30, 13.60, 1.50, 1.50, 0.068, 0x7a5537);
-        facadeWindow(group, -46.80, -9.16, 13.60, 1.50, 1.50, 0.068, 0x7a5537);
-        facadeWindow(group, -43.43, -8.53, 13.42, 1.35, 1.30, 0.068, 0x7a5537);
-        facadeWindow(group, -41.34, -8.39, 13.42, 1.35, 1.30, 0.068, 0x7a5537);
-        planter(group, -48.60, -11.20, home.deck_m, 0.85, 0.36);
-        planter(group, -46.60, -11.00, home.deck_m, 0.70, 0.74);
-        planter(group, -44.60, -10.85, home.deck_m, 0.62, 0.53);
-        planter(group, -42.60, -10.70, home.deck_m, 0.55, 0.21);
-        var privateLight = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 10),
-          new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.18 }));
-        privateLight.position.set(-47.85, 13.95, 9.24); group.add(privateLight);
+        // yaw = 180 - facade bearing: 0.068 rad is a 176 degree south-facing wall,
+        // 1.50 rad an east-facing one.
+        facadeWindow(group, -46.62, -12.30, 13.85, 1.60, 1.45, 1.50, 0x7a5537);
+        facadeWindow(group, -44.15, -10.25, 13.55, 1.45, 1.18, 0.068, 0x7a5537);
+        facadeWindow(group, -41.95, -10.12, 13.55, 1.45, 1.18, 0.068, 0x7a5537);
+        planter(group, -41.10, -14.90, home.deck_m, 0.92, 0.36);
+        planter(group, -42.55, -15.05, home.deck_m, 0.74, 0.74);
+        planter(group, -44.05, -15.20, home.deck_m, 0.68, 0.53);
+        planter(group, -43.30, -11.35, home.deck_m, 0.58, 0.18);
       } else if (home.key === "communal_balcony") {
         barRail(group, home.metal_balustrade);
         (home.safety_rails || []).forEach(function (cfg) { barRail(group, cfg); });
@@ -1111,16 +1153,16 @@
         if (home.canopy) {
           extrude(group, home.canopy.ring, home.canopy.base_m, home.canopy.top_m, soffit);
         }
-        facadeWindow(group, -48.17, -15.15, 13.50, 1.05, 1.45, -3.074, 0x8f8b83);
-        facadeWindow(group, -45.88, -14.99, 13.50, 1.05, 1.45, -3.074, 0x8f8b83);
-        facadeWindow(group, -43.58, -14.84, 13.50, 1.05, 1.45, -3.074, 0x8f8b83);
+        // The gallery's back wall is the render block behind it - the window and
+        // the round wall light in the photograph. It gets no planted garden of
+        // its own: the garden opposite is the private one.
+        facadeWindow(group, -46.98, -12.20, 13.70, 1.15, 1.55, 1.50, 0x8f8b83);
+        facadeWindow(group, -46.82, -14.75, 13.70, 1.15, 1.55, 1.50, 0x8f8b83);
         var wallLight = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.11, 14),
           new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.20 }));
-        wallLight.rotation.x = Math.PI / 2;
-        wallLight.position.set(-46.90, 14.30, 15.02); group.add(wallLight);
-        planter(group, -47.80, -14.25, home.deck_m, 0.55, 0.28);
-        planter(group, -44.60, -14.05, home.deck_m, 0.62, 0.61);
-        planter(group, -42.30, -13.90, home.deck_m, 0.50, 0.44);
+        wallLight.rotation.z = Math.PI / 2;
+        wallLight.position.set(-46.88, 14.32, 13.45); group.add(wallLight);
+        planter(group, -46.35, -13.55, home.deck_m, 0.46, 0.28);
       }
     });
 
@@ -2259,10 +2301,12 @@
     // From the south-west, the way the installation photographs were taken: the
     // panelled belt in front, the screen across it, the raised garden behind and
     // the gabled house on the left.
-    home81a: { t: new THREE.Vector3(-18.3, 8.6, 12.3), r: 13.5, phi: 0.87, th: 5.30 },
+    home81a: { t: new THREE.Vector3(-19.1, 8.7, 11.5), r: 13.5, phi: 0.87, th: 5.30 },
     // From the south, so the communal rail reads where it is - outboard of and
     // below the private terrace, not on it.
-    western: { t: new THREE.Vector3(-45.6, 13.5, 11.6), r: 24.0, phi: 0.86, th: 2.62 },
+    // From the east, over the private roof garden: the gallery rail faces this
+    // way, so this is the side it is meant to be read from.
+    western: { t: new THREE.Vector3(-44.6, 13.5, 12.9), r: 17.0, phi: 1.02, th: 1.55 },
     // Over the deck looking south. Eye level does not work here: the terrace
     // parapet and the rear of the parade are barely a metre apart, so a
     // standing camera sees a wall. The oblique is what shows the gap.
