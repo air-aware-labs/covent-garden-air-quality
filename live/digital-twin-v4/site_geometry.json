@@ -2198,20 +2198,20 @@
      -1.35
     ],
     [
-     -15.45,
-     -9.45
+     -15.9,
+     -6.65
     ],
     [
-     -15.7,
-     -15.55
+     -16.15,
+     -12.75
     ],
     [
-     -20.8,
-     -16.2
+     -21.25,
+     -13.4
     ],
     [
      -23.4,
-     -13.35
+     -11.0
     ]
    ],
    "wall_top_m": 4.38,
@@ -2219,30 +2219,30 @@
    "plot_grid_bearing_deg": 81.0,
    "upper_garden_ring": [
     [
-     -20.88,
-     -12.15
+     -21.32,
+     -9.36
     ],
     [
-     -16.54,
-     -11.47
+     -16.98,
+     -8.68
     ],
     [
-     -17.06,
-     -8.21
+     -17.5,
+     -5.42
     ],
     [
-     -21.4,
-     -8.89
+     -21.84,
+     -6.1
     ]
    ],
    "solar_roof": {
     "ridge_from": [
-     -20.88,
-     -12.15
+     -21.32,
+     -9.36
     ],
     "ridge_to": [
-     -16.54,
-     -11.47
+     -16.98,
+     -8.68
     ],
     "run_m": 2.25,
     "ridge_m": 8.2,
@@ -2250,20 +2250,20 @@
    },
    "lower_solar_ring": [
     [
-     -20.88,
-     -12.15
+     -21.32,
+     -9.36
     ],
     [
-     -16.54,
-     -11.47
+     -16.98,
+     -8.68
     ],
     [
-     -16.19,
-     -13.69
+     -16.63,
+     -10.9
     ],
     [
-     -20.53,
-     -14.37
+     -20.97,
+     -11.58
     ]
    ],
    "upper_volumes": [
@@ -2304,12 +2304,12 @@
    },
    "bamboo_screen": {
     "from": [
-     -20.88,
-     -12.15
+     -21.32,
+     -9.36
     ],
     "to": [
-     -16.54,
-     -11.47
+     -16.98,
+     -8.68
     ],
     "base_m": 8.2,
     "top_m": 10.0
@@ -2317,12 +2317,12 @@
    "bamboo_screens": [
     {
      "from": [
-      -20.88,
-      -12.15
+      -21.32,
+      -9.36
      ],
      "to": [
-      -16.54,
-      -11.47
+      -16.98,
+      -8.68
      ],
      "base_m": 8.2,
      "top_m": 10.0
@@ -2331,8 +2331,8 @@
    "solar_panels": [
     {
      "centre": [
-      -19.4,
-      -13.05
+      -19.84,
+      -10.26
      ],
      "width_m": 1.62,
      "depth_m": 2.0,
@@ -2340,8 +2340,8 @@
     },
     {
      "centre": [
-      -17.66,
-      -12.78
+      -18.1,
+      -9.99
      ],
      "width_m": 1.62,
      "depth_m": 2.0,
@@ -2790,39 +2790,39 @@
    "mount_style": "bamboo_screen",
    "deployment_status": "installed",
    "installed_date_local": "2026-08-19",
-   "east_m": -19.6,
-   "north_m": -11.95,
+   "east_m": -20.04,
+   "north_m": -9.16,
    "position_provenance": "Installed host and mount confirmed by the site owner on 20 August 2026 and in the 19 August photographs; aligned to OSM/LiDAR context; not surveyed.",
-   "latitude": 51.49447949433689,
-   "longitude": -0.09213160151765701,
+   "latitude": 51.49450473406912,
+   "longitude": -0.09213795012315543,
    "ranges": {
     "existing_173": {
-     "horizontal_m": 12.08,
-     "slant_m": 12.08,
+     "horizontal_m": 14.54,
+     "slant_m": 14.54,
      "monitor_above_outlet_m": -0.28,
-     "bearing_from_source_deg": 318.5
+     "bearing_from_source_deg": 324.5
     },
     "permitted_183": {
-     "horizontal_m": 29.11,
-     "slant_m": 29.13,
+     "horizontal_m": 30.11,
+     "slant_m": 30.13,
      "monitor_above_outlet_m": 1.23,
-     "bearing_from_source_deg": 279.1
+     "bearing_from_source_deg": 284.2
     },
     "chicky_163": {
-     "horizontal_m": 25.08,
-     "slant_m": 25.21,
+     "horizontal_m": 26.34,
+     "slant_m": 26.47,
      "monitor_above_outlet_m": 2.62,
-     "bearing_from_source_deg": 57.3
+     "bearing_from_source_deg": 51.7
     },
     "new_kent_road_kerb": {
-     "horizontal_m": 24.55,
+     "horizontal_m": 27.34,
      "monitor_above_kerb_m": 9.72
     }
    },
    "upwind_sector_deg": {
-    "existing_173": 138.5,
-    "permitted_183": 99.1,
-    "chicky_163": 237.3
+    "existing_173": 144.5,
+    "permitted_183": 104.2,
+    "chicky_163": 231.7
    }
   },
   {
@@ -3060,8 +3060,8 @@
      "building_v_m": 16.55
     },
     "2": {
-     "east_m": -19.6,
-     "north_m": -11.95,
+     "east_m": -20.04,
+     "north_m": -9.16,
      "height_m": 9.72,
      "mount_base_m": 8.2,
      "environment": "outdoor roof terrace",

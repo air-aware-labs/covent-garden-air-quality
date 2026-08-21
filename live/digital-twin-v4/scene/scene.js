@@ -1124,10 +1124,10 @@
         }
         // The garden deck sits above the house eaves, so the blank gabled flank
         // wall is what the garden actually looks at - no window reads from here.
-        planter(group, -20.25, -10.25, home.deck_m, 0.80, 0.36);
-        planter(group, -18.85, -9.60, home.deck_m, 0.66, 0.71);
-        planter(group, -17.60, -9.50, home.deck_m, 0.72, 0.54);
-        planter(group, -19.90, -11.45, home.deck_m, 0.55, 0.19);
+        planter(group, -20.69, -7.46, home.deck_m, 0.80, 0.36);
+        planter(group, -19.29, -6.81, home.deck_m, 0.66, 0.71);
+        planter(group, -18.04, -6.71, home.deck_m, 0.72, 0.54);
+        planter(group, -20.34, -8.66, home.deck_m, 0.55, 0.19);
       } else if (home.key === "west_neighbour_81") {
         if (home.gable) {
           gableRoof(group, home.gable.centre[0], home.gable.centre[1],
@@ -2301,7 +2301,7 @@
     // From the south-west, the way the installation photographs were taken: the
     // panelled belt in front, the screen across it, the raised garden behind and
     // the gabled house on the left.
-    home81a: { t: new THREE.Vector3(-19.1, 8.7, 11.5), r: 13.5, phi: 0.87, th: 5.30 },
+    home81a: { t: new THREE.Vector3(-19.4, 8.7, 8.9), r: 16.5, phi: 0.70, th: 5.30 },
     // From the south, so the communal rail reads where it is - outboard of and
     // below the private terrace, not on it.
     // From the east, over the private roof garden: the gallery rail faces this
