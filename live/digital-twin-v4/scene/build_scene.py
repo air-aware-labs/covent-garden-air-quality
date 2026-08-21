@@ -129,10 +129,11 @@ def main() -> None:
             "short": "Installed · unit 2",
             "title": "Unit 2 installed at 81a County Street",
             "caption": (
-                "Supplied 19 August installation photograph. Unit 2 is fixed to the "
-                "brown bamboo screen on the far side of the fence beside the solar panels. "
-                "The scene aligns it almost due north of the 173 main flue; its exact plan "
-                "position and height remain approximate rather than surveyed."
+                "Supplied 19 August installation photograph. Unit 2 is fixed to the brown "
+                "bamboo screen in the farther 81a roof garden, beyond the intervening house. "
+                "The solar panels and garden are behind the screen when viewed from the 173 "
+                "flue, so the screen interrupts the lower direct view. Its exact plan position "
+                "and height remain approximate rather than surveyed."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (6).jpeg"
@@ -140,24 +141,26 @@ def main() -> None:
         },
         {
             "short": "Installed · unit 3",
-            "title": "Unit 3 installed on the western host roof terrace",
+            "title": "Unit 3 installed on the adjacent communal balcony",
             "caption": (
                 "Supplied 19 August installation photograph. Unit 3 is mounted on the "
-                "grey metal roof-terrace balustrade. The white render, timber-framed "
-                "openings, glass/metal railing and planted terrace inform the detailed model."
+                "continuous grey metal safety rail of the adjacent communal access balcony, "
+                "not the separate private deck. The narrow gallery, white render and closely "
+                "spaced vertical rail bars inform the corrected model; there are no steps at its edge."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (12).jpeg"
             ),
         },
         {
-            "short": "81a house detail",
-            "title": "Photo-informed architecture around 81a County Street",
+            "short": "Intervening neighbour",
+            "title": "The intervening house east of 81a",
             "caption": (
                 "Supplied 19 August site photograph used with OSM and LiDAR to rebuild "
-                "the newly instrumented home: pale render, light brick, timber-framed "
-                "windows and layered roof forms. This is a visual reconstruction, not "
-                "photogrammetry or an architectural survey."
+                "the pale-render and light-brick house between 74–75 and the farther 81a "
+                "roof garden. It partly hides unit 2 from the home site and must not be "
+                "read as the instrumented 81a property. This is a visual reconstruction, "
+                "not photogrammetry or an architectural survey."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.43.jpeg"

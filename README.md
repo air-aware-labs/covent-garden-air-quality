@@ -23,9 +23,11 @@ an assumed operating profile—not measured emissions, a CFD result, or proof
 that an outlet was operating—and can be switched off under Layers. Unit 5 is
 indoors and is interpreted on its own scale. Outlet locations, monitor heights
 and plan positions are approximate rather than surveyed. The installed hosts and
-mounting surfaces are confirmed in the supplied 19 August photographs: units 1
-and 4 share the timber rail beside Tempest, unit 2 is at 81a beside the solar
-panels, unit 3 is on the western roof terrace, and unit 5 remains indoors.
+mounting surfaces are confirmed in the supplied 19 August photographs and the
+21 August site correction: units 1 and 4 share the timber rail beside Tempest;
+unit 2 is in the farther 81a garden beyond the intervening neighbour, with the
+bamboo screen between the garden and the flue; unit 3 is on the adjacent communal
+balcony's continuous safety rail; and unit 5 remains indoors.
 
 The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
 06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation

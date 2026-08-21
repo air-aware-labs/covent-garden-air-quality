@@ -670,8 +670,8 @@ body:has(#top:not(.collapsed)) #compass{top:222px}
   <select id="view-select" aria-label="Choose a camera view">
     <option value="overview">Overview</option>
     <option value="deployment" selected>Installed network</option>
-    <option value="home81a">81a · unit 2</option>
-    <option value="western">Western terrace · unit 3</option>
+    <option value="home81a">Farther 81a garden · unit 2</option>
+    <option value="western">Communal balcony · unit 3</option>
     <option value="terrace">From the terrace</option>
     <option value="weather">Weather station</option>
     <option value="side">Side passage / bedroom</option>
@@ -835,7 +835,7 @@ body:has(#top:not(.collapsed)) #compass{top:222px}
       <button class="mode" data-network="colocation">Historic co-location</button>
       <button class="mode on" data-network="deployment">Installed deployment</button>
     </div>
-    <div class="mode-status" id="network-status">Units 1 &amp; 4 share the Tempest rail; unit 2 is at 81a; unit 3 is on the western terrace; unit 5 stays indoors.</div>
+    <div class="mode-status" id="network-status">Units 1 &amp; 4 share the Tempest rail; unit 2 is in the farther 81a garden beyond the intervening house; unit 3 is on the adjacent communal balcony; unit 5 stays indoors.</div>
   </div>
   <div>
     <div class="lab">Outlets shown</div>
@@ -1018,7 +1018,7 @@ window.__networkModeChanged = function (mode, stateSet) {
   });
   networkStatus.textContent = stateSet && stateSet.status ? stateSet.status : mode === "colocation"
     ? "Units 1–4 were together outdoors; unit 5 stayed indoors."
-    : "Units 1 and 4 share the Tempest rail; unit 2 is at 81a; unit 3 is on the western terrace; unit 5 stays indoors.";
+    : "Units 1 and 4 share the Tempest rail; unit 2 is in the farther 81a garden beyond the intervening house; unit 3 is on the adjacent communal balcony; unit 5 stays indoors.";
 };
 Array.prototype.forEach.call(document.querySelectorAll("[data-network]"), function (button) {
   button.addEventListener("click", function () { window.__setNetworkMode(button.dataset.network); });
