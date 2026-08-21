@@ -1,8 +1,10 @@
-"""Derive the published, identity-free site geometry from the private build.
+"""Derive the published, provider-identity-free geometry from the private build.
 
-The public geometry is not a copy. Provider serials, raw GPS fixes, premise
-identities, photo stacks and personal names never leave the private project, so
-this drops those branches and scrubs first names before writing. Run it after
+The public geometry is not a copy. Provider serials, raw GPS fixes, the full
+premises/source register, photo stacks and personal names never leave the private
+project, so this drops those branches and scrubs first names before writing. The
+small new_kent_parade branch is an intentional exception for the three public
+shop signs requested in the published street elevation. Run this after
 build_site_geometry.py; the tests check that the published file is clean.
 """
 

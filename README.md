@@ -32,6 +32,14 @@ house, and has a simple two-window rear facade;
 unit 3 is on the east-facing rail of the single communal deck-access gallery
 south of the adjacent private home; and unit 5 remains indoors.
 
+The New Kent Road frontage now has fourteen explicit mixed-use terrace bays:
+recessed shops at ground level and two brick residential window floors above.
+Chicky Wiki (161), Lebanese Grill (173) and Lebo Grill (183) have distinct
+signs, and the **New Kent Road shopfronts** view frames the parade directly.
+The shop openings, colours and exact divisions are illustrative rather than a
+measured elevation; OSM fixes the wall line and LiDAR remains the roof-height
+context.
+
 The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
 06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation
 recorded since the previous one, so the record itself stays complete and at full

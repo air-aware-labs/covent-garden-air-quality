@@ -74,7 +74,8 @@ def main() -> None:
         k: geo[k]
         for k in (
             "origin", "heights", "home", "buildings", "roads", "sources",
-            "weather_stations", "receptor_homes", "monitors", "monitor_states",
+            "new_kent_parade", "weather_stations", "receptor_homes", "monitors",
+            "monitor_states",
         )
     }
     for s in slim["sources"]:

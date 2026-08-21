@@ -445,6 +445,24 @@
       qq = qq < 0 ? 0 : qq >= cols ? cols - 1 : qq;
       return h[rr * cols + qq];
     };
+    function onParadeFace(east, north) {
+      var parade = GEO.new_kent_parade;
+      if (!parade || !parade.frontages) return false;
+      for (var fi = 0; fi < parade.frontages.length; fi++) {
+        var fa = parade.frontages[fi], a = fa.from, b = fa.to;
+        var dx = b[0] - a[0], dn = b[1] - a[1], ll = dx * dx + dn * dn;
+        if (!ll) continue;
+        var along = ((east - a[0]) * dx + (north - a[1]) * dn) / ll;
+        if (along < -0.04 || along > 1.04) continue;
+        // West-to-east has the building interior on its left/north side. The
+        // explicit elevation owns the first 1.5 m behind the wall and the 2.35
+        // m pavement-edge strip in front, where one-metre facade/sign returns
+        // became blocks. Measured roofs resume immediately behind that band.
+        var back = (-(east - a[0]) * dn + (north - a[1]) * dx) / Math.sqrt(ll);
+        if (back > -2.35 && back < 1.52) return true;
+      }
+      return false;
+    }
     // Vegetation test. A single roughness threshold fires on every roof edge,
     // because a parapet is a big step too. What separates a tree canopy from a
     // wall is that the canopy is rough over an *area* while the wall is rough
@@ -579,6 +597,7 @@
         if (pointInRing(GEO.home.ring, x0 + 0.5, northCell) ||
             pointInRing(GEO.home.garden_ring, x0 + 0.5, northCell) ||
             inReceptorDetail(x0 + 0.5, northCell) ||
+            onParadeFace(x0 + 0.5, northCell) ||
             onCarriageway(x0 + 0.5, northCell, y)) continue;
         var isVeg = veg[k] === 1;
         // Vegetation is rendered as clustered crowns below. Treating every
@@ -633,7 +652,7 @@
         if (xw < -105 || xe > 85 || nc < -82 || nc > 74) continue;
         if (pointInRing(GEO.home.ring, xe, nc) ||
             pointInRing(GEO.home.garden_ring, xe, nc) ||
-            inReceptorDetail(xe, nc)) continue;
+            inReceptorDetail(xe, nc) || onParadeFace(xe, nc)) continue;
         var h00 = at(r, q), h10 = at(r, q + 1), h01 = at(r + 1, q), h11 = at(r + 1, q + 1);
         if (veg[r * cols + q] || veg[r * cols + q + 1] ||
             veg[(r + 1) * cols + q] || veg[(r + 1) * cols + q + 1]) continue;
@@ -873,6 +892,175 @@
     // surface lost. They were invented detail rather than evidence, so the
     // facade pattern now lives in the wall texture, where it cannot come loose.
   });
+
+  /* ---------------------------------------------- New Kent Road shop parade
+   * The road-facing OSM edges are explicit in GEO.new_kent_parade, so these
+   * openings stay on the wall rather than becoming another set of generic
+   * windows floating in the carriageway. The shops are illustrative street
+   * context; LiDAR/OSM still control the massing and no frontage is surveyed.
+   */
+  var paradeGroup = new THREE.Group();
+  scene.add(paradeGroup);
+  (function () {
+    var parade = GEO.new_kent_parade;
+    if (!parade || !parade.frontages) return;
+
+    var stone = new THREE.MeshStandardMaterial({ color: 0xb9ae9a, roughness: 0.91 });
+    var sash = new THREE.MeshStandardMaterial({ color: 0xd8d2c4, roughness: 0.76 });
+    var darkSash = new THREE.MeshStandardMaterial({ color: 0x4d4943, roughness: 0.78 });
+    var upperGlass = new THREE.MeshStandardMaterial({
+      color: 0x203540, roughness: 0.24, metalness: 0.10,
+      emissive: 0xffbf78, emissiveIntensity: 0
+    });
+    var shopGlass = new THREE.MeshStandardMaterial({
+      color: 0x244752, roughness: 0.19, metalness: 0.08,
+      emissive: 0xffaa58, emissiveIntensity: 0
+    });
+    litMaterials.push({ mat: upperGlass, w: 0.62 });
+    litMaterials.push({ mat: shopGlass, w: 1.85 });
+
+    var neutralSigns = [0x33464d, 0x69443b, 0x405248, 0x51465c, 0x5b5544];
+    var neutralFrames = [0x27353a, 0x49332d, 0x313e37, 0x39333f, 0x403c32];
+
+    function addBox(group, width, height, depth, x, y, z, material, shadow) {
+      var mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), material);
+      mesh.position.set(x || 0, y || 0, z || 0);
+      mesh.castShadow = shadow !== false;
+      mesh.receiveShadow = true;
+      group.add(mesh);
+      return mesh;
+    }
+
+    function signTexture(shop) {
+      var c = document.createElement("canvas");
+      c.width = 1024; c.height = 192;
+      var x = c.getContext("2d");
+      x.fillStyle = shop.sign_bg; x.fillRect(0, 0, c.width, c.height);
+      x.fillStyle = shop.accent; x.fillRect(0, c.height - 13, c.width, 13);
+      x.strokeStyle = "rgba(20,18,18,.24)"; x.lineWidth = 6;
+      x.strokeRect(3, 3, c.width - 6, c.height - 6);
+      x.fillStyle = shop.sign_fg;
+      x.textAlign = "center"; x.textBaseline = "middle";
+      var titleSize = shop.name.length > 14 ? 58 : 68;
+      x.font = "800 " + titleSize + "px system-ui, sans-serif";
+      x.fillText(shop.name, c.width / 2, 74);
+      x.font = "650 29px ui-monospace, monospace";
+      x.fillText(shop.number + "  ·  " + shop.sub, c.width / 2, 137);
+      // Small end roundels give the long fascia some structure. They echo the
+      // photographed 173 sign without copying its logo as architectural fact.
+      [54, c.width - 54].forEach(function (cx) {
+        x.beginPath(); x.arc(cx, 73, 25, 0, TAU);
+        x.fillStyle = shop.accent; x.fill();
+        x.beginPath(); x.arc(cx, 73, 15, 0, TAU);
+        x.fillStyle = shop.sign_bg; x.fill();
+      });
+      var texture = new THREE.CanvasTexture(c);
+      texture.minFilter = THREE.LinearFilter;
+      if (THREE.sRGBEncoding) texture.encoding = THREE.sRGBEncoding;
+      return texture;
+    }
+
+    function sashWindow(group, x, y, width, height, frameMaterial) {
+      var g = new THREE.Group();
+      g.position.set(x, y, 0.24);
+      addBox(g, width + 0.24, height + 0.24, 0.10, 0, 0, 0, stone);
+      addBox(g, width, height, 0.065, 0, 0, 0.075, upperGlass, false);
+      addBox(g, 0.065, height, 0.09, 0, 0, 0.13, frameMaterial);
+      addBox(g, width, 0.065, 0.09, 0, 0.08, 0.13, frameMaterial);
+      addBox(g, width + 0.34, 0.11, 0.30, 0, -height / 2 - 0.13, 0.09, stone);
+      group.add(g);
+    }
+
+    function drawShopfront(group, frontage, width, index) {
+      var shop = frontage.shopfront;
+      var signColour = shop ? shop.sign_bg : neutralSigns[index % neutralSigns.length];
+      var frameColour = shop ? shop.frame : neutralFrames[index % neutralFrames.length];
+      var frame = new THREE.MeshStandardMaterial({ color: frameColour, roughness: 0.72 });
+      var fascia = new THREE.MeshStandardMaterial({ color: signColour, roughness: 0.80 });
+      var inner = new THREE.MeshStandardMaterial({
+        color: shop ? 0x876446 : 0x514a42,
+        emissive: 0xffa65c, emissiveIntensity: 0, roughness: 0.82
+      });
+      litMaterials.push({ mat: inner, w: shop ? 1.65 : 0.82 });
+
+      // Recessed, framed ground floor: broad display pane, narrow entrance and
+      // a transom line. The neutral bays get the same architecture without an
+      // invented business identity.
+      addBox(group, width - 0.16, 3.26, 0.16, 0, 1.63, 0.07,
+             new THREE.MeshStandardMaterial({ color: 0x55493f, roughness: 0.90 }));
+      addBox(group, width - 0.58, 2.20, 0.07, 0, 1.35, 0.21, inner, false);
+      var clear = width - 0.78;
+      var doorW = Math.min(0.92, clear * 0.27);
+      var displayW = clear - doorW - 0.13;
+      addBox(group, displayW, 2.05, 0.055,
+             -clear / 2 + displayW / 2, 1.40, 0.28, shopGlass, false);
+      addBox(group, doorW, 2.05, 0.055,
+             clear / 2 - doorW / 2, 1.40, 0.28, shopGlass, false);
+      addBox(group, 0.095, 2.18, 0.13,
+             clear / 2 - doorW - 0.065, 1.40, 0.30, frame);
+      addBox(group, width - 0.68, 0.085, 0.13, 0, 2.02, 0.30, frame);
+      addBox(group, width - 0.68, 0.11, 0.28, 0, 0.29, 0.24, frame);
+      addBox(group, 0.19, 3.20, 0.28, -width / 2 + 0.14, 1.62, 0.18, frame);
+      addBox(group, 0.19, 3.20, 0.28, width / 2 - 0.14, 1.62, 0.18, frame);
+
+      // Fascia and cornice form one continuous shop datum across the terrace.
+      addBox(group, width - 0.30, 0.70, 0.22, 0, 2.93, 0.18, fascia);
+      addBox(group, width - 0.04, 0.14, 0.34, 0, 3.36, 0.17, stone);
+      if (shop) {
+        var sign = new THREE.Mesh(
+          new THREE.PlaneGeometry(width - 0.40, 0.62),
+          new THREE.MeshBasicMaterial({ map: signTexture(shop), toneMapped: false })
+        );
+        sign.position.set(0, 2.95, 0.305);
+        sign.renderOrder = 3;
+        group.add(sign);
+        // A shallow canopy gives each requested food premise a readable ground
+        // plane when the camera is looking obliquely along the road.
+        addBox(group, width - 0.34, 0.075, 0.62, 0, 2.56, 0.37, frame);
+      }
+    }
+
+    parade.frontages.forEach(function (frontage, index) {
+      var a = frontage.from, b = frontage.to;
+      var dx = b[0] - a[0], dn = b[1] - a[1];
+      var width = Math.hypot(dx, dn);
+      if (width < 2.4) return;
+      var holder = new THREE.Group();
+      holder.position.set((a[0] + b[0]) / 2, 0, -(a[1] + b[1]) / 2);
+      holder.rotation.y = Math.atan2(dn, dx);
+      holder.userData.role = "new_kent_parade";
+      holder.userData.osm_id = frontage.osm_id;
+
+      var brick = new THREE.Color(index % 3 === 0 ? 0x78513e :
+                                  index % 3 === 1 ? 0x684739 : 0x825b45);
+      var brickMaterial = new THREE.MeshStandardMaterial({
+        color: brick, map: BRICK_TEX, roughness: 0.93, metalness: 0.01
+      });
+      var upperBase = 3.43, upperTop = frontage.upper_top_m || 9.25;
+      addBox(holder, width - 0.04, upperTop - upperBase, 0.16, 0,
+             (upperBase + upperTop) / 2, 0.06, brickMaterial);
+      // Party-line piers make the row read as individual terraced homes while
+      // the sill/cornice datum holds it together as one parade.
+      addBox(holder, 0.12, upperTop - upperBase, 0.24,
+             -width / 2 + 0.06, (upperBase + upperTop) / 2, 0.13, darkSash);
+      addBox(holder, 0.12, upperTop - upperBase, 0.24,
+             width / 2 - 0.06, (upperBase + upperTop) / 2, 0.13, darkSash);
+
+      var count = width > 6.6 ? 3 : 2;
+      var margin = Math.min(0.92, width * 0.18);
+      var windowW = clamp((width - margin * 2) / count * 0.57, 0.88, 1.22);
+      (parade.upper_floor_centres_m || [4.85, 7.55]).forEach(function (floorY, floorIndex) {
+        for (var wi = 0; wi < count; wi++) {
+          var wx = -width / 2 + margin +
+            (width - margin * 2) * (count === 1 ? 0.5 : wi / (count - 1));
+          sashWindow(holder, wx, floorY, windowW, floorIndex ? 1.52 : 1.64,
+                     (index + wi + floorIndex) % 4 === 0 ? darkSash : sash);
+        }
+      });
+      drawShopfront(holder, frontage, width, index);
+      paradeGroup.add(holder);
+    });
+  })();
 
   /* ------------------------------------------------ photo-informed host homes
    * The instrumented homes deserve more than anonymous context massing. OSM
@@ -2326,6 +2514,10 @@
     side:     { t: new THREE.Vector3(-3.0, 3.2, 5.0), r: 33.4, phi: 0.31, th: 0.51 },
     // Along the gap from the east - the dimension the whole case turns on.
     flues:    { t: new THREE.Vector3(7.0, 9.2, 15.8), r: 17.0, phi: 1.24, th: 1.51 },
+    // Across the A201 from the east end of the carriageway. This keeps 183 and
+    // 173 prominent while the longer residential/shop parade recedes towards
+    // the 161 chicken shop, all without standing inside the south-side block.
+    parade:   { t: new THREE.Vector3(-13.0, 4.3, 35.0), r: 42.0, phi: 1.48, th: 1.16 },
     // Three-quarter view along the A201 from above the carriageway. At street
     // level the road is a thin strip in a wide pale field and reads as nothing;
     // from 18 m up the canyon, the markings and the traffic all read.

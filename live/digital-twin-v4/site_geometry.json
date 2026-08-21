@@ -1891,6 +1891,225 @@
    "height_source": "EA 1 m nDSM, median of 43 above-ground cells in the footprint"
   }
  ],
+ "new_kent_parade": {
+  "frontages": [
+   {
+    "osm_id": "1203883899",
+    "from": [
+     -43.2,
+     -35.96
+    ],
+    "to": [
+     -37.73,
+     -35.79
+    ],
+    "width_m": 5.47,
+    "upper_top_m": 9.25,
+    "shopfront": {
+     "number": "161",
+     "name": "CHICKY WIKI",
+     "sub": "CHICKEN · BURGERS",
+     "sign_bg": "#a9232c",
+     "sign_fg": "#fff1c9",
+     "accent": "#f2c84b",
+     "frame": "#7b2028"
+    }
+   },
+   {
+    "osm_id": "1203883900",
+    "from": [
+     -37.73,
+     -35.79
+    ],
+    "to": [
+     -32.4,
+     -35.63
+    ],
+    "width_m": 5.33,
+    "upper_top_m": 9.25
+   },
+   {
+    "osm_id": "1203883901",
+    "from": [
+     -32.4,
+     -35.63
+    ],
+    "to": [
+     -25.51,
+     -35.42
+    ],
+    "width_m": 6.89,
+    "upper_top_m": 10.8
+   },
+   {
+    "osm_id": "1203883902",
+    "from": [
+     -24.06,
+     -35.37
+    ],
+    "to": [
+     -18.69,
+     -35.22
+    ],
+    "width_m": 5.37,
+    "upper_top_m": 10.17
+   },
+   {
+    "osm_id": "1203883903",
+    "from": [
+     -18.69,
+     -35.22
+    ],
+    "to": [
+     -13.68,
+     -35.06
+    ],
+    "width_m": 5.01,
+    "upper_top_m": 10.8
+   },
+   {
+    "osm_id": "1203883904",
+    "from": [
+     -13.68,
+     -35.06
+    ],
+    "to": [
+     -9.15,
+     -34.93
+    ],
+    "width_m": 4.53,
+    "upper_top_m": 10.8,
+    "shopfront": {
+     "number": "173",
+     "name": "LEBANESE GRILL",
+     "sub": "CHARCOAL GRILL",
+     "sign_bg": "#e5ddc8",
+     "sign_fg": "#3d2532",
+     "accent": "#4f8a48",
+     "frame": "#8a643f"
+    }
+   },
+   {
+    "osm_id": "1203883905",
+    "from": [
+     -9.15,
+     -34.93
+    ],
+    "to": [
+     -4.28,
+     -34.78
+    ],
+    "width_m": 4.87,
+    "upper_top_m": 10.8
+   },
+   {
+    "osm_id": "1203883906",
+    "from": [
+     -4.28,
+     -34.78
+    ],
+    "to": [
+     2.65,
+     -34.57
+    ],
+    "width_m": 6.93,
+    "upper_top_m": 10.8
+   },
+   {
+    "osm_id": "1203883907",
+    "from": [
+     2.65,
+     -34.57
+    ],
+    "to": [
+     8.94,
+     -34.38
+    ],
+    "width_m": 6.29,
+    "upper_top_m": 10.16
+   },
+   {
+    "osm_id": "1203883908",
+    "from": [
+     8.94,
+     -34.38
+    ],
+    "to": [
+     13.3,
+     -34.25
+    ],
+    "width_m": 4.36,
+    "upper_top_m": 9.25,
+    "shopfront": {
+     "number": "183",
+     "name": "LEBO GRILL",
+     "sub": "GRILL · TAKEAWAY",
+     "sign_bg": "#17483b",
+     "sign_fg": "#f4e6bd",
+     "accent": "#c9483e",
+     "frame": "#263f38"
+    }
+   },
+   {
+    "osm_id": "1203883909",
+    "from": [
+     13.3,
+     -34.25
+    ],
+    "to": [
+     19.57,
+     -34.06
+    ],
+    "width_m": 6.27,
+    "upper_top_m": 10.04
+   },
+   {
+    "osm_id": "1203883910",
+    "from": [
+     19.57,
+     -34.06
+    ],
+    "to": [
+     25.17,
+     -33.89
+    ],
+    "width_m": 5.6,
+    "upper_top_m": 9.76
+   },
+   {
+    "osm_id": "1203883911",
+    "from": [
+     25.17,
+     -33.89
+    ],
+    "to": [
+     31.08,
+     -33.71
+    ],
+    "width_m": 5.91,
+    "upper_top_m": 9.78
+   },
+   {
+    "osm_id": "1203883912",
+    "from": [
+     31.08,
+     -33.71
+    ],
+    "to": [
+     36.59,
+     -33.55
+    ],
+    "width_m": 5.51,
+    "upper_top_m": 9.6
+   }
+  ],
+  "upper_floor_centres_m": [
+   4.85,
+   7.55
+  ],
+  "shopfront_head_m": 3.35,
+  "status": "OSM frontage lines with LiDAR-constrained overall massing. Ground-floor shopfronts, signs and first-/second-floor openings are an illustrative street elevation requested on 21 August 2026, not a measured facade survey."
+ },
  "roads": [
   {
    "name": "NEW KENT ROAD",
