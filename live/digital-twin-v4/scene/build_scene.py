@@ -131,9 +131,9 @@ def main() -> None:
             "caption": (
                 "Supplied 19 August installation photograph. Unit 2 is fixed to the brown "
                 "bamboo screen at the farther 81a plot, beyond the intervening house. The "
-                "panels sit directly below on the lower source-facing belt; the planted garden "
-                "is higher and farther back behind the screen, which stops at the light-brick "
-                "gabled house to its left. Plan position and height remain approximate."
+                "screen, the panelled belt below it and the raised garden behind it all run "
+                "on the plot's own axis; the run stops at the light-brick gabled house on its "
+                "left. Plan position and height remain approximate."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (6).jpeg"
@@ -141,12 +141,13 @@ def main() -> None:
         },
         {
             "short": "Installed · unit 3",
-            "title": "Unit 3 installed on the communal side balcony",
+            "title": "Unit 3 installed on the communal access gallery",
             "caption": (
-                "Supplied 19 August installation photograph. Unit 3 is mounted on the "
-                "continuous grey safety rail of the narrow communal side gallery. The site "
-                "owner's exact 21 August GPS fix places it farther around the corner, not on "
-                "the separately retained private terrace. The gallery is level, with rails rather than steps."
+                "Supplied 19 August installation photograph. Unit 3 is cable-tied to the "
+                "outer metal safety rail of the communal deck-access gallery, which runs along "
+                "the south face of the adjacent private home. The site owner's exact 21 August "
+                "GPS fix places the rail there, south of the private terrace and not on it. The "
+                "gallery is level, with rails rather than steps."
             ),
             "data_uri": image_data_uri(
                 PROJECT / "Pics" / "WhatsApp Image 2026-08-19 at 15.08.45 (12).jpeg"

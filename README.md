@@ -26,9 +26,10 @@ and plan positions are approximate rather than surveyed. The installed hosts and
 mounting surfaces are confirmed in the supplied 19 August photographs and the
 21 August site correction: units 1 and 4 share the timber rail beside Tempest;
 unit 2 is on 81a's terminating bamboo screen between the lower solar belt and
-raised rear garden; unit 3 is on the communal side balcony at the supplied
-21 August GPS fix, around the corner from the separately retained private terrace;
-and unit 5 remains indoors.
+raised rear garden, all set out on the plot's own grid; unit 3 is on the outer
+rail of the communal deck-access gallery that runs along the south face of the
+adjacent private home, at the supplied 21 August GPS fix; and unit 5 remains
+indoors.
 
 The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
 06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation

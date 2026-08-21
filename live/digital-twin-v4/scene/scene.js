@@ -901,6 +901,10 @@
       color: 0x172b3b, roughness: 0.28, metalness: 0.45
     });
     var solarLine = new THREE.MeshStandardMaterial({ color: 0xb7c3ca, roughness: 0.36, metalness: 0.70 });
+    var soffit = new THREE.MeshStandardMaterial({ color: 0xc6c3bc, roughness: 0.94 });
+    // Roof-level concrete decks. The warm deckMat reads as terrain from above,
+    // so a paved deck four storeys up simply vanished into the ground behind it.
+    var paving = new THREE.MeshStandardMaterial({ color: 0xa8a49b, roughness: 0.95 });
     var planterMat = new THREE.MeshStandardMaterial({ color: 0x3d4140, roughness: 0.88 });
     var foliage = new THREE.MeshStandardMaterial({ color: 0x557244, roughness: 0.95 });
     var windowGlass = new THREE.MeshStandardMaterial({
@@ -1045,8 +1049,9 @@
       var group = new THREE.Group(); group.userData.receptorHome = home.key;
       receptorGroup.add(group);
       if (home.replace_osm_walls) extrude(group, home.ring, 0, home.wall_top_m, lightBrick);
-      if (home.terrace_ring) extrude(group, home.terrace_ring, home.deck_m, home.deck_m + 0.13, deckMat);
-      if (home.balcony_ring) extrude(group, home.balcony_ring, home.deck_m, home.deck_m + 0.13, deckMat);
+      var deckSurface = home.deck_style === "paving" ? paving : deckMat;
+      if (home.terrace_ring) extrude(group, home.terrace_ring, home.deck_m, home.deck_m + 0.13, deckSurface);
+      if (home.balcony_ring) extrude(group, home.balcony_ring, home.deck_m, home.deck_m + 0.13, deckSurface);
       if (home.upper_garden_ring) {
         extrude(group, home.upper_garden_ring, home.lower_deck_m, home.deck_m, lightBrick);
         extrude(group, home.upper_garden_ring, home.deck_m, home.deck_m + 0.15, deckMat);
@@ -1077,24 +1082,45 @@
                     home.gable.width_m, home.gable.depth_m, home.gable.eaves_m,
                     home.gable.rise_m, home.gable.yaw_deg * Math.PI / 180);
         }
-        facadeWindow(group, -20.25, -13.10, 5.05, 1.25, 1.62, 0.67, 0x80644b);
-        planter(group, -19.55, -12.15, home.deck_m, 0.88, 0.36);
-        planter(group, -18.85, -11.10, home.deck_m, 0.72, 0.71);
-        planter(group, -19.65, -10.95, home.deck_m, 0.64, 0.54);
+        // The garden deck sits above the house eaves, so the blank gabled flank
+        // wall is what the terrace actually looks at - no window reads from here.
+        planter(group, -19.40, -11.10, home.deck_m, 0.80, 0.36);
+        planter(group, -18.00, -10.45, home.deck_m, 0.66, 0.71);
+        planter(group, -16.75, -10.35, home.deck_m, 0.72, 0.54);
+        planter(group, -19.05, -12.30, home.deck_m, 0.55, 0.19);
       } else if (home.key === "western_private_home") {
         glassRail(group, home.glass_balustrade);
-        facadeWindow(group, -46.05, -12.55, 13.85, 1.70, 1.45, 1.50, 0x7a5537);
-        facadeWindow(group, -44.15, -10.25, 13.55, 1.45, 1.18, 0.05, 0x7a5537);
-        facadeWindow(group, -41.95, -10.12, 13.55, 1.45, 1.18, 0.05, 0x7a5537);
-        planter(group, -41.10, -14.90, home.deck_m, 0.92, 0.36);
-        planter(group, -42.55, -15.05, home.deck_m, 0.74, 0.74);
-        planter(group, -44.05, -15.20, home.deck_m, 0.68, 0.53);
+        // Windows face south off both render blocks onto the private terrace.
+        // yaw = 180 - facade bearing, so a 176 degree wall reads as 0.068 rad.
+        facadeWindow(group, -48.87, -9.30, 13.60, 1.50, 1.50, 0.068, 0x7a5537);
+        facadeWindow(group, -46.80, -9.16, 13.60, 1.50, 1.50, 0.068, 0x7a5537);
+        facadeWindow(group, -43.43, -8.53, 13.42, 1.35, 1.30, 0.068, 0x7a5537);
+        facadeWindow(group, -41.34, -8.39, 13.42, 1.35, 1.30, 0.068, 0x7a5537);
+        planter(group, -48.60, -11.20, home.deck_m, 0.85, 0.36);
+        planter(group, -46.60, -11.00, home.deck_m, 0.70, 0.74);
+        planter(group, -44.60, -10.85, home.deck_m, 0.62, 0.53);
+        planter(group, -42.60, -10.70, home.deck_m, 0.55, 0.21);
         var privateLight = new THREE.Mesh(new THREE.SphereGeometry(0.16, 16, 10),
           new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.18 }));
-        privateLight.position.set(-46.02, 14.45, 12.15); group.add(privateLight);
+        privateLight.position.set(-47.85, 13.95, 9.24); group.add(privateLight);
       } else if (home.key === "communal_balcony") {
         barRail(group, home.metal_balustrade);
         (home.safety_rails || []).forEach(function (cfg) { barRail(group, cfg); });
+        // The gallery reads as a gallery because of the deep concrete soffit over
+        // it and the flats it serves behind - without those it is a rail on a slab.
+        if (home.canopy) {
+          extrude(group, home.canopy.ring, home.canopy.base_m, home.canopy.top_m, soffit);
+        }
+        facadeWindow(group, -48.17, -15.15, 13.50, 1.05, 1.45, -3.074, 0x8f8b83);
+        facadeWindow(group, -45.88, -14.99, 13.50, 1.05, 1.45, -3.074, 0x8f8b83);
+        facadeWindow(group, -43.58, -14.84, 13.50, 1.05, 1.45, -3.074, 0x8f8b83);
+        var wallLight = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.11, 14),
+          new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.20 }));
+        wallLight.rotation.x = Math.PI / 2;
+        wallLight.position.set(-46.90, 14.30, 15.02); group.add(wallLight);
+        planter(group, -47.80, -14.25, home.deck_m, 0.55, 0.28);
+        planter(group, -44.60, -14.05, home.deck_m, 0.62, 0.61);
+        planter(group, -42.30, -13.90, home.deck_m, 0.50, 0.44);
       }
     });
 
@@ -2115,6 +2141,12 @@
   function declutter() {
     if (!state.showLabels) { labels.forEach(function (l) { l.visible = false; }); return; }
     var w = canvas.clientWidth, h = canvas.clientHeight, i, j;
+    // A sprite k world units tall covers k * pxPerUnit / d pixels. The box used
+    // to be scale.x * 8, which only matches at about 150 m - in the close views
+    // labels sit 15-40 m out, so boxes came out 5-10x too small and overlapping
+    // labels survived. It also read scale before scale was assigned below, so a
+    // label hidden last frame tested with a stale size.
+    var pxPerUnit = h / (2 * Math.tan(camera.fov * Math.PI / 360));
     var items = [];
     for (i = 0; i < labels.length; i++) {
       if (labels[i].userData.suppressed) { labels[i].visible = false; continue; }
@@ -2123,10 +2155,15 @@
       }
       _v.copy(labels[i].position).project(camera);
       if (_v.z > 1) { labels[i].visible = false; continue; }
-      items.push({ l: labels[i],
+      var dist = camera.position.distanceTo(labels[i].position);
+      var size = clamp(dist / 52, 0.30, 2.2) * labels[i].userData.base;
+      // 0.88 lets labels touch at the very edge rather than dropping a
+      // neighbour over a couple of pixels of overlap.
+      var px = 0.44 * size * pxPerUnit / Math.max(dist, 0.001);
+      items.push({ l: labels[i], k: size,
                    x: (_v.x * 0.5 + 0.5) * w, y: (-_v.y * 0.5 + 0.5) * h,
-                   d: camera.position.distanceTo(labels[i].position),
-                   hw: labels[i].scale.x * 8, hh: labels[i].scale.y * 10 });
+                   d: dist,
+                   hw: px * labels[i].userData.aspect, hh: px });
     }
     items.sort(function (a, b) { return a.d - b.d; });
     placed.length = 0;
@@ -2140,8 +2177,7 @@
       }
       it.l.visible = !clash && it.d < 190;
       if (!clash) {
-        var k = clamp(it.d / 52, 0.30, 2.2) * it.l.userData.base;
-        it.l.scale.set(k * it.l.userData.aspect, k, 1);
+        it.l.scale.set(it.k * it.l.userData.aspect, it.k, 1);
         it.l.material.opacity = clamp(1.25 - it.d / 190, 0.25, 1);
         placed.push(it);
       }
@@ -2211,9 +2247,22 @@
   // order in which the three sources actually stack up behind each other.
   var VIEWS = {
     overview: { t: new THREE.Vector3(0, 7, 11), r: 57, phi: 0.90, th: 0.72 },
-    deployment: { t: new THREE.Vector3(-18, 9.2, 12), r: 68, phi: 0.79, th: 0.86 },
-    home81a: { t: new THREE.Vector3(-19.2, 8.0, 12.8), r: 22.0, phi: 0.88, th: 0.35 },
-    western: { t: new THREE.Vector3(-44.4, 13.4, 11.8), r: 25, phi: 1.03, th: 0.84 },
+    // Targeted 6 m east of the network centroid and pulled back to 72 m. Centring
+    // on 81a pushed units 1, 4 and Tempest underneath the reading panel and wind
+    // rose - three of the five pods were unreadable in the first view anyone sees.
+    deployment: { t: new THREE.Vector3(-12, 9.2, 12), r: 72, phi: 0.79, th: 0.86 },
+    // From the south-east, i.e. from the 173 flue side: the panelled belt reads
+    // in front, the screen across it, the raised garden set back behind.
+    // From the north-east. The obvious framing is from the flue side, but the
+    // 173 outlet is only 11 m from unit 2, so any south-easterly camera stands
+    // almost on top of the stack and its label swallows the roof.
+    // From the south-west, the way the installation photographs were taken: the
+    // panelled belt in front, the screen across it, the raised garden behind and
+    // the gabled house on the left.
+    home81a: { t: new THREE.Vector3(-18.3, 8.6, 12.3), r: 13.5, phi: 0.87, th: 5.30 },
+    // From the south, so the communal rail reads where it is - outboard of and
+    // below the private terrace, not on it.
+    western: { t: new THREE.Vector3(-45.6, 13.5, 11.6), r: 24.0, phi: 0.86, th: 2.62 },
     // Over the deck looking south. Eye level does not work here: the terrace
     // parapet and the rear of the parade are barely a metre apart, so a
     // standing camera sees a wall. The oblique is what shows the gap.
