@@ -2019,7 +2019,7 @@
       if (c.cls === 0) {
         // Long vehicles are kept in the nearside lane, as they mostly are in
         // reality, and it stops an 11.5 m bus appearing in an overtaking lane.
-        var r = c.lane === 0 ? Math.random() : Math.random() * 0.86;
+        var r = c.lane === 1 ? Math.random() : Math.random() * 0.86;
         c.cls = 1;
         var pal = [[0.58, 0.04], [0.62, 0.06], [0.00, 0.00], [0.08, 0.55],
                    [0.58, 0.42], [0.33, 0.18], [0.10, 0.08]];
@@ -2036,8 +2036,10 @@
       var p = this.at(c.s);
       var L = Math.hypot(p.hx, p.hn) || 1;
       var laneOff = (0.28 + c.lane * 0.42) * this.road.half_width_m;
-      var offx = -(-p.hn / L) * laneOff * c.dir;
-      var offn = -(p.hx / L) * laneOff * c.dir;
+      // UK left-hand traffic: apply the left normal of each vehicle's travel
+      // direction. Lane 1 has the larger offset, so it is the nearside lane.
+      var offx = (-p.hn / L) * laneOff * c.dir;
+      var offn = (p.hx / L) * laneOff * c.dir;
       var boxy = c.l > 7;                       // bus or lorry: cabin runs the length
       var hBody = c.h * (boxy ? 0.42 : 0.58);
       var hCab = c.h - hBody;

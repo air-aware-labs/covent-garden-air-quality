@@ -40,6 +40,10 @@ The shop openings, colours and exact divisions are illustrative rather than a
 measured elevation; OSM fixes the wall line and LiDAR remains the roof-height
 context.
 
+Animated road traffic follows UK left-hand running. Vehicles travelling east
+use the north carriageway and those travelling west use the south carriageway;
+buses and lorries are kept to the nearside lane.
+
 The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
 06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation
 recorded since the previous one, so the record itself stays complete and at full
