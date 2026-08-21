@@ -1156,13 +1156,13 @@
         // The gallery's back wall is the render block behind it - the window and
         // the round wall light in the photograph. It gets no planted garden of
         // its own: the garden opposite is the private one.
-        facadeWindow(group, -46.98, -12.20, 13.70, 1.15, 1.55, 1.50, 0x8f8b83);
-        facadeWindow(group, -46.82, -14.75, 13.70, 1.15, 1.55, 1.50, 0x8f8b83);
+        facadeWindow(group, -47.86, -18.80, 13.70, 1.15, 1.55, 1.50, 0x8f8b83);
+        facadeWindow(group, -47.72, -21.05, 13.70, 1.15, 1.55, 1.50, 0x8f8b83);
         var wallLight = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.11, 14),
           new THREE.MeshStandardMaterial({ color: 0xd9d4c8, emissive: 0xffcf8e, emissiveIntensity: 0.20 }));
         wallLight.rotation.z = Math.PI / 2;
-        wallLight.position.set(-46.88, 14.32, 13.45); group.add(wallLight);
-        planter(group, -46.35, -13.55, home.deck_m, 0.46, 0.28);
+        wallLight.position.set(-47.78, 14.32, 19.95); group.add(wallLight);
+        planter(group, -47.10, -20.05, home.deck_m, 0.46, 0.28);
       }
     });
 
@@ -2306,7 +2306,9 @@
     // below the private terrace, not on it.
     // From the east, over the private roof garden: the gallery rail faces this
     // way, so this is the side it is meant to be read from.
-    western: { t: new THREE.Vector3(-44.6, 13.5, 12.9), r: 17.0, phi: 1.02, th: 1.55 },
+    // Takes in both: the private roof garden to the north and the communal
+    // gallery south of it, seen from the east that the gallery rail faces.
+    western: { t: new THREE.Vector3(-45.0, 13.5, 16.4), r: 24.0, phi: 0.95, th: 1.75 },
     // Over the deck looking south. Eye level does not work here: the terrace
     // parapet and the rear of the parade are barely a metre apart, so a
     // standing camera sees a wall. The oblique is what shows the gap.

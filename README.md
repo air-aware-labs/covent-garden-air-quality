@@ -28,8 +28,7 @@ mounting surfaces are confirmed in the supplied 19 August photographs and the
 unit 2 is on 81a's terminating bamboo screen, standing on the ridge of a pitched
 solar roof with the raised garden behind, all set out on the plot's own grid;
 unit 3 is on the east-facing rail of the single communal deck-access gallery
-beside the adjacent private home, at the supplied 21 August GPS fix; and unit 5
-remains indoors.
+south of the adjacent private home; and unit 5 remains indoors.
 
 The page is rebuilt from both provider APIs four times a day, at roughly 00:07,
 06:07, 12:07 and 18:07 UTC. Each rebuild collects every five-minute observation

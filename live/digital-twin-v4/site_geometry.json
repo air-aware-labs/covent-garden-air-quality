@@ -2586,70 +2586,94 @@
    "replace_osm_walls": false,
    "ring": [
     [
-     -45.69,
-     -10.97
+     -46.3,
+     -17.6
     ],
     [
-     -45.35,
-     -16.15
+     -45.98,
+     -22.39
     ],
     [
-     -46.7,
-     -16.24
+     -47.48,
+     -22.49
     ],
     [
-     -47.04,
-     -11.06
+     -47.8,
+     -17.7
     ]
    ],
    "suppress_lidar_ring": [
     [
+     -45.55,
+     -17.05
+    ],
+    [
      -45.2,
-     -10.7
+     -23.15
     ],
     [
-     -44.95,
-     -16.5
+     -51.45,
+     -23.45
     ],
     [
-     -47.3,
-     -16.65
-    ],
-    [
-     -47.55,
-     -10.85
+     -51.8,
+     -17.35
     ]
    ],
    "wall_top_m": 12.48,
    "deck_m": 12.61,
    "deck_style": "paving",
-   "upper_volumes": [],
+   "upper_volumes": [
+    {
+     "ring": [
+      [
+       -47.9,
+       -17.72
+      ],
+      [
+       -47.58,
+       -22.51
+      ],
+      [
+       -50.6,
+       -22.7
+      ],
+      [
+       -50.92,
+       -17.9
+      ]
+     ],
+     "base_m": 12.61,
+     "top_m": 15.6,
+     "style": "white_render"
+    }
+   ],
    "balcony_ring": [
     [
-     -45.69,
-     -10.97
+     -46.3,
+     -17.6
     ],
     [
-     -45.35,
-     -16.15
+     -45.98,
+     -22.39
     ],
     [
-     -46.7,
-     -16.24
+     -47.48,
+     -22.49
     ],
     [
-     -47.04,
-     -11.06
+     -47.8,
+     -17.7
     ]
    ],
    "metal_balustrade": {
     "from": [
-     -45.69,
-     -10.97
+     -46.3,
+     -17.6
     ],
     "to": [
-     -45.35,
-     -16.15
+     -45.98,
+     -22.39
     ],
     "base_m": 12.61,
     "top_m": 14.15
@@ -2657,24 +2681,24 @@
    "safety_rails": [
     {
      "from": [
-      -45.69,
-      -10.97
+      -46.3,
+      -17.6
      ],
      "to": [
-      -47.04,
-      -11.06
+      -47.8,
+      -17.7
      ],
      "base_m": 12.61,
      "top_m": 14.15
     },
     {
      "from": [
-      -45.35,
-      -16.15
+      -45.98,
+      -22.39
      ],
      "to": [
-      -46.7,
-      -16.24
+      -47.48,
+      -22.49
      ],
      "base_m": 12.61,
      "top_m": 14.15
@@ -2683,29 +2707,29 @@
    "canopy": {
     "ring": [
      [
-      -45.34,
-      -10.95
+      -45.95,
+      -17.58
      ],
      [
-      -45.0,
-      -16.13
+      -45.63,
+      -22.37
      ],
      [
-      -47.0,
-      -16.26
+      -47.6,
+      -22.52
      ],
      [
-      -47.34,
-      -11.08
+      -47.92,
+      -17.73
      ]
     ],
     "base_m": 15.35,
     "top_m": 15.6
    },
    "facing_bearing_deg": 86.15,
-   "position_note": "One communal gallery, running north-south against the east face of the tall render block with its safety rail facing east. It is the shared access side; the planted roof garden opposite is private.",
+   "position_note": "One communal gallery, south of the private home and running north-south with its safety rail facing east. The planted roof garden to the north is private and separate.",
    "absence_note": "The gallery stays on one level, with rails on every open edge and no steps.",
-   "provenance": "The 19 August photographs establish the communal metal-bar gallery, its concrete canopy and the lit render wall behind it. the site owner's 21 August WGS84 fix (51.49446765756895, -0.09250583738303685) sets the east-facing rail line; not surveyed."
+   "provenance": "The 19 August photographs establish the communal metal-bar gallery, its concrete canopy and the lit render wall behind it. the site owner's 21 August mark-up places it south of the private home; his WGS84 fix that day (51.49446765756895, -0.09250583738303685) falls about 7 m north of the drawn position and is retained as raw provenance only. Not surveyed."
   }
  ],
  "monitors": [
@@ -2811,39 +2835,39 @@
    "mount_style": "metal_balustrade",
    "deployment_status": "installed",
    "installed_date_local": "2026-08-19",
-   "east_m": -45.54,
-   "north_m": -13.26,
+   "east_m": -46.14,
+   "north_m": -20.0,
    "position_provenance": "Installed host and mount confirmed by the site owner on 20 August 2026 and in the 19 August photographs; aligned to OSM/LiDAR context; not surveyed.",
-   "latitude": 51.4944676434232,
-   "longitude": -0.09250588066908674,
+   "latitude": 51.494406670019906,
+   "longitude": -0.09251453785840277,
    "ranges": {
     "existing_173": {
-     "horizontal_m": 34.81,
-     "slant_m": 35.06,
+     "horizontal_m": 34.55,
+     "slant_m": 34.8,
      "monitor_above_outlet_m": 4.13,
-     "bearing_from_source_deg": 282.8
+     "bearing_from_source_deg": 271.7
     },
     "permitted_183": {
-     "horizontal_m": 54.78,
-     "slant_m": 55.07,
+     "horizontal_m": 55.39,
+     "slant_m": 55.67,
      "monitor_above_outlet_m": 5.64,
-     "bearing_from_source_deg": 273.5
+     "bearing_from_source_deg": 266.4
     },
     "chicky_163": {
-     "horizontal_m": 13.16,
-     "slant_m": 14.92,
+     "horizontal_m": 7.74,
+     "slant_m": 10.45,
      "monitor_above_outlet_m": 7.03,
-     "bearing_from_source_deg": 338.4
+     "bearing_from_source_deg": 315.3
     },
     "new_kent_road_kerb": {
-     "horizontal_m": 23.24,
+     "horizontal_m": 16.5,
      "monitor_above_kerb_m": 14.13
     }
    },
    "upwind_sector_deg": {
-    "existing_173": 102.8,
-    "permitted_183": 93.5,
-    "chicky_163": 158.4
+    "existing_173": 91.7,
+    "permitted_183": 86.4,
+    "chicky_163": 135.3
    }
   },
   {
@@ -3049,8 +3073,8 @@
      "building_v_m": null
     },
     "3": {
-     "east_m": -45.54,
-     "north_m": -13.26,
+     "east_m": -46.14,
+     "north_m": -20.0,
      "height_m": 14.13,
      "mount_base_m": 12.61,
      "environment": "outdoor communal balcony",

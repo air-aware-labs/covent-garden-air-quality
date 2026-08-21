@@ -146,7 +146,7 @@ def main() -> None:
             "caption": (
                 "Supplied 19 August installation photograph. Unit 3 is cable-tied to the "
                 "east-facing metal safety rail of the communal deck-access gallery, a single "
-                "north-south run against the east face of the adjacent private home's block. The site owner's exact 21 August "
+                "north-south run south of the adjacent private home. The site owner's exact 21 August "
                 "GPS fix places the rail there, south of the private terrace and not on it. The "
                 "gallery is level, with rails rather than steps."
             ),
